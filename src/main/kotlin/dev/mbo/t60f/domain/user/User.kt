@@ -1,12 +1,19 @@
 package dev.mbo.t60f.domain.user
 
 import dev.mbo.t60f.domain.company.Company
-import dev.mbo.t60f.domain.round.FeedbackRound
 import dev.mbo.t60f.global.AbstractEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "users", uniqueConstraints = [UniqueConstraint(name = "users_uc__email", columnNames = ["email"])])
@@ -19,10 +26,6 @@ class User(
     @field:NotBlank
     @field:Column(name = "email", nullable = false)
     var email: String,
-
-    @field:NotNull
-    @field:OneToMany(mappedBy = "receiver", orphanRemoval = true, cascade = [(CascadeType.ALL)])
-    var feedbackRounds: Set<FeedbackRound> = emptySet(),
 
     @field:NotNull
     @field:ManyToOne(optional = false)

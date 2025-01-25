@@ -27,10 +27,10 @@ class FeedbackRequestController(
         model: Model
     ): String {
         log.debug("request: {}", request)
-        val created = service.create(request)
+        service.create(request)
         model.addAttribute(
             "message",
-            "requested"
+            "Sent token to ${request.email}"
         )
         return "request"
     }

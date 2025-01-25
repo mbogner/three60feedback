@@ -2,7 +2,6 @@ package dev.mbo.t60f.domain.giver
 
 import dev.mbo.t60f.global.AsyncMailSender
 import dev.mbo.t60f.logger
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -13,8 +12,6 @@ import java.util.concurrent.TimeUnit
 class FeedbackGiverResponseSender(
     private val feedbackGiverRepository: FeedbackGiverRepository,
     private val mailer: AsyncMailSender,
-    @Value("\${app.base-url}")
-    private val baseUrl: String,
 ) {
 
     private val log = logger()

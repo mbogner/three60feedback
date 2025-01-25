@@ -6,12 +6,6 @@ class ClientException : RuntimeException {
 
     private val statusCode: HttpStatusCode?
 
-    constructor(message: String) : this(
-        message,
-        null,
-        null
-    )
-
     constructor(
         message: String,
         statusCode: HttpStatusCode

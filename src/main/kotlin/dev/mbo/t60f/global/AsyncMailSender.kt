@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets
 
 @Component
 class AsyncMailSender(
-    private val sender: JavaMailSender,
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection") private val sender: JavaMailSender,
     @Value("\${spring.mail.from}")
     private val from: String,
 ) {
