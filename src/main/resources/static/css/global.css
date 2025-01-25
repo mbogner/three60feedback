@@ -1,0 +1,36 @@
+tr.inactive, tr.archived {
+    background: darkgrey;
+}
+
+td.statusFail {
+    background: #ea5f22;
+}
+
+td.statusWarn {
+    background: orange;
+}
+
+tr.bordered-cells th:not(:first-child), .bordered-cell {
+    border-left: 2px solid black;
+}
+
+.bordered-cells-bottom {
+    border-bottom: 2px solid black;
+}
+
+.bordered-table tr {
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+
+.bordered-table tr:first-child {
+    border-top: 2px solid black;
+}
+
+.bordered-table tr:last-child {
+    border-bottom: 2px solid black;
+}
+
+.flow-input {
+    max-width: 200px;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>t60f feedback</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/global.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Feedback Form</h1>
+    <p>
+        Hi <span th:remove="tag" th:text="${giver.email}"></span>!
+    </p>
+    <ul>
+        <li>You received an anonymous feedback request by the person mentioned in the mail you received.</li>
+        <li>The name of that person is not shown on this page for privacy reason.</li>
+        <li>The person won't know who wrote the feedback if you leave no hints to yourself.</li>
+        <li>This system will store everything for a certain time to avoid abuse.</li>
+        <li>Only the person requesting feedback will be able to read it.</li>
+        <li>You can only submit this form once per request.</li>
+    </ul>
+    <p>
+        Please enter your feedback below:
+    </p>
+
+    <form th:action="@{/response/{id}/send(id=${giver.id})}" th:method="post">
+
+        <p>
+            <label for="positive">Positive Feedback</label><br/>
+            <textarea id="positive" name="positive" cols="120" rows="10" required></textarea>
+        </p>
+
+        <p>
+            <label for="negative">Improvement Suggestions</label><br/>
+            <textarea id="negative" name="negative" cols="120" rows="10" required></textarea>
+        </p>
+
+        <button type="submit" class="btn btn-info">Submit</button>
+    </form>
+
+    <br/>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

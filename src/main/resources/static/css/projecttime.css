@@ -1,0 +1,27 @@
+.projectTimeTable {
+    margin-top: 1em;
+}
+
+.projectTimeTable tr {
+    border-bottom: 1px solid black;
+}
+
+.projectTimeTable td {
+    padding: .5em 1em;
+}
+
+.projectTimeTable .name {
+    min-width: 180px;
+}
+
+.projectTimeTable .date {
+    background: #626464;
+}
+
+.projectTimeTable .statusOk {
+    background: #198754;
+}
+
+.projectTimeTable .statusFail {
+    background: #ce3e0d;
+}

@@ -1,0 +1,22 @@
+spring:
+  mail:
+    from: sender@example.com
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        debug: false
+        smtp:
+          port: ${spring.mail.port}
+          auth: false
+          starttls:
+            enable: false
+            required: false
+        transport.protocol: smtp
+
+app:
+  base-url: http://localhost:8080
+  client:
+    mite:
+      url: https://none.mite.de
+      api-key: none

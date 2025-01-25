@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>t60f error</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/global.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="text-center">
+        <img src="/img/unicorn.png" alt="unicorn"/>
+        <h1 class="text-center">Ups...</h1>
+        <a class="btn btn-primary" onclick="history.go(-1)">
+            <span class="text">Back</span>
+        </a>
+        <a class="btn btn-primary" href="/">
+            <span class="text">Home</span>
+        </a>
+    </div>
+
+    <table>
+        <tr>
+            <td>Date</td>
+            <td th:text="${timestamp}"></td>
+        </tr>
+        <tr>
+            <td>Path</td>
+            <td th:text="${path}"></td>
+        </tr>
+        <tr>
+            <td>Error</td>
+            <td th:text="${error}"></td>
+        </tr>
+        <tr>
+            <td>Status</td>
+            <td th:text="${status}"></td>
+        </tr>
+        <tr>
+            <td>Message</td>
+            <td th:text="${message}"></td>
+        </tr>
+        <tr>
+            <td>Exception</td>
+            <td th:text="${exception}"></td>
+        </tr>
+        <tr>
+            <td>Trace</td>
+            <td>
+                <pre th:text="${trace}"></pre>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

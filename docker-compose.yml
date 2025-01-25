@@ -1,0 +1,45 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    hostname: postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: s3cr3t
+      PGDATA: /var/lib/postgresql/data/pgdata
+      TZ: UTC
+      PGTZ: UTC
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d db" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  # http://smtp:pass123@127.0.0.1:8025
+  mail:
+    image: mailhog/mailhog
+    container_name: mailhog
+    hostname: mailhog
+    ports:
+      - "127.0.0.1:1025:1025"
+      - "127.0.0.1:8025:8025"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./infra/mailhog/auth:/auth:ro
+    environment:
+      MH_HOSTNAME: mail.mbo.dev
+      MH_AUTH_FILE: /auth # smtp:pass123
+    healthcheck:
+      test: wget --spider --tries 1 http://smtp:pass123@localhost:8025
+      interval: 1s
+      timeout: 1s
+      start_interval: 1s
+      retries: 5

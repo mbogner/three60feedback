@@ -1,0 +1,7 @@
+.gradle/
+.kotlin/
+.idea/
+.env
+build/
+application-local.yml
+*.iml
