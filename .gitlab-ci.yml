@@ -7,14 +7,36 @@ include:
 
 stages:
   - Build
-  - Deploy
+  - Publish
 
 build:
   extends: .build
   artifacts:
     paths:
       - build/libs/t60f.jar
+  before_script:
+    - apk add --no-cache nodejs npm
   services:
     - name: docker:dind
       # explicitly disable tls to avoid docker startup interruption
       command: ['--tls=false']
+
+publish:
+  stage: Publish
+  image: docker:latest
+  needs:
+    - job: build
+      artifacts: true
+  tags:
+    - docker
+  services:
+    - docker:dind
+  variables:
+    APP: t60f
+  script:
+    - docker login -u $DOCKER_LOGIN_USERNAME -p $DOCKER_LOGIN_PASSWORD
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - docker context create builder-context
+    - docker buildx create --name builderx --use builder-context
+    # --provenance false is a workaround for: https://gitlab.com/gitlab-org/gitlab/-/issues/389577
+    - docker buildx build --build-arg BUILDKIT_INLINE_CACHE=1 --provenance false --push --platform linux/amd64,linux/arm64/v8 -t $CI_REGISTRY_IMAGE/${APP}:${CI_COMMIT_SHORT_SHA} -f Dockerfile .
