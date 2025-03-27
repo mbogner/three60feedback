@@ -83,6 +83,13 @@ tasks {
         )
     }
 
+    withType<JacocoReport> {
+        reports {
+            xml.required.set(true)
+            html.required.set(false)
+        }
+    }
+
 }
 
 sonarqube {
@@ -90,7 +97,7 @@ sonarqube {
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.projectKey", "t60f")
         property("sonar.projectName", "OR::t60f")
-        property("sonar.sources", "src/main/kotlin,src/main/java,src/main/resources")
+        property("sonar.sources", "src/main/kotlin,src/main/resources")
         property("sonar.exclusions", "**/src/gen/**/*")
     }
 }
