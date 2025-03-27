@@ -14,3 +14,7 @@ build:
   artifacts:
     paths:
       - build/libs/t60f.jar
+  services:
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: ['--tls=false']
