@@ -1,0 +1,40 @@
+logging:
+  level:
+    dev.mbo: TRACE
+  pattern:
+    console: ${CONSOLE_LOG_PATTERN:%clr(%d{${LOG_DATEFORMAT_PATTERN:yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr([%15.15t]){faint} %clr(%F:%L){cyan} %clr(:){faint} %m %clr({){faint}%X%clr(}){faint}%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}}
+
+server:
+  address: 127.0.0.1
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/db
+    username: admin
+    password: s3cr3t
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: false
+    show-sql: false
+
+  mail:
+    from: sender@example.com
+    host: localhost
+    port: 1025
+    username: smtp
+    password: pass123
+    properties:
+      mail:
+        debug: false
+        smtp:
+          port: ${spring.mail.port}
+          auth: true
+          starttls:
+            enable: false
+            required: false
+        transport.protocol: smtp
+
+app:
+  base-url: http://localhost:8080

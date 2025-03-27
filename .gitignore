@@ -3,5 +3,4 @@
 .idea/
 .env
 build/
-application-local.yml
 *.iml
