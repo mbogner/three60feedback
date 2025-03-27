@@ -3,6 +3,8 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+    id("org.sonarqube")
+    id("jacoco")
 }
 
 group = "dev.mbo"
@@ -81,4 +83,19 @@ tasks {
         )
     }
 
+}
+
+sonarqube {
+    properties {
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.projectKey", "t60f")
+        property("sonar.projectName", "OR::t60f")
+        property("sonar.sources", "src/main/kotlin,src/main/java,src/main/resources")
+        property("sonar.exclusions", "**/src/gen/**/*")
+    }
+}
+
+jacoco {
+    // https://www.eclemma.org/jacoco
+    toolVersion = "0.8.12"
 }

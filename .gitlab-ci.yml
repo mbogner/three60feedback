@@ -1,0 +1,16 @@
+include:
+  - project: openresearch/gitlab-build-templates
+    ref: main
+    file:
+      - '/.gitlab-cicd-shared.yml'
+      - '/.gitlab-cicd-java21.yml'
+
+stages:
+  - Build
+  - Deploy
+
+build:
+  extends: .build
+  artifacts:
+    paths:
+      - build/libs/t60f.jar
