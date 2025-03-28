@@ -1,7 +1,7 @@
 package dev.mbo.t60f.domain.giver
 
+import dev.mbo.logging.logger
 import dev.mbo.t60f.global.AsyncMailSender
-import dev.mbo.t60f.logger
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
@@ -43,11 +43,13 @@ class FeedbackGiverRequestSender(
             content = """
             Hi ${giver.email}!
             
-            ${giver.feedbackRound.receiver.email} is requesting anonymous feedback by you.
+            ${giver.feedbackRound.receiver.email} is requesting feedback by you. The system will store who handed in 
+            what to avoid abuse. The receiver won't see who sent which feedback.
             
             Please follow this link to give feedback: ${baseUrl}/response/${giver.id}
             
-            Be advised that the opening page won't display the name of the requestor anymore for privacy reason.
+            Be advised that the page behind the link won't display the name of the requestor anymore for privacy reason.
+            You can can only hand in one feedback per request.
             
             Thanks in advance!
             

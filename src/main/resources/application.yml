@@ -4,6 +4,11 @@ logging:
 
 server:
   port: 8080
+  error:
+    include-exception: true
+    include-message: always
+    include-stacktrace: always
+    include-binding-errors: always
 
 management:
   endpoints:
@@ -66,3 +71,30 @@ spring:
   threads:
     virtual:
       enabled: true
+
+app:
+  cors:
+    allowed:
+      - mapping: /**
+        origins:
+          - "*"
+        headers:
+          - Origin
+          - Authorization
+          - Accept
+          - Content-Type
+          - X-Tenant-Key
+          - If-None-Match
+          - Cache-Control
+        methods:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+          - OPTIONS
+          - HEAD
+        exposedHeaders:
+          - ETag
+        maxAge: 31536000
+        allowCredentials: true

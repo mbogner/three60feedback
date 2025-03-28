@@ -1,6 +1,6 @@
 package dev.mbo.t60f.domain.user.adapter
 
-import dev.mbo.t60f.logger
+import dev.mbo.logging.logger
 import jakarta.validation.Validator
 
 abstract class EmailAdapter(private val validator: Validator) {

@@ -1,6 +1,6 @@
 package dev.mbo.t60f.global
 
-import dev.mbo.t60f.logger
+import dev.mbo.logging.logger
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper

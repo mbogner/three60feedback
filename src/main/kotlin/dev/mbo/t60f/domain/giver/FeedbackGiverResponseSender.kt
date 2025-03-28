@@ -1,7 +1,7 @@
 package dev.mbo.t60f.domain.giver
 
 import dev.mbo.t60f.global.AsyncMailSender
-import dev.mbo.t60f.logger
+import dev.mbo.logging.logger
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -42,9 +42,13 @@ class FeedbackGiverResponseSender(
             
             somebody handed in a feedback form for you. Here is the content:
             
+            --------------
+            Positive Feedback:
             ${giver.positiveFeedback}
-            
+            --------------
+            Improvement Suggestions:
             ${giver.negativeFeedback}
+            --------------
             
             Yours,
             t60f

@@ -2,7 +2,7 @@ package dev.mbo.t60f.domain.user.mite
 
 import dev.mbo.t60f.domain.user.adapter.Email
 import dev.mbo.t60f.domain.user.adapter.EmailAdapter
-import dev.mbo.t60f.logger
+import dev.mbo.logging.logger
 import jakarta.validation.Validator
 import org.springframework.stereotype.Component
 

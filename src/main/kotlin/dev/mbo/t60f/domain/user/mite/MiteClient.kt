@@ -1,8 +1,8 @@
 package dev.mbo.t60f.domain.user.mite
 
+import dev.mbo.logging.logger
 import dev.mbo.t60f.global.ClientException
 import dev.mbo.t60f.global.ClientUtil
-import dev.mbo.t60f.logger
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
@@ -32,8 +32,8 @@ class MiteClient(
         try {
             val params = mapOf<String, Any>(
                 "api_key" to apiKey,
-                "page" to 1,
-                "limit" to Int.MAX_VALUE,
+                "page" to page,
+                "limit" to limit,
             )
             val response = restTemplate.exchange(
                 usersUrl(params),

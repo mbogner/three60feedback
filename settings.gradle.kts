@@ -25,3 +25,15 @@ pluginManagement {
         id("org.sonarqube") version sonarVersion
     }
 }
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            val bomVersion: String by System.getProperties()
+            library("bom", "dev.mbo", "spring-boot-bom").version(bomVersion)
+
+            val libraryBomVersion: String by System.getProperties()
+            library("library-bom", "dev.mbo", "library-bom").version(libraryBomVersion)
+        }
+    }
+}

@@ -5,7 +5,7 @@ import dev.mbo.t60f.domain.giver.FeedbackGiverRepository
 import dev.mbo.t60f.domain.request.FeedbackRequest
 import dev.mbo.t60f.domain.request.FeedbackRequestRepository
 import dev.mbo.t60f.domain.user.UserRepository
-import dev.mbo.t60f.logger
+import dev.mbo.logging.logger
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -15,13 +15,13 @@
     <form th:action="@{/requests}" th:method="post">
         <p>
             <label for="companyId" class="form-label">Company ID</label><br/>
-            <input id="companyId" name="companyId" type="text" class="form-control" required/>
+            <input id="companyId" name="companyId" type="text" class="form-control" th:value="${companyId}" required/>
         </p>
         <p>
-            <label for="email" class="form-label">E-Mail</label><br/>
+            <label for="email" class="form-label">Your E-Mail</label><br/>
             <input id="email" name="email" type="email" class="form-control" required/>
         </p>
-        <button type="submit" class="btn btn-info">Start</button>
+        <button type="submit" class="btn btn-info">Start Feedback Round</button>
     </form>
     <br/>
 </div>

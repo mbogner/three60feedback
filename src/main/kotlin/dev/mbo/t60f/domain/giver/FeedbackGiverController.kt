@@ -1,7 +1,7 @@
 package dev.mbo.t60f.domain.giver
 
+import dev.mbo.logging.logger
 import dev.mbo.t60f.domain.giver.dto.FeedbackDto
-import dev.mbo.t60f.logger
 import jakarta.validation.Valid
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -53,7 +53,7 @@ class FeedbackGiverController(
             "Handed in feedback. Thank you. It will be sent to the receiver immediately."
         )
         redirectAttrs.addAttribute("companyId", companyId)
-        return RedirectView("/users")
+        return RedirectView("/requests")
     }
 
 }

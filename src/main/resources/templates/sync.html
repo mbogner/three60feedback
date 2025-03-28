@@ -12,32 +12,41 @@
     <h1>Three 60 Users</h1>
     <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
 
+    <div>
+        <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a>
+    </div>
+
     <div th:if="${users.size() > 0}">
         <table class="table table-striped">
             <thead class="thead-light">
             <tr>
-                <th scope="col">Recipient</th>
-                <th scope="col">Actions</th>
+                <th scope="col">E-Mail</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="user:${users}">
                 <td><span th:remove="tag" th:text="${user.email}"></span></td>
-                <td>
-                    <a th:href="@{/users/{userId}/feedback_round(userId=${user.id},requestId=${requestId})}"
-                       class="btn btn-info">
-                        Start Feedback Round
-                    </a>
-                </td>
             </tr>
             </tbody>
         </table>
     </div>
     <div th:if="${users.size() < 1}">
-        No user yet.
+        No user yet. Please sync to add feedbackers.
     </div>
+
+    <form th:action="@{/sync}" th:method="post">
+        <input type="hidden" id="companyId" name="companyId" th:value="${companyId}"/>
+        <button type="submit" class="btn btn-danger" onclick="return confirmSync()">Sync Feedbackers</button>
+    </form>
+
     <br/>
 </div>
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function confirmSync() {
+        return confirm('Are you sure? This sends requests to external systems.');
+    }
+</script>
 </body>
 </html>

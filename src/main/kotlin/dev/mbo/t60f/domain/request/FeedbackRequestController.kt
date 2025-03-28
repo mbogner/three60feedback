@@ -1,12 +1,14 @@
 package dev.mbo.t60f.domain.request
 
-import dev.mbo.t60f.logger
+import dev.mbo.logging.logger
 import jakarta.validation.Valid
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import java.util.*
 
 @Controller
 @RequestMapping("/requests")
@@ -17,7 +19,13 @@ class FeedbackRequestController(
     private val log = logger()
 
     @GetMapping(path = ["", "/"])
-    fun companies(): String {
+    fun companies(
+        @RequestParam(required = false) companyId: UUID?,
+        model: Model
+    ): String {
+        if (null != companyId) {
+            model.addAttribute("companyId", companyId)
+        }
         return "request"
     }
 
@@ -32,6 +40,7 @@ class FeedbackRequestController(
             "message",
             "Sent token to ${request.email}"
         )
+        model.addAttribute("companyId", request.companyId)
         return "request"
     }
 
