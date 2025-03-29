@@ -2,7 +2,7 @@ package dev.mbo.t60f.domain.request
 
 import dev.mbo.logging.logger
 import dev.mbo.t60f.domain.request.dto.FeedbackRequestNewDto
-import dev.mbo.t60f.global.CookieManagerUUID
+import dev.mbo.t60f.global.CookieManager
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
@@ -21,6 +21,10 @@ class FeedbackRequestController(
     private val service: FeedbackRequestService
 ) {
 
+    companion object {
+        const val COOKIE_COMPANY_ID = "companyId"
+    }
+
     private val log = logger()
 
     @GetMapping(path = ["", "/"])
@@ -29,7 +33,7 @@ class FeedbackRequestController(
         model: Model,
         request: HttpServletRequest
     ): String {
-        val cid = CookieManagerUUID.retrieve(companyId, request)
+        val cid = CookieManager.retrieve(companyId, request, COOKIE_COMPANY_ID, CookieManager.uuidParser)
         model.addAttribute("companyId", cid)
         return "requests"
     }
@@ -44,7 +48,7 @@ class FeedbackRequestController(
         service.create(dto)
         model.addAttribute("message", "Sent token to ${dto.email}")
         model.addAttribute("companyId", dto.companyId)
-        CookieManagerUUID.update(dto.companyId, response)
+        CookieManager.update(dto.companyId, response, COOKIE_COMPANY_ID, CookieManager.uuidSerializer)
         return "sent"
     }
 
