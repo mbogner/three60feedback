@@ -1,9 +1,9 @@
 package dev.mbo.t60f.domain.company
 
+import dev.mbo.springkotlinjpa.converter.StringSetConverter
 import dev.mbo.t60f.domain.request.FeedbackRequest
 import dev.mbo.t60f.domain.user.User
 import dev.mbo.t60f.global.AbstractEntity
-import dev.mbo.t60f.global.StringSetConverter
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotBlank
 import java.util.*

@@ -1,8 +1,8 @@
 package dev.mbo.t60f.domain.request
 
 import dev.mbo.logging.logger
+import dev.mbo.springkotlinweb.CookieManager
 import dev.mbo.t60f.domain.request.dto.FeedbackRequestNewDto
-import dev.mbo.t60f.global.CookieManager
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid

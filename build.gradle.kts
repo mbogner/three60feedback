@@ -20,6 +20,7 @@ dependencies {
     implementation(platform(libs.bom))
     implementation(platform(libs.library.bom))
     implementation("dev.mbo:spring-kotlin-web")
+    implementation("dev.mbo:spring-kotlin-jpa")
     implementation("dev.mbo:kotlin-logging")
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -109,6 +110,6 @@ sonarqube {
 }
 
 jacoco {
-    // https://www.eclemma.org/jacoco
-    toolVersion = "0.8.12"
+    val jacocoToolVersion: String by System.getProperties()
+    toolVersion = jacocoToolVersion
 }
