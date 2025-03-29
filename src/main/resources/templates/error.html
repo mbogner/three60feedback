@@ -47,7 +47,7 @@
             <td>Status</td>
             <td th:text="${status}"></td>
         </tr>
-        <tr>
+        <tr th:if="${message != null and #strings.length(message) > 0}">
             <td>Message</td>
             <td th:text="${message}"></td>
         </tr>
