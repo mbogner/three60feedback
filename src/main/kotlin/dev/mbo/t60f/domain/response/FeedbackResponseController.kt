@@ -44,8 +44,23 @@ class FeedbackResponseController(
         id: UUID,
         model: Model
     ): String {
-        feedbackResponseService.report(id)
+        feedbackResponseService.updateReported(id, true)
         model.addAttribute("message", "feedback has been reported")
+        return "sent"
+    }
+
+    @Transactional
+    @GetMapping(path = ["/{id}/unreport", "/{id}/unreport/"])
+    fun unreport(
+        @PathVariable(
+            "id",
+            required = true
+        )
+        id: UUID,
+        model: Model
+    ): String {
+        feedbackResponseService.updateReported(id, false)
+        model.addAttribute("message", "report of feedback has been removed")
         return "sent"
     }
 

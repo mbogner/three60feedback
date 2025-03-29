@@ -9,6 +9,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - db:/var/lib/postgresql/data:rw
     environment:
       POSTGRES_DB: db
       POSTGRES_USER: admin
@@ -24,22 +25,31 @@ services:
 
   # http://smtp:pass123@127.0.0.1:8025
   mail:
-    image: mailhog/mailhog
-    container_name: mailhog
-    hostname: mailhog
+    image: axllent/mailpit
+    container_name: mail
+    hostname: mail
     ports:
-      - "127.0.0.1:1025:1025"
-      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025" # smtp
+      - "127.0.0.1:8025:8025" # ui
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - ./infra/mailhog/auth:/auth:ro
+      - ./infra/mail/auth:/auth:ro
+      - mail:/data:rw
     environment:
-      MH_HOSTNAME: mail.mbo.dev
-      MH_AUTH_FILE: /auth # smtp:pass123
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ALLOW_INSECURE: true
+      MP_UI_AUTH_FILE: /auth
+      MP_SMTP_AUTH_FILE: /auth
+      MP_SMTP_DISABLE_RDNS: true
+      TZ: UTC
     healthcheck:
       test: wget --spider --tries 1 http://smtp:pass123@localhost:8025
       interval: 1s
       timeout: 1s
       start_interval: 1s
       retries: 5
+
+volumes:
+  db:
+  mail:

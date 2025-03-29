@@ -10,23 +10,23 @@ import org.testcontainers.junit.jupiter.Container
 abstract class AbstractSpringBootMailTest : AbstractSpringBootTest() {
 
     @Container
-    protected val mailhog = MailhogContainer()
+    protected val mailpit = MailpitContainer()
 
     protected var spec: RequestSpecification? = null
 
     @BeforeEach
     fun before() {
-        if (!mailhog.isRunning) {
-            mailhog.start()
-            spec = RequestSpecBuilder().setBaseUri(mailhog.httpUrl).build()
+        if (!mailpit.isRunning) {
+            mailpit.start()
+            spec = RequestSpecBuilder().setBaseUri(mailpit.httpUrl).build()
         }
     }
 
     @Test
     fun checkMailConfig() {
-        assertThat(mailhog.httpUrl).isNotBlank()
-        assertThat(mailhog.smtpHost).isNotBlank()
-        assertThat(mailhog.smtpPort).isNotNull()
+        assertThat(mailpit.httpUrl).isNotBlank()
+        assertThat(mailpit.smtpHost).isNotBlank()
+        assertThat(mailpit.smtpPort).isNotNull()
     }
 
 }

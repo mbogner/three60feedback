@@ -15,9 +15,9 @@ class FeedbackResponseService(
     }
 
     @Transactional
-    fun report(id: UUID) {
+    fun updateReported(id: UUID, reported: Boolean) {
         val giver = repository.findById(id).orElseThrow()
-        giver.reported = true
+        giver.reported = reported
         repository.save(giver)
     }
 

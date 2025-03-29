@@ -54,6 +54,7 @@ class FeedbackResponseResponseSender(
             --------------
             
             Click this link to report the feedback: $baseUrl/response/${giver.id}/report
+            You can also undo the report by clicking: $baseUrl/response/${giver.id}/unreport
             
             Yours,
             t60f
