@@ -3,7 +3,7 @@ package dev.mbo.t60f
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
 
-class MailpitContainer : GenericContainer<MailpitContainer>("axllent/mailpit") {
+class MailpitContainer : GenericContainer<MailpitContainer>("axllent/mailpit:v1.23") {
     companion object {
         private const val PORT_SMTP = 1025
         private const val PORT_HTTP = 8025
@@ -18,6 +18,6 @@ class MailpitContainer : GenericContainer<MailpitContainer>("axllent/mailpit") {
     val smtpHost get() = host
 
     @Suppress("HttpUrlsUsage")
-    val httpUrl get() = "http://$host:${getMappedPort(PORT_HTTP)}/api/v1"
+    val httpApiUrl: String get() = "http://$host:${getMappedPort(PORT_HTTP)}/api/v1"
 
 }

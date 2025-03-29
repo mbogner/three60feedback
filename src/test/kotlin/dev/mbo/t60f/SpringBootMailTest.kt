@@ -8,7 +8,7 @@ class SpringBootMailTest : AbstractSpringBootMailTest() {
 
     @Test
     fun checkNoMails() {
-        given().spec(spec).`when`().get("/messages")
+        given().spec(mailpitApiSpec).`when`().get("/messages")
             .then()
             .body("total", equalTo(0))
     }
