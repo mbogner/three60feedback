@@ -14,16 +14,23 @@
             <h1>Three 60 Feedback Request</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
             <form th:action="@{/requests}" th:method="post">
-                <p>
+                <div class="mb-3">
                     <label class="form-label" for="companyId">Company ID</label><br/>
                     <input class="form-control" id="companyId" name="companyId" required="" th:value="${companyId}"
-                           type="text"/>
-                </p>
-                <p>
+                           type="text" aria-describedby="companyIdHelp"/>
+                    <div class="form-text" id="companyIdHelp">
+                        Id of the company you're in. Get this by your supervisor.
+                    </div>
+                </div>
+                <div class="mb-3">
                     <label class="form-label" for="email">Your E-Mail</label><br/>
-                    <input class="form-control" id="email" name="email" required="" type="email"/>
-                </p>
-                <button class="btn btn-info rounded" type="submit">Mail Token</button>
+                    <input class="form-control" id="email" name="email" required="" type="email"
+                           aria-describedby="emailHelp"/>
+                    <div class="form-text" id="emailHelp">
+                        You will receive a link to start your feedback round to this mail.
+                    </div>
+                </div>
+                <button class="btn btn-info rounded" type="submit">Let's Go</button>
             </form>
             <br/>
         </div>

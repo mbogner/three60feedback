@@ -35,7 +35,7 @@ class FeedbackRequestService(
             content = """
             Hi ${created.email}!
             
-            if you want to start a feedback round, use the following link to start:
+            if you want to start a feedback round, use the following link to get it started:
             
             ${baseUrl}/users?requestId=${created.id}
             

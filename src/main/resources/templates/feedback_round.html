@@ -16,11 +16,15 @@
                 <input id="requestId" name="requestId" th:value="${requestId}" type="hidden"/>
                 <input id="receiver" name="receiver" th:value="${user.email}" type="hidden"/>
                 <div th:if="${users.size() &gt; 0}">
-                    <p>
+                    <div class="mb-3">
                         <label class="form-label" for="days">Round Validity Days (2-14)</label>
                         <input class="form-control" id="days" max="14" min="2" name="days" required="" th:value="7"
-                               type="number"/>
-                    </p>
+                               type="number" aria-describedby="daysHelp"/>
+                        <div class="form-text" id="daysHelp">
+                            The maximum amount of days this feedback round will be open. Starts from the exact time it
+                            created plus the amount of days you chose here.
+                        </div>
+                    </div>
                     <table class="table table-striped">
                         <thead class="thead-light">
                         <tr>
@@ -63,7 +67,22 @@
         checkboxes.forEach(checkbox => {
             checkbox.checked = select;
         });
+        updateSubmitButton();
     }
+
+    function updateSubmitButton() {
+        const checkedCount = document.querySelectorAll('input[type="checkbox"][name="invites"]:checked').length;
+        const submitButton = document.querySelector('button[type="submit"]');
+        submitButton.disabled = checkedCount < 5;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="invites"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateSubmitButton);
+        });
+        updateSubmitButton(); // Initial check
+    });
 </script>
 </body>
 </html>

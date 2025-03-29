@@ -5,9 +5,9 @@ logging:
 server:
   port: 8080
   error:
-    include-exception: true
+    include-exception: false
     include-message: always
-    include-stacktrace: always
+    include-stacktrace: never
     include-binding-errors: always
 
 management:
