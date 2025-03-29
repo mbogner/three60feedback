@@ -1,22 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>t60f users</title>
-
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/global.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="container">
-    <h1>Three 60 Admin</h1>
-
-    <ul>
-        <li><a href="/admin/companies">Companies</a></li>
-        <li><a href="/admin/rounds">Rounds</a></li>
-    </ul>
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>Three 60 Admin</h1>
+            <ul>
+                <li><a href="/admin/companies">Companies</a></li>
+                <li><a href="/admin/rounds">Rounds</a></li>
+            </ul>
+        </div>
+    </div>
 </div>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

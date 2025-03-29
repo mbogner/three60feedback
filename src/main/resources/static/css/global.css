@@ -1,3 +1,83 @@
+/* Modern enhancements */
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    margin-top: 40px;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+textarea {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px 14px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.2s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Buttons */
+.btn-info {
+    background-color: #0d6efd;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: background 0.3s ease;
+}
+
+.btn-info:hover {
+    background-color: #0b5ed7;
+}
+
+.btn-secondary {
+    border-radius: 8px;
+}
+
+/* Headings */
+h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Tables */
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table thead {
+    background-color: #f1f1f1;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+/* Feedback textarea */
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Status coloring from original */
 tr.inactive, tr.archived {
     background: darkgrey;
 }
@@ -10,27 +90,4 @@ td.statusWarn {
     background: orange;
 }
 
-tr.bordered-cells th:not(:first-child), .bordered-cell {
-    border-left: 2px solid black;
-}
-
-.bordered-cells-bottom {
-    border-bottom: 2px solid black;
-}
-
-.bordered-table tr {
-    border-left: 2px solid black;
-    border-right: 2px solid black;
-}
-
-.bordered-table tr:first-child {
-    border-top: 2px solid black;
-}
-
-.bordered-table tr:last-child {
-    border-bottom: 2px solid black;
-}
-
-.flow-input {
-    max-width: 200px;
-}
+/* Optional: animate buttons or transitions if desired */

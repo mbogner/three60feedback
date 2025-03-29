@@ -43,8 +43,8 @@ class FeedbackResponseRequestSender(
             content = """
             Hi ${giver.email}!
             
-            ${giver.feedbackRound.receiver.email} is requesting feedback by you. The system will store who handed in 
-            what to avoid abuse. The receiver won't see who sent which feedback.
+            ${giver.feedbackRound.receiver.email} is requesting your feedback. The system will store your input to avoid
+            abuse. The receiver won't see the sender.
             
             Please follow this link to give feedback: ${baseUrl}/response/${giver.id}
             

@@ -25,9 +25,10 @@ class FeedbackRound(
         orphanRemoval = true,
         cascade = [CascadeType.ALL]
     )
+    @field:OrderBy("email ASC")
     var givers: Set<FeedbackResponse> = mutableSetOf(),
 
-    var validity: Instant
+    @Suppress("unused") var validity: Instant
 ) : AbstractEntity<UUID>() {
 
     override fun getIdentifier(): UUID? {

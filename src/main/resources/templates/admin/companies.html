@@ -1,22 +1,20 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>t60f users</title>
-
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/global.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="container">
     <h1>Three 60 Companies</h1>
-    <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
-
+    <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
     <div>
         <a href="/admin">Admin</a>
     </div>
-
-    <div th:if="${companies.size() > 0}">
+    <div th:if="${companies.size() &gt; 0}">
         <table class="table table-striped">
             <thead class="thead-light">
             <tr>
@@ -28,63 +26,68 @@
             </thead>
             <tbody>
             <tr th:each="company:${companies}">
-                <td><a th:text="${company.name}" th:href="@{/?companyId={companyId}(companyId=${company.id})}"></a></td>
-                <td th:text="${company.domains}"></td>
-                <td><a th:href="${company.miteBaseUrl}" th:text="${company.miteBaseUrl}" target="_blank"></a></td>
                 <td>
-                    <form th:action="@{/admin/companies/{id}/delete(id=${company.id})}" th:method="post">
-                        <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Delete</button>
-                    </form>
-                    <a th:href="@{/admin/sync?companyId={companyId}(companyId=${company.id})}">
-                        <button class="btn btn-info">Sync</button>
-                    </a>
+                    <div class="d-flex gap-2 align-items-center flex-wrap"><a
+                            th:href="@{/?companyId={companyId}(companyId=${company.id})}" th:text="${company.name}"></a>
+                    </div>
+                </td>
+                <td th:text="${company.domains}"></td>
+                <td>
+                    <div class="d-flex gap-2 align-items-center flex-wrap"><a target="_blank"
+                                                                              th:href="${company.miteBaseUrl}"
+                                                                              th:text="${company.miteBaseUrl}"></a>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <form th:action="@{/admin/companies/{id}/delete(id=${company.id})}" th:method="post">
+                            <button class="btn btn-danger rounded" onclick="return confirmDelete()" type="submit">Delete
+                            </button>
+                        </form>
+                        <a th:href="@{/admin/sync?companyId={companyId}(companyId=${company.id})}">
+                            <button class="btn btn-info rounded">Sync</button>
+                        </a></div>
+
+
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
-    <div th:if="${companies.size() < 1}">
+    <div th:if="${companies.size() &lt; 1}">
         No companies yet.
     </div>
-
     <div class="card" style="padding: 20px; background-color: #c1daff;">
         <form th:action="@{/admin/companies}" th:method="post">
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" minlength="2"
-                       maxlength="255" required>
-                <div id="nameHelp" class="form-text">Name of the company to create.</div>
+                <label class="form-label" for="name">Name</label>
+                <input aria-describedby="nameHelp" class="form-control" id="name" maxlength="255" minlength="2"
+                       name="name" required="" type="text"/>
+                <div class="form-text" id="nameHelp">Name of the company to create.</div>
             </div>
-
             <div class="mb-3">
-                <label for="domains" class="form-label">Domains</label>
-                <input type="text" class="form-control" id="domains" name="domains" aria-describedby="domainsHelp"
-                       minlength="3" maxlength="1000" pattern="(.+[.].+,?)+" required>
-                <div id="domainsHelp" class="form-text">Comma separated list of domains to accept.</div>
+                <label class="form-label" for="domains">Domains</label>
+                <input aria-describedby="domainsHelp" class="form-control" id="domains" maxlength="1000" minlength="3"
+                       name="domains" pattern="(.+[.].+,?)+" required="" type="text"/>
+                <div class="form-text" id="domainsHelp">Comma separated list of domains to accept.</div>
             </div>
-
             <div class="mb-3">
-                <label for="miteBaseUrl" class="form-label">MiteBaseUrl</label>
-                <input type="url" class="form-control" id="miteBaseUrl" name="miteBaseUrl"
-                       aria-describedby="miteBaseUrlHelp" minlength="10" maxlength="255"
-                       pattern="^https://.+[.]mite[.]de$" required>
-                <div id="miteBaseUrlHelp" class="form-text">Mite base URL starting with https://.</div>
+                <label class="form-label" for="miteBaseUrl">MiteBaseUrl</label>
+                <input aria-describedby="miteBaseUrlHelp" class="form-control" id="miteBaseUrl" maxlength="255"
+                       minlength="10" name="miteBaseUrl" pattern="^https://.+[.]mite[.]de$" required="" type="url"/>
+                <div class="form-text" id="miteBaseUrlHelp">Mite base URL starting with https://.</div>
             </div>
-
             <div class="mb-3">
-                <label for="miteApiKey" class="form-label">MiteApiKey</label>
-                <input type="password" class="form-control" id="miteApiKey" name="miteApiKey"
-                       aria-describedby="miteApiKeyHelp" minlength="8" maxlength="32" required>
-                <div id="miteApiKeyHelp" class="form-text">API key for the mite account.</div>
+                <label class="form-label" for="miteApiKey">MiteApiKey</label>
+                <input aria-describedby="miteApiKeyHelp" class="form-control" id="miteApiKey" maxlength="32"
+                       minlength="8" name="miteApiKey" required="" type="password"/>
+                <div class="form-text" id="miteApiKeyHelp">API key for the mite account.</div>
             </div>
-
-            <button type="submit" class="btn btn-danger">Create</button>
+            <button class="btn btn-danger rounded" type="submit">Create</button>
         </form>
     </div>
-
     <br/>
 </div>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function confirmDelete() {

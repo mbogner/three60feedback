@@ -1,47 +1,47 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>t60f users</title>
-
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/global.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="container">
-    <h1>Three 60 Users</h1>
-    <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
-
-    <div>
-        <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a>&nbsp;|&nbsp;<a href="/admin">Admin</a>
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>Three 60 Users</h1>
+            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
+            <div>
+                <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a> | <a href="/admin">Admin</a>
+            </div>
+            <div th:if="${users.size() &gt; 0}">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">E-Mail</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="user:${users}">
+                        <td><span th:remove="tag" th:text="${user.email}"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${users.size() &lt; 1}">
+                No user yet. Please sync to add feedbackers.
+            </div>
+            <form th:action="@{/admin/sync}" th:method="post">
+                <input id="companyId" name="companyId" th:value="${companyId}" type="hidden"/>
+                <button class="btn btn-danger rounded" onclick="return confirmSync()" type="submit">Sync Feedbackers
+                </button>
+            </form>
+            <br/>
+        </div>
     </div>
-
-    <div th:if="${users.size() > 0}">
-        <table class="table table-striped">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">E-Mail</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user:${users}">
-                <td><span th:remove="tag" th:text="${user.email}"></span></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div th:if="${users.size() < 1}">
-        No user yet. Please sync to add feedbackers.
-    </div>
-
-    <form th:action="@{/admin/sync}" th:method="post">
-        <input type="hidden" id="companyId" name="companyId" th:value="${companyId}"/>
-        <button type="submit" class="btn btn-danger" onclick="return confirmSync()">Sync Feedbackers</button>
-    </form>
-
-    <br/>
 </div>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function confirmSync() {

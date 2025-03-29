@@ -1,57 +1,61 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>t60f start</title>
-
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/global.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="container">
-    <h1>Start Feedback Round for <span th:text="${user.email}" th:remove="tag"></span></h1>
-
-    <form th:action="@{/rounds/create}" th:method="post">
-        <input type="hidden" id="requestId" name="requestId" th:value="${requestId}"/>
-        <input type="hidden" id="receiver" name="receiver" th:value="${user.email}"/>
-        <div th:if="${users.size() > 0}">
-            <p>
-                <label for="days" class="form-label">Round Validity Days (2-14)</label>
-                <input type="number" id="days" name="days" min="2" max="14" th:value="7" class="form-control" required/>
-            </p>
-            <table class="table table-striped">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">select at least 5 feedback givers to keep the round anonymous</th>
-                </tr>
-                <tr>
-                    <th>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="selectAllCheckboxes(true)">
-                            Select All
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="selectAllCheckboxes(false)">
-                            Deselect All
-                        </button>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="invite:${users}">
-                    <td th:if="${user.email != invite.email}">
-                        <input type="checkbox" th:id="${invite.email}" name="invites" th:value="${invite.email}">
-                        <label th:text="${invite.email}" th:for="${invite.email}"></label>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>Start Feedback Round for <span th:remove="tag" th:text="${user.email}"></span></h1>
+            <form th:action="@{/rounds/create}" th:method="post">
+                <input id="requestId" name="requestId" th:value="${requestId}" type="hidden"/>
+                <input id="receiver" name="receiver" th:value="${user.email}" type="hidden"/>
+                <div th:if="${users.size() &gt; 0}">
+                    <p>
+                        <label class="form-label" for="days">Round Validity Days (2-14)</label>
+                        <input class="form-control" id="days" max="14" min="2" name="days" required="" th:value="7"
+                               type="number"/>
+                    </p>
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                        <tr>
+                            <th scope="col">select at least 5 feedback givers to keep the round anonymous</th>
+                        </tr>
+                        <tr>
+                            <th>
+                                <button class="btn btn-secondary btn-sm rounded" onclick="selectAllCheckboxes(true)"
+                                        type="button">
+                                    Select All
+                                </button>
+                                <button class="btn btn-secondary btn-sm rounded" onclick="selectAllCheckboxes(false)"
+                                        type="button">
+                                    Deselect All
+                                </button>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="invite:${users}">
+                            <td th:if="${user.email != invite.email}">
+                                <input name="invites" th:id="${invite.email}" th:value="${invite.email}"
+                                       type="checkbox"/>
+                                <label th:for="${invite.email}" th:text="${invite.email}"></label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-info rounded" type="submit">Start Feedback Round</button>
+            </form>
+            <br/>
         </div>
-
-        <button type="submit" class="btn btn-info">Start Feedback Round</button>
-    </form>
-
-    <br/>
+    </div>
 </div>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function selectAllCheckboxes(select) {

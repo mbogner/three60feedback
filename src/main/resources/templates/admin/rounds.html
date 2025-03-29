@@ -1,64 +1,65 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <title>t60f users</title>
-
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/global.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div class="container">
-    <h1>Three 60 Rounds</h1>
-    <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
-
-    <div>
-        <a href="/admin">Admin</a>
-    </div>
-
-    <div th:if="${rounds.size() > 0}">
-        <table class="table table-striped">
-            <thead class="thead-light">
-            <tr>
-                <th scope="col">Company</th>
-                <th scope="col">Receiver</th>
-                <th scope="col">Givers</th>
-                <th scope="col">CreatedAt</th>
-                <th scope="col">Validity</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="round:${rounds}">
-                <td th:text="${round.receiver.company.name}"></td>
-                <td th:text="${round.receiver.email}"></td>
-                <td>
-                    <ul style="list-style: none; padding-left: 0;">
-                        <li th:each="giver:${round.givers}">
-                            <span th:if="${giver.notifiedAt != null}" th:remove="tag">
-                                <span class="handed-in">✅</span>
-                                <a th:text="${giver.email}"
-                                   th:href="@{/admin/rounds/{roundId}/giver/{giverId}(roundId=${round.id},giverId=${giver.id})}">
-                                </a>
-                            </span>
-                            <span th:if="${giver.notifiedAt == null}" th:remove="tag">
-                                <span class="handed-in">❌</span>
-                                <span th:text="${giver.email}"></span>
-                            </span>
-                            <span th:if="${giver.reported == true}">‼️</span>
-                        </li>
-                    </ul>
-                </td>
-                <td th:text="${round.createdAt}"></td>
-                <td th:text="${round.validity}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div th:if="${rounds.size() < 1}">
-        No open rounds at the moment.
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>Three 60 Rounds</h1>
+            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
+            <div>
+                <a href="/admin">Admin</a>
+            </div>
+            <div th:if="${rounds.size() &gt; 0}">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Company</th>
+                        <th scope="col">Receiver</th>
+                        <th scope="col">Givers</th>
+                        <th scope="col">CreatedAt</th>
+                        <th scope="col">Validity</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="round:${rounds}">
+                        <td th:text="${round.receiver.company.name}"></td>
+                        <td th:text="${round.receiver.email}"></td>
+                        <td>
+                            <ul style="list-style: none; padding-left: 0;">
+                                <li th:each="giver:${round.givers}">
+                                    <span th:if="${giver.notifiedAt != null}" th:remove="tag">
+                                        <span class="handed-in">✅</span>
+                                        <a th:href="@{/admin/rounds/{roundId}/giver/{giverId}(roundId=${round.id},giverId=${giver.id})}"
+                                           th:text="${giver.email}">
+                                        </a>
+                                    </span>
+                                    <span th:if="${giver.notifiedAt == null}" th:remove="tag">
+                                        <span class="handed-in">❌</span>
+                                        <span th:text="${giver.email}"></span>
+                                    </span>
+                                    <span th:if="${giver.reported == true}">‼️</span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td th:text="${round.createdAt}"></td>
+                        <td th:text="${round.validity}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${rounds.size() &lt; 1}">
+                No open rounds at the moment.
+            </div>
+        </div>
     </div>
 </div>
-
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
