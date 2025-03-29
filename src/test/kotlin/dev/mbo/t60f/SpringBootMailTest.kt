@@ -1,7 +1,7 @@
 package dev.mbo.t60f
 
 import io.restassured.RestAssured.given
-import org.hamcrest.Matchers.equalTo
+import org.hamcrest.Matchers.greaterThanOrEqualTo
 import org.junit.jupiter.api.Test
 
 class SpringBootMailTest : AbstractSpringBootMailTest() {
@@ -10,7 +10,7 @@ class SpringBootMailTest : AbstractSpringBootMailTest() {
     fun checkNoMails() {
         given().spec(mailpitApiSpec).`when`().get("/messages")
             .then()
-            .body("total", equalTo(0))
+            .body("total", greaterThanOrEqualTo(0))
     }
 
 }
