@@ -9,14 +9,14 @@
 </head>
 <body>
 <div class="container">
-    <h1>Three 60 Users</h1>
+    <h1>Three 60 Feedback Round</h1>
     <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
 
     <div th:if="${users.size() > 0}">
         <table class="table table-striped">
             <thead class="thead-light">
             <tr>
-                <th scope="col">Recipient</th>
+                <th scope="col">Request from</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -25,9 +25,7 @@
                 <td><span th:remove="tag" th:text="${user.email}"></span></td>
                 <td>
                     <a th:href="@{/users/{userId}/feedback_round(userId=${user.id},requestId=${requestId})}"
-                       class="btn btn-info">
-                        Start Feedback Round
-                    </a>
+                       class="btn btn-info">Start Feedback Round</a>
                 </td>
             </tr>
             </tbody>

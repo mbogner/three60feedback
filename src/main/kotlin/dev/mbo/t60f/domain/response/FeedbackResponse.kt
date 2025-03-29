@@ -1,4 +1,4 @@
-package dev.mbo.t60f.domain.giver
+package dev.mbo.t60f.domain.response
 
 import dev.mbo.t60f.domain.round.FeedbackRound
 import dev.mbo.t60f.global.AbstractEntity
@@ -9,8 +9,8 @@ import java.time.Instant
 import java.util.*
 
 @Entity
-@Table(name = "feedback_givers")
-class FeedbackGiver(
+@Table(name = "feedback_responses")
+class FeedbackResponse(
 
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.UUID)
@@ -43,7 +43,10 @@ class FeedbackGiver(
 
     @field:NotNull
     @field:Column(name = "notify_failed", nullable = false)
-    var notifyFailed: Boolean = false
+    var notifyFailed: Boolean = false,
+
+    @field:Column(name = "reported", nullable = false)
+    var reported: Boolean = false
 
 ) : AbstractEntity<UUID>() {
 

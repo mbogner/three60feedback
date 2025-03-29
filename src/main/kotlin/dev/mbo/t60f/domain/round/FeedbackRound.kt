@@ -1,19 +1,11 @@
 package dev.mbo.t60f.domain.round
 
-import dev.mbo.t60f.domain.giver.FeedbackGiver
+import dev.mbo.t60f.domain.response.FeedbackResponse
 import dev.mbo.t60f.domain.user.User
 import dev.mbo.t60f.global.AbstractEntity
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
-import java.util.UUID
+import jakarta.persistence.*
+import java.time.Instant
+import java.util.*
 
 @Entity
 @Table(name = "feedback_rounds")
@@ -33,8 +25,9 @@ class FeedbackRound(
         orphanRemoval = true,
         cascade = [CascadeType.ALL]
     )
-    var givers: Set<FeedbackGiver> = mutableSetOf()
+    var givers: Set<FeedbackResponse> = mutableSetOf(),
 
+    var validity: Instant
 ) : AbstractEntity<UUID>() {
 
     override fun getIdentifier(): UUID? {

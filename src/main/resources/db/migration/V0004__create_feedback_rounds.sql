@@ -9,7 +9,8 @@ CREATE TABLE feedback_rounds
         constraint feedback_rounds_cc__lock_version_positive check (lock_version >= 0),
 
     receiver_id  uuid                        not null
-        constraint feedback_rounds_fk__receiver_id references users (id) on delete restrict on update restrict
+        constraint feedback_rounds_fk__receiver_id references users (id) on delete restrict on update restrict,
+    validity     timestamp without time zone not null default now_utc() + interval '7 days'
 ) WITHOUT OIDS;
 
 CREATE TRIGGER feedback_rounds_trg__check_created_at_unchanged

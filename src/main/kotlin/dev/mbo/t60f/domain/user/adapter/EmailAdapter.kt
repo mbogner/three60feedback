@@ -7,7 +7,10 @@ abstract class EmailAdapter(private val validator: Validator) {
 
     private val log = logger()
 
-    abstract fun retrieve(): Set<Email>
+    abstract fun retrieve(
+        baseUrl: String,
+        apiKey: String,
+    ): Set<Email>
 
     protected fun validated(mails: Set<Email>): Set<Email> {
         val result = mutableSetOf<Email>()

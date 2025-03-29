@@ -1,4 +1,4 @@
-package dev.mbo.t60f.domain.giver
+package dev.mbo.t60f.domain.response
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -6,12 +6,19 @@ import java.util.*
 
 @Transactional(readOnly = true)
 @Service
-class FeedbackGiverService(
-    private val repository: FeedbackGiverRepository
+class FeedbackResponseService(
+    private val repository: FeedbackResponseRepository
 ) {
 
-    fun findById(id: UUID): FeedbackGiver {
+    fun findById(id: UUID): FeedbackResponse {
         return repository.findById(id).orElseThrow()
+    }
+
+    @Transactional
+    fun report(id: UUID) {
+        val giver = repository.findById(id).orElseThrow()
+        giver.reported = true
+        repository.save(giver)
     }
 
     @Transactional

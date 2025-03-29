@@ -1,4 +1,4 @@
-package dev.mbo.t60f.domain.giver.dto
+package dev.mbo.t60f.domain.response.dto
 
 import jakarta.validation.constraints.NotBlank
 

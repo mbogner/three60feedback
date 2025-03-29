@@ -1,4 +1,4 @@
-package dev.mbo.t60f.domain.giver
+package dev.mbo.t60f.domain.response
 
 import dev.mbo.logging.logger
 import dev.mbo.t60f.global.AsyncMailSender
@@ -10,8 +10,8 @@ import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 @Component
-class FeedbackGiverRequestSender(
-    private val feedbackGiverRepository: FeedbackGiverRepository,
+class FeedbackResponseRequestSender(
+    private val feedbackResponseRepository: FeedbackResponseRepository,
     private val mailer: AsyncMailSender,
     @Value("\${app.base-url}")
     private val baseUrl: String,
@@ -22,7 +22,7 @@ class FeedbackGiverRequestSender(
     @Transactional
     @Scheduled(fixedDelay = 10, timeUnit = TimeUnit.SECONDS)
     fun sendRequests() {
-        feedbackGiverRepository.findAllBySentAtIsNull().forEach {
+        feedbackResponseRepository.findAllBySentAtIsNull().forEach {
             try {
                 it.sentAt = Instant.now()
                 sendRequest(it)
@@ -30,12 +30,12 @@ class FeedbackGiverRequestSender(
                 it.sendFailed = true
                 log.error("Failed to send feedback giver ${it.id}", e)
             } finally {
-                feedbackGiverRepository.save(it)
+                feedbackResponseRepository.save(it)
             }
         }
     }
 
-    fun sendRequest(giver: FeedbackGiver) {
+    fun sendRequest(giver: FeedbackResponse) {
         log.info("sending feedback request {}", giver)
         mailer.send(
             to = giver.email,

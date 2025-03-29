@@ -1,14 +1,14 @@
-package dev.mbo.t60f.domain.request
+package dev.mbo.t60f.domain.request.dto
 
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
-import java.util.UUID
+import java.util.*
 
 data class FeedbackRequestNewDto(
     @NotNull
-    val companyId: UUID,
+    var companyId: UUID?,
     @NotEmpty
     @Email
-    val email: String,
+    var email: String = ""
 )

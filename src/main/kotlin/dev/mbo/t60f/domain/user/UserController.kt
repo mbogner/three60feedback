@@ -19,7 +19,6 @@ class UserController(
     @GetMapping(path = ["", "/"])
     fun getUsers(
         @RequestParam(required = true) requestId: UUID,
-        @RequestParam(required = false) override: Boolean = false,
         model: Model
     ): String {
         val request = feedbackRequestService.findById(requestId)
@@ -27,28 +26,19 @@ class UserController(
             "requestId", requestId
         )
         model.addAttribute(
-            "override", override
-        )
-        model.addAttribute(
-            "users", if (override) {
-                userService.findAllByCompanyId(request.company!!.id!!)
-            } else {
-                listOf(userService.findByEmail(request.email!!))
-            }
-
+            "users", listOf(userService.findByEmail(request.email!!))
         )
         return "users"
     }
 
     @GetMapping(path = ["/{userId}/feedback_round", "/{userId}/feedback_round/"])
     fun feedbackRound(
-        @PathVariable(
-            "userId", required = true
-        ) userId: UUID, @RequestParam(required = true) requestId: UUID, model: Model
+        @PathVariable("userId", required = true) userId: UUID,
+        @RequestParam(required = true) requestId: UUID,
+        model: Model
     ): String {
         val request = feedbackRequestService.findById(requestId)
         model.addAttribute("requestId", requestId)
-
         model.addAttribute("user", userService.findById(userId))
         model.addAttribute("users", userService.findAllByCompanyId(request.company!!.id!!))
         return "feedback_round"

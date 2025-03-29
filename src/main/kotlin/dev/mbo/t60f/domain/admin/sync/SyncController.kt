@@ -1,5 +1,6 @@
-package dev.mbo.t60f.domain.user
+package dev.mbo.t60f.domain.admin.sync
 
+import dev.mbo.t60f.domain.user.UserService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -11,9 +12,10 @@ import org.springframework.web.servlet.view.RedirectView
 import java.util.*
 
 @Controller
-@RequestMapping("/sync")
+@RequestMapping("/admin/sync")
 class SyncController(
     private val userService: UserService,
+    private val syncService: SyncService,
 ) {
 
     @GetMapping
@@ -23,7 +25,7 @@ class SyncController(
     ): String {
         model.addAttribute("users", userService.findAllByCompanyId(companyId))
         model.addAttribute("companyId", companyId)
-        return "sync"
+        return "admin/sync"
     }
 
     @PostMapping
@@ -31,13 +33,13 @@ class SyncController(
         @RequestParam(required = true) companyId: UUID,
         model: RedirectAttributes
     ): RedirectView {
-        userService.sync(companyId)
+        syncService.sync(companyId)
         model.addAttribute("users", userService.findAllByCompanyId(companyId))
         model.addAttribute("companyId", companyId)
         model.addFlashAttribute(
             "message", "Feedbackers synced"
         )
-        return RedirectView("/sync")
+        return RedirectView("/admin/sync")
     }
 
 }

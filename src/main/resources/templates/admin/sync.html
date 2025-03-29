@@ -13,7 +13,7 @@
     <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
 
     <div>
-        <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a>
+        <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a>&nbsp;|&nbsp;<a href="/admin">Admin</a>
     </div>
 
     <div th:if="${users.size() > 0}">
@@ -34,7 +34,7 @@
         No user yet. Please sync to add feedbackers.
     </div>
 
-    <form th:action="@{/sync}" th:method="post">
+    <form th:action="@{/admin/sync}" th:method="post">
         <input type="hidden" id="companyId" name="companyId" th:value="${companyId}"/>
         <button type="submit" class="btn btn-danger" onclick="return confirmSync()">Sync Feedbackers</button>
     </form>

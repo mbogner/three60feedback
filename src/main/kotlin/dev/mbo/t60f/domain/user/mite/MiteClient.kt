@@ -3,7 +3,6 @@ package dev.mbo.t60f.domain.user.mite
 import dev.mbo.logging.logger
 import dev.mbo.t60f.global.ClientException
 import dev.mbo.t60f.global.ClientUtil
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -16,16 +15,14 @@ fun Map<String, Any>.getParamString(): String = keys.joinToString("&") { "$it={$
 
 @Service
 class MiteClient(
-    @Value("\${app.client.mite.url}")
-    private val baseUrl: String,
-    @Value("\${app.client.mite.api-key}")
-    private val apiKey: String,
     private val restTemplate: RestTemplate,
 ) {
 
     private val log = logger()
 
     fun retrieveActiveUsers(
+        baseUrl: String,
+        apiKey: String,
         page: Int = 1,
         limit: Int = Int.MAX_VALUE
     ): List<MiteUserWrapperDto> {
@@ -36,7 +33,7 @@ class MiteClient(
                 "limit" to limit,
             )
             val response = restTemplate.exchange(
-                usersUrl(params),
+                usersUrl(baseUrl, params),
                 HttpMethod.GET,
                 HttpEntity<String>(
                     null,
@@ -52,7 +49,10 @@ class MiteClient(
         }
     }
 
-    private fun usersUrl(params: Map<String, Any>): String {
+    private fun usersUrl(
+        baseUrl: String,
+        params: Map<String, Any>
+    ): String {
         val url = "$baseUrl/users.json?${params.getParamString()}"
         log.debug("mite users url: {}", url)
         return url

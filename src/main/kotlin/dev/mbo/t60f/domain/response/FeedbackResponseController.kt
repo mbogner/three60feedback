@@ -1,19 +1,19 @@
-package dev.mbo.t60f.domain.giver
+package dev.mbo.t60f.domain.response
 
 import dev.mbo.logging.logger
-import dev.mbo.t60f.domain.giver.dto.FeedbackDto
+import dev.mbo.t60f.domain.response.dto.FeedbackDto
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import org.springframework.web.servlet.view.RedirectView
 import java.util.*
 
 @Controller
 @RequestMapping("/response")
-class FeedbackGiverController(
-    private val feedbackGiverService: FeedbackGiverService,
+class FeedbackResponseController(
+    private val feedbackResponseService: FeedbackResponseService,
 ) {
 
     private val log = logger()
@@ -29,13 +29,28 @@ class FeedbackGiverController(
     ): String {
         model.addAttribute(
             "giver",
-            feedbackGiverService.findById(id)
+            feedbackResponseService.findById(id)
         )
         return "feedback"
     }
 
+    @Transactional
+    @GetMapping(path = ["/{id}/report", "/{id}/report/"])
+    fun report(
+        @PathVariable(
+            "id",
+            required = true
+        )
+        id: UUID,
+        model: Model
+    ): String {
+        feedbackResponseService.report(id)
+        model.addAttribute("message", "feedback has been reported")
+        return "sent"
+    }
+
     @PostMapping(path = ["/{id}/send", "/{id}/send"])
-    fun createUser(
+    fun send(
         @PathVariable(
             "id",
             required = true
@@ -44,16 +59,16 @@ class FeedbackGiverController(
         @ModelAttribute
         @Valid
         dto: FeedbackDto,
-        redirectAttrs: RedirectAttributes
-    ): RedirectView {
+        model: ModelMap
+    ): String {
         log.debug("received feedback from giver {}: {}", id, dto)
-        val companyId = feedbackGiverService.store(id = id, positive = dto.positive, negative = dto.negative)
-        redirectAttrs.addFlashAttribute(
+        val companyId = feedbackResponseService.store(id = id, positive = dto.positive, negative = dto.negative)
+        model.addAttribute(
             "message",
             "Handed in feedback. Thank you. It will be sent to the receiver immediately."
         )
-        redirectAttrs.addAttribute("companyId", companyId)
-        return RedirectView("/requests")
+        model.addAttribute("companyId", companyId)
+        return "sent"
     }
 
 }

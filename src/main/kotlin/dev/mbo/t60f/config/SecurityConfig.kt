@@ -23,8 +23,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @EnableWebSecurity
 @Configuration
 class SecurityConfig(
-    private @Value("\${app.auth.admin.username:admin}") val adminUser: String,
-    private @Value("\${app.auth.admin.password:admin}") val adminPass: String,
+    @Value("\${app.auth.admin.username:admin}") private val adminUser: String,
+    @Value("\${app.auth.admin.password:admin}") private val adminPass: String,
     private val corsConfigModel: CorsConfigModel,
 ) : WebMvcConfigurer {
 
@@ -42,7 +42,7 @@ class SecurityConfig(
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .requestMatchers(*arrayOf("/sync", "/sync/**")).authenticated()
+                    .requestMatchers(*arrayOf("/admin/**")).hasRole("ADMIN")
                     .anyRequest().permitAll()
             }
             .httpBasic(Customizer.withDefaults())

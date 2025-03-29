@@ -1,8 +1,8 @@
 package dev.mbo.t60f.domain.user.mite
 
+import dev.mbo.logging.logger
 import dev.mbo.t60f.domain.user.adapter.Email
 import dev.mbo.t60f.domain.user.adapter.EmailAdapter
-import dev.mbo.logging.logger
 import jakarta.validation.Validator
 import org.springframework.stereotype.Component
 
@@ -14,8 +14,11 @@ class MiteEmailAdapter(
 
     private val log = logger()
 
-    override fun retrieve(): Set<Email> {
-        val miteUsers = miteClient.retrieveActiveUsers()
+    override fun retrieve(
+        baseUrl: String,
+        apiKey: String,
+    ): Set<Email> {
+        val miteUsers = miteClient.retrieveActiveUsers(baseUrl, apiKey)
         log.info("retrieved ${miteUsers.size} active users from mite")
         val mails = miteUsers.map { Email(it.user.email) }.toSet()
         return validated(mails)

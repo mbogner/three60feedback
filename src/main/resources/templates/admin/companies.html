@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>t60f users</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/global.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Three 60 Companies</h1>
+    <div th:text="${message}" th:if="${message}" class="alert alert-primary mt-2"></div>
+
+    <div>
+        <a href="/admin">Admin</a>
+    </div>
+
+    <div th:if="${companies.size() > 0}">
+        <table class="table table-striped">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Domains</th>
+                <th scope="col">MiteBaseUrl</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="company:${companies}">
+                <td><a th:text="${company.name}" th:href="@{/?companyId={companyId}(companyId=${company.id})}"></a></td>
+                <td th:text="${company.domains}"></td>
+                <td><a th:href="${company.miteBaseUrl}" th:text="${company.miteBaseUrl}" target="_blank"></a></td>
+                <td>
+                    <form th:action="@{/admin/companies/{id}/delete(id=${company.id})}" th:method="post">
+                        <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Delete</button>
+                    </form>
+                    <a th:href="@{/admin/sync?companyId={companyId}(companyId=${company.id})}">
+                        <button class="btn btn-info">Sync</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${companies.size() < 1}">
+        No companies yet.
+    </div>
+
+    <div class="card" style="padding: 20px; background-color: #c1daff;">
+        <form th:action="@{/admin/companies}" th:method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" minlength="2"
+                       maxlength="255" required>
+                <div id="nameHelp" class="form-text">Name of the company to create.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="domains" class="form-label">Domains</label>
+                <input type="text" class="form-control" id="domains" name="domains" aria-describedby="domainsHelp"
+                       minlength="3" maxlength="1000" pattern="(.+[.].+,?)+" required>
+                <div id="domainsHelp" class="form-text">Comma separated list of domains to accept.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="miteBaseUrl" class="form-label">MiteBaseUrl</label>
+                <input type="url" class="form-control" id="miteBaseUrl" name="miteBaseUrl"
+                       aria-describedby="miteBaseUrlHelp" minlength="10" maxlength="255"
+                       pattern="^https://.+[.]mite[.]de$" required>
+                <div id="miteBaseUrlHelp" class="form-text">Mite base URL starting with https://.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="miteApiKey" class="form-label">MiteApiKey</label>
+                <input type="password" class="form-control" id="miteApiKey" name="miteApiKey"
+                       aria-describedby="miteApiKeyHelp" minlength="8" maxlength="32" required>
+                <div id="miteApiKeyHelp" class="form-text">API key for the mite account.</div>
+            </div>
+
+            <button type="submit" class="btn btn-danger">Create</button>
+        </form>
+    </div>
+
+    <br/>
+</div>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function confirmDelete() {
+        return confirm('Are you sure? This will delete the company.');
+    }
+</script>
+</body>
+</html>

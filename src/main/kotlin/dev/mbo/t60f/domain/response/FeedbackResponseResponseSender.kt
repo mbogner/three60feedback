@@ -1,7 +1,8 @@
-package dev.mbo.t60f.domain.giver
+package dev.mbo.t60f.domain.response
 
-import dev.mbo.t60f.global.AsyncMailSender
 import dev.mbo.logging.logger
+import dev.mbo.t60f.global.AsyncMailSender
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -9,9 +10,11 @@ import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 @Component
-class FeedbackGiverResponseSender(
-    private val feedbackGiverRepository: FeedbackGiverRepository,
+class FeedbackResponseResponseSender(
+    private val feedbackResponseRepository: FeedbackResponseRepository,
     private val mailer: AsyncMailSender,
+    @Value("\${app.base-url}")
+    private val baseUrl: String,
 ) {
 
     private val log = logger()
@@ -19,7 +22,7 @@ class FeedbackGiverResponseSender(
     @Transactional
     @Scheduled(fixedDelay = 10, timeUnit = TimeUnit.SECONDS)
     fun sendRequests() {
-        feedbackGiverRepository.findOpenResponses().forEach {
+        feedbackResponseRepository.findOpenResponses().forEach {
             try {
                 it.notifiedAt = Instant.now()
                 sendResponse(it)
@@ -27,12 +30,12 @@ class FeedbackGiverResponseSender(
                 it.notifyFailed = true
                 log.error("Failed to send feedback response ${it.id}", e)
             } finally {
-                feedbackGiverRepository.save(it)
+                feedbackResponseRepository.save(it)
             }
         }
     }
 
-    fun sendResponse(giver: FeedbackGiver) {
+    fun sendResponse(giver: FeedbackResponse) {
         log.info("sending feedback response {}", giver)
         mailer.send(
             to = giver.feedbackRound.receiver.email,
@@ -49,6 +52,8 @@ class FeedbackGiverResponseSender(
             Improvement Suggestions:
             ${giver.negativeFeedback}
             --------------
+            
+            Click this link to report the feedback: $baseUrl/response/${giver.id}/report
             
             Yours,
             t60f

@@ -1,13 +1,14 @@
 package dev.mbo.t60f.domain.request
 
 import dev.mbo.t60f.domain.company.CompanyRepository
+import dev.mbo.t60f.domain.request.dto.FeedbackRequestNewDto
 import dev.mbo.t60f.global.AsyncMailSender
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.UUID
+import java.util.*
 
 @Service
 class FeedbackRequestService(
