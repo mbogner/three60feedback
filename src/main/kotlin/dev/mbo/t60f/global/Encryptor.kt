@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec
 
 @Component
 class Encryptor(
-    @Value("\${app.encryption.key}") private val encryptionKey: String
+    @Value("\${app.encryption.key:changeMe123!}") private val encryptionKey: String
 ) {
 
     private val saltLength = 16
