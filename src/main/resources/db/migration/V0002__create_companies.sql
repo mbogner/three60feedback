@@ -13,7 +13,7 @@ CREATE TABLE companies
     domains       varchar(1024),
 
     mite_base_url varchar(255)                not null,
-    mite_api_key  varchar(512)                 not null
+    mite_api_key  varchar(512)                not null
 ) WITHOUT OIDS;
 
 CREATE TRIGGER companies_trg__check_created_at_unchanged

@@ -22,6 +22,7 @@ dependencies {
     implementation("dev.mbo:spring-kotlin-web")
     implementation("dev.mbo:spring-kotlin-jpa")
     implementation("dev.mbo:kotlin-logging")
+    implementation("dev.mbo:kotlin-encryption:1.3.2") // TODO remove version after next library.bom release
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

@@ -1,9 +1,9 @@
 package dev.mbo.t60f.domain.admin.companies
 
+import dev.mbo.kotlinencryption.Encryptor
 import dev.mbo.logging.logger
 import dev.mbo.t60f.domain.company.Company
 import dev.mbo.t60f.domain.company.CompanyRepository
-import dev.mbo.t60f.global.Encryptor
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap

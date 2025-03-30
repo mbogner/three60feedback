@@ -1,10 +1,10 @@
 package dev.mbo.t60f.domain.admin.sync
 
+import dev.mbo.kotlinencryption.Encryptor
 import dev.mbo.t60f.domain.company.CompanyRepository
 import dev.mbo.t60f.domain.user.User
 import dev.mbo.t60f.domain.user.UserRepository
 import dev.mbo.t60f.domain.user.adapter.EmailAdapter
-import dev.mbo.t60f.global.Encryptor
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
