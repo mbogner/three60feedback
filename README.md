@@ -1,8 +1,5 @@
 # T60f
 
-- gitlab: https://gitlab.openresearch.com/openresearch/t60f
-- sonar: https://sonar2.i.openresearch.com/dashboard?id=t60f
-
 ## Deployment
 
 Simply create a new tag to create a new docker image in the registry in gitlab.
