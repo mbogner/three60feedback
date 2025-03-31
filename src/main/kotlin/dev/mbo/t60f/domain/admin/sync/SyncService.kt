@@ -8,7 +8,7 @@ import dev.mbo.t60f.domain.user.adapter.EmailAdapter
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.*
+import java.util.UUID
 
 @Service
 class SyncService(
@@ -27,7 +27,7 @@ class SyncService(
             .flatMap { it.retrieve(company.miteBaseUrl, encryptor.decrypt(company.miteApiKey)) }
             .map { it.value }
             .toSet()
-        userRepository.deleteByEmailNotIn(retrievedMails)
+        userRepository.deleteByCompanyIdAndEmailNotIn(companyId, retrievedMails)
         retrievedMails.forEach { mail ->
             val domain = mail.substring(mail.indexOf("@") + 1)
             if (company.domains.contains(domain)
