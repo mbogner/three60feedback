@@ -15,16 +15,24 @@
             <form th:action="@{/rounds/create}" th:method="post">
                 <input id="requestId" name="requestId" th:value="${requestId}" type="hidden"/>
                 <input id="receiver" name="receiver" th:value="${user.email}" type="hidden"/>
-                <div th:if="${users.size() &gt; 0}">
-                    <div class="mb-3">
-                        <label class="form-label" for="days">Round Validity Days (2-14)</label>
-                        <input class="form-control" id="days" max="14" min="2" name="days" required="" th:value="7"
-                               type="number" aria-describedby="daysHelp"/>
-                        <div class="form-text" id="daysHelp">
-                            The maximum amount of days this feedback round will be open. Starts from the exact time it
-                            created plus the amount of days you chose here.
-                        </div>
+                <div class="mb-3">
+                    <label class="form-label" for="days">Round Validity Days (2-14)</label>
+                    <input class="form-control" id="days" max="14" min="2" name="days" th:value="7"
+                           type="number" aria-describedby="daysHelp" required/>
+                    <div class="form-text" id="daysHelp">
+                        The maximum amount of days this feedback round will be open. Starts from the exact time it
+                        created plus the amount of days you chose here.
                     </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="focus">Focus <i>(optional)</i></label>
+                    <textarea class="form-control" id="focus" name="focus" type="text" aria-describedby="focusHelp"
+                              rows="5" maxlength="1024"></textarea>
+                    <div class="form-text" id="focusHelp">
+                        Any special question(s) or point(s) you would like to ask?.
+                    </div>
+                </div>
+                <div th:if="${users.size() &gt; 0}">
                     <table class="table table-striped">
                         <thead class="thead-light">
                         <tr>

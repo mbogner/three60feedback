@@ -1,6 +1,5 @@
 package dev.mbo.t60f.domain.round
 
-import dev.mbo.logging.logger
 import dev.mbo.t60f.domain.request.FeedbackRequest
 import dev.mbo.t60f.domain.request.FeedbackRequestRepository
 import dev.mbo.t60f.domain.response.FeedbackResponse
@@ -20,16 +19,15 @@ class FeedbackRoundService(
     private val feedbackRequestRepository: FeedbackRequestRepository,
 ) {
 
-    private val log = logger()
-
     @Transactional
-    fun create(feedbackRequest: FeedbackRequest, receiver: String, invites: List<String>, days: Int) {
+    fun create(feedbackRequest: FeedbackRequest, receiver: String, invites: List<String>, days: Long, focus: String?) {
         val receivingUser = userRepository.findByEmail(receiver)!!
 
         val round = roundRepository.save(
             FeedbackRound(
                 receiver = receivingUser,
-                validity = Instant.now().plus(8, ChronoUnit.DAYS)
+                validity = Instant.now().plus(days, ChronoUnit.DAYS),
+                focus = focus
             ),
         )
         invites.forEach { email ->

@@ -4,4 +4,5 @@ data class FeedbackRoundNewDto(
     val receiver: String,
     val invites: List<String> = emptyList(),
     val days: Int,
+    val focus: String?,
 )

@@ -41,24 +41,23 @@ class FeedbackResponseResponseSender(
             to = giver.feedbackRound.receiver.email,
             subject = "You Received Feedback",
             content = """
-            Hi ${giver.feedbackRound.receiver.email}!
-            
-            somebody handed in a feedback form for you. Here is the content:
-            
-            --------------
-            Positive Feedback:
-            ${giver.positiveFeedback}
-            --------------
-            Improvement Suggestions:
-            ${giver.negativeFeedback}
-            --------------
-            
-            Click this link to report the feedback: $baseUrl/response/${giver.id}/report
-            You can also undo the report by clicking: $baseUrl/response/${giver.id}/unreport
-            
-            Yours,
-            t60f
-            """.trimIndent()
+Hi ${giver.feedbackRound.receiver.email}!
+
+somebody handed in a feedback form for you. Here is the content:
+
+--------------
+Positive Feedback:
+${giver.positiveFeedback}
+--------------
+Improvement Suggestions:
+${giver.negativeFeedback}
+--------------
+
+Click this link to report the feedback: $baseUrl/response/${giver.id}/report
+You can also undo the report by clicking: $baseUrl/response/${giver.id}/unreport
+
+Yours,
+t60f""".trimIndent()
         )
     }
 

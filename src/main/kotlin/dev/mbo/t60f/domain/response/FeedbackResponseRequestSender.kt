@@ -37,25 +37,39 @@ class FeedbackResponseRequestSender(
 
     fun sendRequest(giver: FeedbackResponse) {
         log.info("sending feedback request {}", giver)
+
+        val optionalFocus: String = if (!giver.feedbackRound.focus.isNullOrBlank()) {
+            """
+
+The following focus was added to the request:
+--------------
+${giver.feedbackRound.focus}
+--------------
+
+""".trimIndent()
+        } else {
+            ""
+        }
+
         mailer.send(
             to = giver.email,
             subject = "Feedback Request from ${giver.feedbackRound.receiver.email}",
             content = """
-            Hi ${giver.email}!
-            
-            ${giver.feedbackRound.receiver.email} is requesting your feedback. The system will store your input to avoid
-            abuse. The receiver won't see the sender.
-            
-            Please follow this link to give feedback: ${baseUrl}/response/${giver.id}
-            
-            Be advised that the page behind the link won't display the name of the requestor anymore for privacy reason.
-            You can can only hand in one feedback per request.
-            
-            Thanks in advance!
-            
-            Yours,
-            t60f
-            """.trimIndent()
+Hi ${giver.email}!
+
+${giver.feedbackRound.receiver.email} is requesting your feedback. The system will store your input to avoid
+abuse. The receiver won't see the sender.
+
+Please follow this link to give feedback: ${baseUrl}/response/${giver.id}
+$optionalFocus
+Be advised that the page behind the link won't display the name of the requestor anymore for privacy reason.
+You can can only hand in one feedback per request.
+
+Thanks in advance!
+
+Yours,
+t60f
+""".trimIndent()
         )
     }
 

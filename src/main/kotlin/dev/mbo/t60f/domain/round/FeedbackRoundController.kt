@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import java.util.*
+import java.util.UUID
 
 @Controller
 @RequestMapping("/rounds")
@@ -34,7 +34,7 @@ class FeedbackRoundController(
 
         log.info("create feedback round for {}", dto)
         val request = feedbackRequestService.findById(requestId)
-        service.create(request, dto.receiver, dto.invites, dto.days)
+        service.create(request, dto.receiver, dto.invites, dto.days.toLong(), dto.focus)
         model.addAttribute("companyId", request.company!!.id!!)
         model.addAttribute(
             "message",

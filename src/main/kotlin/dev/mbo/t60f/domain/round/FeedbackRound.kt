@@ -28,7 +28,10 @@ class FeedbackRound(
     @field:OrderBy("email ASC")
     var givers: Set<FeedbackResponse> = mutableSetOf(),
 
-    @Suppress("unused") var validity: Instant
+    @Suppress("unused") var validity: Instant,
+
+    var focus: String?,
+
 ) : AbstractEntity<UUID>() {
 
     override fun getIdentifier(): UUID? {
