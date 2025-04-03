@@ -19,7 +19,7 @@ class AsyncMailSender(
 
     @Async
     fun send(to: String, subject: String, content: String) {
-        log.warn("sending mail $subject to $to:\n$content\n")
+        log.debug("sending mail $subject to $to:\n$content\n")
 
         val mimeMessage = sender.createMimeMessage()
 
