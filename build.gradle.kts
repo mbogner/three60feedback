@@ -23,10 +23,12 @@ dependencies {
     implementation("dev.mbo:spring-kotlin-jpa")
     implementation("dev.mbo:kotlin-logging")
     implementation("dev.mbo:kotlin-encryption:1.3.2") // TODO remove version after next library.bom release
+    implementation("org.passay:passay:1.6.6") // TODO remove version after next bom release
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-mail")

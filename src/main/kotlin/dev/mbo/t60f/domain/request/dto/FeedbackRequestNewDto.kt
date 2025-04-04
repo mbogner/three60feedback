@@ -3,7 +3,7 @@ package dev.mbo.t60f.domain.request.dto
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
-import java.util.*
+import java.util.UUID
 
 data class FeedbackRequestNewDto(
     @NotNull

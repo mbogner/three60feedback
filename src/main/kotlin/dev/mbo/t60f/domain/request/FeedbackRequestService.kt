@@ -8,7 +8,7 @@ import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.UUID
 
 @Service
 class FeedbackRequestService(

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <title>t60f start</title>
@@ -8,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 <div class="container">
     <div class="card shadow-sm p-4">
         <div class="card-body">

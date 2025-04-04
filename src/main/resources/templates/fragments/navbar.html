@@ -1,0 +1,33 @@
+<!-- src/main/resources/templates/fragments/navbar.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4" th:fragment="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/}">
+            <img th:src="@{/img/logo.png}" alt="T60F Logo" width="32" height="32" class="me-2"/>
+            360 Degree Feedback
+        </a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    <a class="nav-link" th:href="@{/admin}">Admin</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">|</li>
+                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+                        Logged in as <span th:text="${#authentication.name}">User</span>
+                    </a>
+                </li>
+                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+                <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

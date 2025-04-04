@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
     <title>t60f users</title>
@@ -8,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
+<div th:replace="fragments/navbar :: navbar"></div>
 <div class="container">
     <h1>Three 60 Companies</h1>
     <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>

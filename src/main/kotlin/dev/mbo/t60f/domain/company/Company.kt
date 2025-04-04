@@ -4,9 +4,19 @@ import dev.mbo.springkotlinjpa.converter.StringSetConverter
 import dev.mbo.t60f.domain.request.FeedbackRequest
 import dev.mbo.t60f.domain.user.User
 import dev.mbo.t60f.global.AbstractEntity
-import jakarta.persistence.*
+import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
+import jakarta.persistence.Convert
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 import jakarta.validation.constraints.NotBlank
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "companies", uniqueConstraints = [UniqueConstraint(name = "companies_uc__name", columnNames = ["name"])])

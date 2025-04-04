@@ -13,4 +13,6 @@ interface UserRepository : JpaRepository<User, UUID> {
 
     fun deleteByCompanyIdAndEmailNotIn(companyId: UUID, emails: Collection<String>)
 
+    fun findByForgotPasswordToken(token: UUID): User?
+
 }

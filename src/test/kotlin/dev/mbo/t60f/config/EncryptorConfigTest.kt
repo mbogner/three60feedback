@@ -5,7 +5,7 @@ import dev.mbo.t60f.AbstractSpringBootTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import java.util.*
+import java.util.UUID
 
 class EncryptorConfigTest @Autowired constructor(
     private val encryptor: Encryptor,

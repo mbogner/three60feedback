@@ -2,10 +2,17 @@ package dev.mbo.t60f.domain.request
 
 import dev.mbo.t60f.domain.company.Company
 import dev.mbo.t60f.global.AbstractEntity
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotNull
-import java.util.*
+import java.util.UUID
 
 @Entity
 @Table(name = "feedback_requests")
