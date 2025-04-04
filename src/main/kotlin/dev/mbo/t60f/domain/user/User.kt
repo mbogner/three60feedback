@@ -42,7 +42,7 @@ class User(
     var forgotPasswordSendAttempts: Int = 0,
 
     @field:Convert(converter = RoleListConverter::class)
-    var roles: MutableList<Role> = mutableListOf()
+    var roles: MutableList<Role> = mutableListOf(Role.USER)
 
 ) : AbstractEntity<UUID>() {
 
