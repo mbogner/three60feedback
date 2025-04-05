@@ -38,9 +38,10 @@ class UserService(
     }
 
     fun findAllByCompanyId(companyId: UUID): List<User> {
-        companyRepository.findByIdOrNull(companyId) ?: throw EntityNotFoundException("No company with id $companyId")
+        val company = companyRepository.findByIdOrNull(companyId)
+            ?: throw EntityNotFoundException("No company with id $companyId")
         return userRepository.findAllByCompanyId(
-            companyId = companyId,
+            companyId = company.id!!,
             pageable = PageRequest.of(0, Int.MAX_VALUE, Sort.by("email").ascending())
         ).content
     }
@@ -57,6 +58,14 @@ class UserService(
             .password(user.passwordHash)
             .roles(*user.roles.map { it.toString() }.toTypedArray())
             .build()
+    }
+
+    @Transactional
+    fun updateUserRoles(userId: UUID, roles: Set<Role>): User {
+        if (roles.isEmpty()) throw IllegalArgumentException("empty roles list not allowed")
+        val user = userRepository.findByIdOrNull(userId) ?: throw EntityNotFoundException("No user with id $userId")
+        user.roles = roles.toMutableList()
+        return userRepository.save(user)
     }
 
 }

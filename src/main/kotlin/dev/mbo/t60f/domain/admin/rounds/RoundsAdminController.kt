@@ -23,16 +23,16 @@ class RoundsAdminController(
         return "admin/rounds"
     }
 
-    @GetMapping("/{roundId}/giver/{giverId}")
+    @GetMapping("/{roundId}/responses/{responseId}")
     fun giver(
         @PathVariable("roundId") roundId: UUID,
-        @PathVariable("giverId") giverId: UUID,
+        @PathVariable("responseId") responseId: UUID,
         model: ModelMap
     ): String {
-        val giver = feedbackResponseRepository.findByIdAndFeedbackRoundId(giverId, roundId)
-            ?: throw EntityNotFoundException("no giver for round $roundId with id $giverId found")
+        val giver = feedbackResponseRepository.findByIdAndFeedbackRoundId(responseId, roundId)
+            ?: throw EntityNotFoundException("no giver for round $roundId with id $responseId found")
         model.addAttribute("giver", giver)
-        return "admin/giver"
+        return "admin/response"
     }
 
 }

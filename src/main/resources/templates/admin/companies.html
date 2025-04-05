@@ -11,8 +11,8 @@
 <div class="container">
     <h1>Three 60 Companies</h1>
     <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-    <div>
-        <a href="/admin">Admin</a>
+    <div class="mb-3">
+        <a th:href="@{/admin}">← Back to Admin</a>
     </div>
     <div th:if="${companies.size() &gt; 0}">
         <table class="table table-striped">
@@ -48,6 +48,10 @@
                         <a class="btn btn-info rounded"
                            th:href="@{/admin/sync(companyId=${company.id})}">
                             User Sync
+                        </a>
+                        <a class="btn btn-info rounded"
+                           th:href="@{/admin/company/{companyId}/users(companyId=${company.id})}">
+                            Users
                         </a>
                     </div>
                 </td>

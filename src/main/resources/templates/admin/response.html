@@ -13,8 +13,8 @@
         <div class="card-body">
             <h1>Three 60 Feedback Giver</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div>
-                <a href="/admin">Admin</a>
+            <div class="mb-3">
+                <a th:href="@{/admin/rounds}">← Back to Rounds</a>
             </div>
             <br/>
             <h2>Details</h2>

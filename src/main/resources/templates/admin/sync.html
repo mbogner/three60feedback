@@ -14,7 +14,7 @@
             <h1>Three 60 Users</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
             <div>
-                <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a> | <a href="/admin">Admin</a>
+                <a href="/admin/companies">← Back to Companies</a>
             </div>
             <div th:if="${users.size() &gt; 0}">
                 <table class="table table-striped">

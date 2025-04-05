@@ -13,8 +13,8 @@
         <div class="card-body">
             <h1>Three 60 Rounds</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div>
-                <a href="/admin">Admin</a>
+            <div class="mb-3">
+                <a th:href="@{/admin}">← Back to Admin</a>
             </div>
             <div th:if="${rounds.size() &gt; 0}">
                 <table class="table table-striped">
@@ -36,7 +36,7 @@
                                 <li th:each="giver:${round.givers}">
                                     <span th:if="${giver.notifiedAt != null}" th:remove="tag">
                                         <span class="handed-in">✅</span>
-                                        <a th:href="@{/admin/rounds/{roundId}/giver/{giverId}(roundId=${round.id},giverId=${giver.id})}"
+                                        <a th:href="@{/admin/rounds/{roundId}/responses/{responseId}(roundId=${round.id},responseId=${giver.id})}"
                                            th:text="${giver.email}">
                                         </a>
                                     </span>
