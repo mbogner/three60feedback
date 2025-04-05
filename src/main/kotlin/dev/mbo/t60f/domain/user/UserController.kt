@@ -1,6 +1,9 @@
 package dev.mbo.t60f.domain.user
 
+import dev.mbo.logging.logger
+import dev.mbo.t60f.domain.request.FeedbackRequest
 import dev.mbo.t60f.domain.request.FeedbackRequestService
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,18 +19,30 @@ class UserController(
     private val feedbackRequestService: FeedbackRequestService,
 ) {
 
+    private val log = logger()
+
     @GetMapping(path = ["", "/"])
     fun getUsers(
         @RequestParam(required = true) requestId: UUID,
-        model: Model
+        model: Model,
+        authentication: Authentication?,
     ): String {
-        val request = feedbackRequestService.findById(requestId)
+        val request: FeedbackRequest = feedbackRequestService.findById(requestId)
         model.addAttribute(
             "requestId", requestId
         )
-        model.addAttribute(
-            "users", listOf(userService.findByEmail(request.email!!))
-        )
+
+        val isCoach = authentication?.authorities?.any { it.authority == "ROLE_COACH" } == true
+        log.debug("isCoach: {}", isCoach)
+        if (isCoach) {
+            model.addAttribute(
+                "users", userService.findAllByCompanyId(request.company!!.id!!)
+            )
+        } else {
+            model.addAttribute(
+                "users", listOf(userService.findByEmailAndCompanyId(request.email!!, request.company!!.id!!))
+            )
+        }
         return "users"
     }
 

@@ -15,6 +15,16 @@
             <form th:action="@{/rounds/create}" th:method="post">
                 <input id="requestId" name="requestId" th:value="${requestId}" type="hidden"/>
                 <input id="receiver" name="receiver" th:value="${user.email}" type="hidden"/>
+                <div class="mb-3" th:if="${#authorization.expression('hasRole(''COACH'')')}">
+                    <label class="form-label" for="proxy">Proxy Receiver</label>
+                    <select class="form-select" id="proxy" name="proxy" aria-describedby="proxyHelp">
+                        <option value="">No Proxy</option>
+                        <option th:value="${#authentication.name}" th:text="${#authentication.name}"></option>
+                    </select>
+                    <div class="form-text" id="proxyHelp">
+                        The person who should receive the feedback instead. Leave empty to gather feedback for yourself.
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label class="form-label" for="days">Round Validity Days (2-14)</label>
                     <input class="form-control" id="days" max="14" min="2" name="days" th:value="7"

@@ -35,26 +35,31 @@ class FeedbackResponseResponseSender(
         }
     }
 
-    fun sendResponse(giver: FeedbackResponse) {
-        log.info("sending feedback response {}", giver)
-        mailer.send(
-            to = giver.feedbackRound.receiver.email,
-            subject = "You Received Feedback",
-            content = """
-Hi ${giver.feedbackRound.receiver.email}!
+    fun sendResponse(response: FeedbackResponse) {
+        log.info("sending feedback response {}", response)
 
-somebody handed in a feedback form for you. Here is the content:
+        val proxy = response.feedbackRound.proxyReceiver
+        val feedbackReceiver = response.feedbackRound.receiver.email
+        val mailReceiver = proxy?.email ?: feedbackReceiver
+
+        mailer.send(
+            to = mailReceiver,
+            subject = "Feedback for $feedbackReceiver",
+            content = """
+Hi $mailReceiver!
+
+somebody handed in a feedback form for $feedbackReceiver. Here is the content:
 
 --------------
 Positive Feedback:
-${giver.positiveFeedback}
+${response.positiveFeedback}
 --------------
 Improvement Suggestions:
-${giver.negativeFeedback}
+${response.negativeFeedback}
 --------------
 
-Click this link to report the feedback: $baseUrl/response/${giver.id}/report
-You can also undo the report by clicking: $baseUrl/response/${giver.id}/unreport
+Click this link to report the feedback: $baseUrl/response/${response.id}/report
+You can also undo the report by clicking: $baseUrl/response/${response.id}/unreport
 
 Yours,
 t60f""".trimIndent()

@@ -16,11 +16,13 @@
                 Hi <span th:remove="tag" th:text="${giver.email}"></span>!
             </p>
             <ul>
-                <li>You received an anonymous feedback request by the person mentioned in the mail you received.</li>
+                <li>You received an anonymous feedback request for the person mentioned in the mail you received.</li>
                 <li>The name of that person is not shown on this page for privacy reason.</li>
-                <li>The person won't know who wrote the feedback if you leave no hints to yourself.</li>
+                <li>Nobody will know who wrote the feedback if you leave no hints to yourself.</li>
                 <li>This system will store everything for a certain time to avoid abuse.</li>
-                <li>Only the person requesting feedback will be able to read it.</li>
+                <li>Only the person starting the feedback round will be able to read it. This can be the person itself
+                    or a coach.
+                </li>
                 <li>You can only submit this form once per request.</li>
                 <li>The requested focus isn't displayed here for privacy reason. Please check the mail for it.</li>
             </ul>

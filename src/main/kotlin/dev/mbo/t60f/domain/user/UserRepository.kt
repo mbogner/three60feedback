@@ -15,4 +15,6 @@ interface UserRepository : JpaRepository<User, UUID> {
 
     fun findByForgotPasswordToken(token: UUID): User?
 
+    fun findByEmailAndCompanyId(email: String, companyId: UUID): User?
+
 }

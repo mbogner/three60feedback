@@ -32,8 +32,9 @@ class UserService(
         .roles(Role.ADMIN.toString())
         .build()
 
-    fun findByEmail(email: String): User {
-        return userRepository.findByEmail(email) ?: throw EntityNotFoundException("No user with email $email")
+    fun findByEmailAndCompanyId(email: String, companyId: UUID): User {
+        return userRepository.findByEmailAndCompanyId(email, companyId)
+            ?: throw EntityNotFoundException("No user with email $email and companyId $companyId")
     }
 
     fun findAllByCompanyId(companyId: UUID): List<User> {

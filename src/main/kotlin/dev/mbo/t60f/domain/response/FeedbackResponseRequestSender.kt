@@ -35,15 +35,15 @@ class FeedbackResponseRequestSender(
         }
     }
 
-    fun sendRequest(giver: FeedbackResponse) {
-        log.info("sending feedback request {}", giver)
+    fun sendRequest(response: FeedbackResponse) {
+        log.info("sending feedback request {}", response)
 
-        val optionalFocus: String = if (!giver.feedbackRound.focus.isNullOrBlank()) {
+        val optionalFocus: String = if (!response.feedbackRound.focus.isNullOrBlank()) {
             """
 
 The following focus was added to the request:
 --------------
-${giver.feedbackRound.focus}
+${response.feedbackRound.focus}
 --------------
 
 """.trimIndent()
@@ -52,17 +52,17 @@ ${giver.feedbackRound.focus}
         }
 
         mailer.send(
-            to = giver.email,
-            subject = "Feedback Request from ${giver.feedbackRound.receiver.email}",
+            to = response.email,
+            subject = "Feedback Request for ${response.feedbackRound.receiver.email}",
             content = """
-Hi ${giver.email}!
+Hi ${response.email}!
 
-${giver.feedbackRound.receiver.email} is requesting your feedback. The system will store your input to avoid
-abuse. The receiver won't see the sender.
+feedback for ${response.feedbackRound.receiver.email} has been requested from you. The system will store your input to
+avoid abuse. No receiver will see the sender.
 
-Please follow this link to give feedback: ${baseUrl}/response/${giver.id}
+Please follow this link to give feedback: ${baseUrl}/response/${response.id}
 $optionalFocus
-Be advised that the page behind the link won't display the name of the requestor anymore for privacy reason.
+Be advised that the page behind the link won't display any more details for privacy reason.
 You can can only hand in one feedback per request.
 
 Thanks in advance!

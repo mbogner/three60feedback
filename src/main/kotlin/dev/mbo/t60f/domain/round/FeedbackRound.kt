@@ -29,6 +29,10 @@ class FeedbackRound(
     @field:JoinColumn(name = "receiver_id", nullable = false)
     var receiver: User,
 
+    @field:ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @field:JoinColumn(name = "proxy_receiver_id", nullable = true)
+    var proxyReceiver: User? = null,
+
     @field:OneToMany(
         mappedBy = "feedbackRound",
         fetch = FetchType.LAZY,
@@ -40,9 +44,9 @@ class FeedbackRound(
 
     @Suppress("unused") var validity: Instant,
 
-    var focus: String?,
+    var focus: String?
 
-    ) : AbstractEntity<UUID>() {
+) : AbstractEntity<UUID>() {
 
     override fun getIdentifier(): UUID? {
         return id
