@@ -27,28 +27,29 @@
             <tbody>
             <tr th:each="company:${companies}">
                 <td>
-                    <div class="d-flex gap-2 align-items-center flex-wrap"><a
-                            th:href="@{/?companyId={companyId}(companyId=${company.id})}" th:text="${company.name}"></a>
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <a th:href="@{/(companyId=${company.id})}" th:text="${company.name}"></a>
                     </div>
                 </td>
                 <td th:text="${company.domains}"></td>
                 <td>
-                    <div class="d-flex gap-2 align-items-center flex-wrap"><a target="_blank"
-                                                                              th:href="${company.miteBaseUrl}"
-                                                                              th:text="${company.miteBaseUrl}"></a>
+                    <div class="d-flex gap-2 align-items-center flex-wrap">
+                        <a target="_blank" th:href="${company.miteBaseUrl}"
+                           th:text="${company.miteBaseUrl}"></a>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex gap-2 align-items-center flex-wrap">
                         <form th:action="@{/admin/companies/{id}/delete(id=${company.id})}" th:method="post">
-                            <button class="btn btn-danger rounded" onclick="return confirmDelete()" type="submit">Delete
+                            <button class="btn btn-danger rounded" onclick="return confirmDelete()" type="submit">
+                                Delete
                             </button>
                         </form>
-                        <a th:href="@{/admin/sync?companyId={companyId}(companyId=${company.id})}">
-                            <button class="btn btn-info rounded">Sync</button>
-                        </a></div>
-
-
+                        <a class="btn btn-info rounded"
+                           th:href="@{/admin/sync(companyId=${company.id})}">
+                            User Sync
+                        </a>
+                    </div>
                 </td>
             </tr>
             </tbody>

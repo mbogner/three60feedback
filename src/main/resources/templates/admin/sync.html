@@ -35,8 +35,13 @@
             </div>
             <form th:action="@{/admin/sync}" th:method="post">
                 <input id="companyId" name="companyId" th:value="${companyId}" type="hidden"/>
-                <button class="btn btn-danger rounded" onclick="return confirmSync()" type="submit">Sync Feedbackers
+                <button class="btn btn-danger rounded" onclick="return confirmSync()" type="submit"
+                        aria-describedby="submitHelp">
+                    Sync Users
                 </button>
+                <div class="form-text" id="submitHelp">
+                    This will sync all users of the selected company and remove non existent users.
+                </div>
             </form>
             <br/>
         </div>
