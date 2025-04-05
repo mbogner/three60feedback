@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container">
     <h1>Three 60 Companies</h1>
     <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
