@@ -150,10 +150,11 @@ jacoco {
 }
 
 fun getCommitHash(project: Project): String {
-    return try {
+    return System.getenv("CI_COMMIT_SHA") ?: try {
         val stdout = ByteArrayOutputStream()
         val execOps: ExecOperations = project.serviceOf()
         execOps.exec {
+            workingDir = project.rootDir
             commandLine("git", "rev-parse", "HEAD")
             standardOutput = stdout
             errorOutput = ByteArrayOutputStream()
