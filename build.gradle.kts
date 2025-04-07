@@ -16,6 +16,7 @@ group = "dev.mbo"
 repositories {
     mavenLocal()
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
@@ -23,6 +24,8 @@ dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     implementation(platform(libs.bom))
     implementation(platform(libs.library.bom))
+    implementation(platform(libs.spring.ai.bom))
+
     implementation("dev.mbo:spring-kotlin-web")
     implementation("dev.mbo:spring-kotlin-jpa")
     implementation("dev.mbo:kotlin-logging")
@@ -37,6 +40,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.flywaydb:flyway-core")

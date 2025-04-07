@@ -38,6 +38,8 @@ class FeedbackResponseRequestSender(
     fun sendRequest(response: FeedbackResponse) {
         log.info("sending feedback request {}", response)
 
+        val proxyMail = response.feedbackRound.proxyReceiver?.email
+        val byStr = if(null == proxyMail) "" else " by $proxyMail"
         val optionalFocus: String = if (!response.feedbackRound.focus.isNullOrBlank()) {
             """
 
@@ -57,8 +59,8 @@ ${response.feedbackRound.focus}
             content = """
 Hi ${response.email}!
 
-feedback for ${response.feedbackRound.receiver.email} has been requested from you. The system will store your input to
-avoid abuse. No receiver will see the sender.
+feedback for ${response.feedbackRound.receiver.email} has been requested from you$byStr.
+The system will store your input to avoid abuse. No receiver will see the sender.
 
 Please follow this link to give feedback: ${baseUrl}/response/${response.id}
 $optionalFocus

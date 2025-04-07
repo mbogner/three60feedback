@@ -34,6 +34,9 @@ dependencyResolutionManagement {
 
             val libraryBomVersion: String by System.getProperties()
             library("library-bom", "dev.mbo", "library-bom").version(libraryBomVersion)
+
+            val springAiVersion: String by System.getProperties()
+            library("spring-ai-bom", "org.springframework.ai", "spring-ai-bom").version(springAiVersion)
         }
     }
 }
