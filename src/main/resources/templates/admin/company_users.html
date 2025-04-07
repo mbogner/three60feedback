@@ -95,6 +95,7 @@
         No users found.
     </div>
 </div>
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

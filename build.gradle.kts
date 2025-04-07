@@ -1,3 +1,7 @@
+import org.gradle.kotlin.dsl.support.serviceOf
+import java.io.ByteArrayOutputStream
+import java.util.Properties
+
 plugins {
     id("org.springframework.boot")
     kotlin("jvm")
@@ -100,6 +104,24 @@ tasks {
         }
     }
 
+    val createProperties by registering {
+        group = "documentation"
+        doLast {
+            val propertiesFile = layout.buildDirectory.file("resources/main/git.properties").get().asFile
+            propertiesFile.parentFile.mkdirs()
+
+            val properties = Properties()
+            properties.setProperty("commitFull", getCommitHash(project))
+
+            propertiesFile.writer().use { writer ->
+                properties.store(writer, null)
+            }
+        }
+    }
+
+    named("processResources") {
+        dependsOn(createProperties)
+    }
 }
 
 sonarqube {
@@ -115,4 +137,20 @@ sonarqube {
 jacoco {
     val jacocoToolVersion: String by System.getProperties()
     toolVersion = jacocoToolVersion
+}
+
+fun getCommitHash(project: Project): String {
+    return try {
+        val stdout = ByteArrayOutputStream()
+        val execOps: ExecOperations = project.serviceOf()
+        execOps.exec {
+            commandLine("git", "rev-parse", "HEAD")
+            standardOutput = stdout
+            errorOutput = ByteArrayOutputStream()
+            isIgnoreExitValue = true
+        }
+        stdout.toString().trim().takeIf { it.isNotBlank() } ?: "Unknown"
+    } catch (_: Exception) {
+        "Unknown"
+    }
 }

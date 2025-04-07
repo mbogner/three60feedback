@@ -13,12 +13,13 @@
         <div class="card-body">
             <h1>Three 60 Feedback Submission</h1>
             <div>
-                <a th:href="@{/?companyId={companyId}(companyId=${companyId})}">Home</a>
+                <a th:href="@{/(companyId=${companyId})}">Home</a>
             </div>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
         </div>
     </div>
 </div>
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>
