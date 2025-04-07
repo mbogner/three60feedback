@@ -1,24 +1,33 @@
 package dev.mbo.t60f.global.git
 
+import dev.mbo.logging.logger
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.io.ResourceLoader
 import java.util.Properties
 
 @Configuration
 class GitInfoConfig {
 
+    companion object {
+        private const val FILE = "git.properties"
+    }
+
+    private val log = logger()
+
     @Bean
-    fun gitInfo(): GitInfo {
+    fun gitInfo(resourceLoader: ResourceLoader): GitInfo {
         val props = Properties()
-
-        val resource = this::class.java.classLoader.getResourceAsStream("git.properties")
-            ?: return GitInfo(commitFull = "Unknown")
-
-        resource.use {
-            props.load(it)
+        return try {
+            val resource = resourceLoader.getResource("classpath:$FILE")
+            resource.inputStream.use {
+                props.load(it)
+            }
+            val commitFull = props.getProperty("commitFull") ?: "Unknown"
+            GitInfo(commitFull)
+        } catch (e: Exception) {
+            log.error("could not load $FILE from classpath", e)
+            GitInfo(commitFull = "Unknown")
         }
-
-        val commitFull = props.getProperty("commitFull") ?: "Unknown"
-        return GitInfo(commitFull = commitFull)
     }
 }

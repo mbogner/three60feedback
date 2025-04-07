@@ -18,10 +18,12 @@ management:
       cors:
         allowed-origins: "*"
         allowed-methods: GET
-
 spring:
   application:
     name: t60f
+  ai:
+    openai:
+      api-key: TODO
   datasource:
     driver-class-name: org.postgresql.Driver
     type: com.zaxxer.hikari.HikariDataSource
