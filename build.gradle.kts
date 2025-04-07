@@ -104,23 +104,28 @@ tasks {
         }
     }
 
-    val createProperties by registering {
-        group = "documentation"
+    val createGitProperties by registering {
+        group = "build"
+        val outputDir = layout.buildDirectory.dir("generated/resources/git").get().asFile
+        val outputFile = outputDir.resolve("git.properties")
+
+        outputs.file(outputFile)
+
         doLast {
-            val propertiesFile = layout.buildDirectory.file("resources/main/git.properties").get().asFile
-            propertiesFile.parentFile.mkdirs()
-
-            val properties = Properties()
-            properties.setProperty("commitFull", getCommitHash(project))
-
-            propertiesFile.writer().use { writer ->
-                properties.store(writer, null)
+            outputDir.mkdirs()
+            val props = Properties()
+            props.setProperty("commitFull", getCommitHash(project))
+            outputFile.writer().use { writer ->
+                props.store(writer, null)
             }
         }
     }
 
-    named("processResources") {
-        dependsOn(createProperties)
+    named<ProcessResources>("processResources") {
+        dependsOn(createGitProperties)
+        from(layout.buildDirectory.dir("generated/resources/git")) {
+            into("") // root of classpath
+        }
     }
 }
 
