@@ -45,9 +45,7 @@ If there hasn't been any feedback in responses or you have too little informatio
 
     private val log = logger()
 
-    fun createSummary(roundId: UUID): String? {
-        val round = feedbackRoundRepository.findByIdWithResponses(roundId)
-            ?: throw IllegalArgumentException("No round with id $roundId")
+    fun createSummary(round: FeedbackRound): String? {
         val responses = round.givers
             .filter { it.positiveFeedback != null && it.negativeFeedback != null }
             .map { Response(from = it.email, positive = it.positiveFeedback!!, constructive = it.negativeFeedback!!) }
@@ -61,5 +59,11 @@ If there hasn't been any feedback in responses or you have too little informatio
         val json = mapper.writeValueAsString(tmpRound)
         val enrichedPrompt = PROMPT + json
         return chatClient.prompt(enrichedPrompt).call().content()
+    }
+
+    fun createSummary(roundId: UUID): String? {
+        val round = feedbackRoundRepository.findByIdWithResponses(roundId)
+            ?: throw IllegalArgumentException("No round with id $roundId")
+        return createSummary(round)
     }
 }

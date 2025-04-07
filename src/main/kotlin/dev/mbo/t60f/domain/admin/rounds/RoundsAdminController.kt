@@ -22,7 +22,7 @@ class RoundsAdminController(
 
     @GetMapping
     fun rounds(model: ModelMap): String {
-        model.addAttribute("rounds", feedbackRoundRepository.findAllWithGivers())
+        model.addAttribute("rounds", feedbackRoundRepository.findAllWithResponses())
         return "admin/rounds"
     }
 

@@ -48,6 +48,10 @@ class FeedbackRound(
 
 ) : AbstractEntity<UUID>() {
 
+    fun feedbackReceiver(): User {
+        return if (null == proxyReceiver) receiver else proxyReceiver!!
+    }
+
     override fun getIdentifier(): UUID? {
         return id
     }
