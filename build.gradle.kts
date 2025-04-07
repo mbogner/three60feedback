@@ -150,7 +150,7 @@ jacoco {
 }
 
 fun getCommitHash(project: Project): String {
-    return System.getenv("CI_COMMIT_SHA") ?: try {
+    return System.getenv("CI_COMMIT_TAG") ?: try {
         val stdout = ByteArrayOutputStream()
         val execOps: ExecOperations = project.serviceOf()
         execOps.exec {
