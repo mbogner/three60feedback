@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
-import java.time.temporal.ChronoUnit
 import java.util.concurrent.TimeUnit
 
 @Component
@@ -17,13 +16,6 @@ class FeedbackRoundTask(
 ) {
 
     private val log = logger()
-
-    @Transactional
-    @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
-    fun cleanup() {
-        log.info("cleanup rounds")
-        roundRepository.deleteByValidityIsBefore(Instant.now().plus(7, ChronoUnit.DAYS))
-    }
 
     @Transactional
     @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
