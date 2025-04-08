@@ -43,25 +43,35 @@ If there hasn't been any feedback in responses or you have too little informatio
         val constructive: String,
     )
 
+    data class Summary(
+        val text: String? = "no feedback to summarise",
+        val requested: Int,
+        val responded: Int = 0,
+    )
+
     private val log = logger()
 
-    fun createSummary(round: FeedbackRound): String? {
+    fun createSummary(round: FeedbackRound): Summary {
         val responses = round.givers
-            .filter { it.positiveFeedback != null && it.negativeFeedback != null }
+        val received = responses.filter { it.positiveFeedback != null && it.negativeFeedback != null }
             .map { Response(from = it.email, positive = it.positiveFeedback!!, constructive = it.negativeFeedback!!) }
-        if (responses.isEmpty()) {
-            return "no feedback to summarise"
+        if (received.isEmpty()) {
+            return Summary(requested = responses.size)
         }
         val tmpRound = Round(
             receiver = round.receiver.email,
-            responses = responses,
+            responses = received,
         )
         val json = mapper.writeValueAsString(tmpRound)
         val enrichedPrompt = PROMPT + json
-        return chatClient.prompt(enrichedPrompt).call().content()
+        return Summary(
+            text = chatClient.prompt(enrichedPrompt).call().content(),
+            requested = responses.size,
+            responded = received.size
+        )
     }
 
-    fun createSummary(roundId: UUID): String? {
+    fun createSummary(roundId: UUID): Summary {
         val round = feedbackRoundRepository.findByIdWithResponses(roundId)
             ?: throw IllegalArgumentException("No round with id $roundId")
         return createSummary(round)

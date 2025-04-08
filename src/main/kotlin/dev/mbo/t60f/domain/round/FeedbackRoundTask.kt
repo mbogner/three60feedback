@@ -47,7 +47,10 @@ Hi $mailReceiver!
 feedback round for $feedbackReceiver$byStr has ended.
 See below the summarised feedback:
 
-$summary
+${summary.text}
+
+#Requested: ${summary.requested}
+#Responded: ${summary.responded}
 
 Yours,
 t60f

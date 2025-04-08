@@ -18,7 +18,11 @@
             <div class="mb-3">
                 Receiver: <span th:text="${round.receiver.email}"></span>
             </div>
-            <p th:utext="${summary}"></p>
+            <h2>Meta</h2>
+            <p>Requested: <span th:utext="${summary.requested}"></span></p>
+            <p>Responded: <span th:utext="${summary.responded}"></span></p>
+            <h2>Summary</h2>
+            <p th:utext="${summary.text}"></p>
         </div>
     </div>
 </div>
