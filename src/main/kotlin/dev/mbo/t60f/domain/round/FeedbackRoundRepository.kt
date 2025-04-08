@@ -1,7 +1,6 @@
 package dev.mbo.t60f.domain.round
 
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.time.Instant
@@ -9,10 +8,7 @@ import java.util.UUID
 
 interface FeedbackRoundRepository : JpaRepository<FeedbackRound, UUID> {
 
-    fun findByValidityIsBefore(ts: Instant): List<FeedbackRound>
-
-    @Modifying
-    fun deleteByValidityIsBefore(ts: Instant)
+    fun findByValidityIsBeforeAndSummaryMailedIsFalse(ts: Instant): List<FeedbackRound>
 
     @Query(
         """

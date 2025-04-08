@@ -4,6 +4,7 @@ import dev.mbo.t60f.domain.response.FeedbackResponse
 import dev.mbo.t60f.domain.user.User
 import dev.mbo.t60f.global.AbstractEntity
 import jakarta.persistence.CascadeType
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
 import jakarta.persistence.GeneratedValue
@@ -42,9 +43,13 @@ class FeedbackRound(
     @field:OrderBy("email ASC")
     var givers: Set<FeedbackResponse> = mutableSetOf(),
 
-    @Suppress("unused") var validity: Instant,
+    var validity: Instant,
 
-    var focus: String?
+    var focus: String?,
+
+    @field:Column(columnDefinition = "text")
+    var summary: String? = null,
+    var summaryMailed: Boolean = false
 
 ) : AbstractEntity<UUID>() {
 

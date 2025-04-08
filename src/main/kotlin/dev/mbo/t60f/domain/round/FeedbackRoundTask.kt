@@ -21,8 +21,8 @@ class FeedbackRoundTask(
     @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
     fun mail() {
         log.info("mail rounds")
-        roundRepository.findByValidityIsBefore(Instant.now()).forEach { round ->
-            log.info("cleanup: delete round {}", round)
+        roundRepository.findByValidityIsBeforeAndSummaryMailedIsFalse(Instant.now()).forEach { round: FeedbackRound ->
+            log.info("mail round: {}", round)
             val summary = summaryService.createSummary(round)
 
             val proxy = round.proxyReceiver
@@ -48,6 +48,10 @@ Yours,
 t60f
 """.trimIndent()
             )
+
+            round.summary = summary.text
+            round.summaryMailed = true
+            roundRepository.save(round)
         }
     }
 
