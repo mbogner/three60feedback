@@ -22,15 +22,8 @@ class UserService(
 
     @Value("\${app.auth.admin.username:admin}") private val adminUser: String,
     @Value("\${app.auth.admin.password:admin}") private val adminPass: String,
-    passwordEncoder: PasswordEncoder,
+    private val passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
-
-    private val adminPassEncoded = passwordEncoder.encode(adminPass)
-    private val adminUserLogin = org.springframework.security.core.userdetails.User.builder()
-        .username(adminUser)
-        .password(adminPassEncoded)
-        .roles(Role.ADMIN.toString())
-        .build()
 
     fun findByEmailAndCompanyId(email: String, companyId: UUID): User {
         return userRepository.findByEmailAndCompanyId(email, companyId)
@@ -51,7 +44,11 @@ class UserService(
     }
 
     override fun loadUserByUsername(username: String): UserDetails {
-        if (username == adminUser) return adminUserLogin
+        if (username == adminUser) return org.springframework.security.core.userdetails.User.builder()
+            .username(adminUser)
+            .password(passwordEncoder.encode(adminPass))
+            .roles(Role.ADMIN.toString())
+            .build()
         val user = userRepository.findByEmail(username) ?: throw UsernameNotFoundException("User not found: $username")
         return org.springframework.security.core.userdetails.User.builder()
             .username(username)

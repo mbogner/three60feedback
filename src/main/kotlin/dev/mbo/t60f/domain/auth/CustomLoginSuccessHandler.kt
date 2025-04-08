@@ -3,6 +3,7 @@ package dev.mbo.t60f.domain.auth
 import dev.mbo.logging.logger
 import dev.mbo.springkotlinweb.CookieManager
 import dev.mbo.t60f.domain.user.UserRepository
+import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.core.Authentication
@@ -30,9 +31,24 @@ class CustomLoginSuccessHandler(
             val companyId = retrieveCompanyIdOfUsername(username)
             log.debug("companyId of {} is {}", username, companyId)
             CookieManager.update(companyId, response, "companyId", CookieManager.uuidSerializer)
+        } else {
+            clearCookie(request, response)
         }
 
         super.onAuthenticationSuccess(request, response, authentication)
+    }
+
+    // TODO remove when update CookieManager library
+    private fun clearCookie(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+    ) {
+        val cookie = Cookie("companyId", null)
+        cookie.path = "/"
+        cookie.isHttpOnly = true
+        cookie.secure = request.isSecure
+        cookie.maxAge = 0
+        response.addCookie(cookie)
     }
 
     private fun retrieveCompanyIdOfUsername(username: String): UUID? {
