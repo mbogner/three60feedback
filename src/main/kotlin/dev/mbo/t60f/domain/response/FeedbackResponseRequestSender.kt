@@ -67,6 +67,8 @@ $optionalFocus
 Be advised that the page behind the link won't display any more details for privacy reason.
 You can can only hand in one feedback per request.
 
+The link to hand in your feedback will be valid until ${response.feedbackRound.validity}.
+
 Thanks in advance!
 
 Yours,
