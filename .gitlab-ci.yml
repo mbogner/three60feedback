@@ -19,17 +19,37 @@ build:
       # explicitly disable tls to avoid docker startup interruption
       command: [ '--tls=false' ]
 
+gen-sbom:
+  stage: Build
+  image: mbopm/openjdk-alpine-jdk:jdk21
+  tags:
+    - docker
+  services:
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: [ '--tls=false' ]
+  artifacts:
+    paths:
+      - build/reports/bom.json
+  script:
+    - ./gradlew clean cyclonedxBom
+    - docker run -it -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
+
 scan:
   stage: Build
   image: docker:latest
   tags:
     - docker
   services:
-    - docker:dind
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: [ '--tls=false' ]
+  needs:
+    - job: gen-sbom
+      artifacts: true
   script:
     - ./gradlew clean cyclonedxBom
     - docker run -it -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
-  allow_failure: true
 
 publish:
   stage: Publish
@@ -40,7 +60,9 @@ publish:
   tags:
     - docker
   services:
-    - docker:dind
+    - name: docker:dind
+      # explicitly disable tls to avoid docker startup interruption
+      command: [ '--tls=false' ]
   variables:
     APP: t60f
   script:
