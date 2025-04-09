@@ -9,7 +9,7 @@ plugins {
     kotlin("plugin.jpa")
     id("org.sonarqube")
     id("jacoco")
-    id("org.cyclonedx.bom") version "2.2.0"
+    id("org.cyclonedx.bom")
 }
 
 group = "dev.mbo"
