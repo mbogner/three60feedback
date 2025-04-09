@@ -47,7 +47,7 @@ scan:
     - job: gen-sbom
       artifacts: true
   script:
-    - docker run -it -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
+    - docker run -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
 
 publish:
   stage: Publish
