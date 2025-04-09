@@ -134,6 +134,7 @@ tasks {
             into("") // root of classpath
         }
     }
+
     cyclonedxBom {
         setOutputName("bom")
         setOutputFormat("json")
