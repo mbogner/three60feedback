@@ -14,6 +14,7 @@ pluginManagement {
         val openapiGeneratorVersion: String by System.getProperties()
         val openapiMergerVersion: String by System.getProperties()
         val sonarVersion: String by System.getProperties()
+        val cyclonedxVersion: String by System.getProperties()
 
         id("org.springframework.boot") version springBootVersion
         kotlin("jvm") version kotlinVersion
@@ -23,6 +24,7 @@ pluginManagement {
         id("org.openapi.generator") version openapiGeneratorVersion
         id("com.rameshkp.openapi-merger-gradle-plugin") version openapiMergerVersion
         id("org.sonarqube") version sonarVersion
+        id("org.cyclonedx.bom") version cyclonedxVersion
     }
 }
 

@@ -19,6 +19,18 @@ build:
       # explicitly disable tls to avoid docker startup interruption
       command: [ '--tls=false' ]
 
+scan:
+  stage: Build
+  image: docker:latest
+  tags:
+    - docker
+  services:
+    - docker:dind
+  script:
+    - ./gradlew clean cyclonedxBom
+    - docker run -it -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
+  allow_failure: true
+
 publish:
   stage: Publish
   image: docker:latest

@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.jpa")
     id("org.sonarqube")
     id("jacoco")
+    id("org.cyclonedx.bom") version "2.2.0"
 }
 
 group = "dev.mbo"
@@ -48,6 +49,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.apache.httpcomponents.client5:httpclient5")
     implementation("io.netty:netty-resolver-dns-native-macos:$nettyResolverDnsNativeMacos:osx-aarch_64")
+    implementation("org.apache.commons:commons-compress:1.27.1") // TODO remove version after next bom release
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
@@ -132,6 +134,11 @@ tasks {
             into("") // root of classpath
         }
     }
+    cyclonedxBom {
+        setOutputName("bom")
+        setOutputFormat("json")
+    }
+
 }
 
 sonarqube {
