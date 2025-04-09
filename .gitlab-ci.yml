@@ -33,7 +33,6 @@ gen-sbom:
       - build/reports/bom.json
   script:
     - ./gradlew clean cyclonedxBom
-    - docker run -it -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
 
 scan:
   stage: Build
@@ -48,7 +47,6 @@ scan:
     - job: gen-sbom
       artifacts: true
   script:
-    - ./gradlew clean cyclonedxBom
     - docker run -it -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
 
 publish:
