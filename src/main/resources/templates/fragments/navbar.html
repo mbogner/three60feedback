@@ -9,10 +9,16 @@
         </a>
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav align-items-center">
+                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                    <a class="nav-link" th:href="@{/my/rounds}">My Rounds</a>
+                </li>
+                <li th:if="${#authorization.expression('isAuthenticated()')}">|</li>
+
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                     <a class="nav-link" th:href="@{/admin}">Admin</a>
                 </li>
                 <li th:if="${#authorization.expression('hasRole(''ADMIN'')')}">|</li>
+
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
                         Logged in as <span th:text="${#authentication.name}">User</span>

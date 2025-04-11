@@ -4,6 +4,7 @@ import dev.mbo.t60f.domain.response.FeedbackResponseRepository
 import dev.mbo.t60f.domain.round.FeedbackRoundRepository
 import dev.mbo.t60f.domain.round.FeedbackRoundSummaryService
 import jakarta.persistence.EntityNotFoundException
+import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
@@ -38,6 +39,7 @@ class RoundsAdminController(
         return "admin/response"
     }
 
+    @Transactional
     @GetMapping("/{roundId}/summary")
     fun summary(
         @PathVariable("roundId") roundId: UUID,
@@ -47,7 +49,7 @@ class RoundsAdminController(
         val summary = summaryService.createSummary(roundId)
         model.addAttribute("round", round)
         model.addAttribute("summary", summary)
-        return "admin/round_feedback_summary"
+        return "admin/feedback_summary"
     }
 
 }

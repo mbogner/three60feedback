@@ -64,6 +64,7 @@ class SecurityConfig(
                     .requestMatchers("/login").permitAll() // allow auth related
                     .requestMatchers("/css/**", "/js/**", "/img/**").permitAll() // allow assets
                     .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/my/**").hasRole("USER")
                     .anyRequest().permitAll()
             }
             .formLogin { form ->

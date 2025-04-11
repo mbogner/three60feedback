@@ -39,7 +39,7 @@ Hi $mailReceiver!
 feedback round for $feedbackReceiver$byStr has ended.
 See below the summarised feedback:
 
-${summary.text}
+${round.summary}
 
 #Requested: ${summary.requested}
 #Responded: ${summary.responded}
@@ -49,7 +49,6 @@ t60f
 """.trimIndent()
             )
 
-            round.summary = summary.text
             round.summaryMailed = true
             roundRepository.save(round)
         }

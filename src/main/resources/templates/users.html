@@ -14,6 +14,9 @@
             <h1>Three 60 Feedback Round</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
             <div th:if="${users.size() &gt; 0}">
+                <div class="mb-3" th:if="${#authorization.expression('hasRole(''COACH'')')}">
+                    <input type="text" id="emailSearch" class="form-control" placeholder="Search by email...">
+                </div>
                 <table class="table table-striped">
                     <thead class="thead-light">
                     <tr>
@@ -21,13 +24,14 @@
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr th:each="user:${users}">
+                    <tbody id="userTableBody">
+                    <tr th:each="user : ${users}">
                         <td><span th:remove="tag" th:text="${user.email}"></span></td>
                         <td>
                             <a class="btn btn-info rounded"
-                               th:href="@{/users/{userId}/feedback_round(userId=${user.id},requestId=${requestId})}">Start
-                                Feedback Round</a>
+                               th:href="@{/users/{userId}/feedback_round(userId=${user.id},requestId=${requestId})}">
+                                Start Feedback Round
+                            </a>
                         </td>
                     </tr>
                     </tbody>
@@ -42,5 +46,16 @@
 </div>
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    document.getElementById('emailSearch').addEventListener('input', function () {
+        const query = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#userTableBody tr');
+
+        rows.forEach(row => {
+            const email = row.querySelector('td').innerText.toLowerCase();
+            row.style.display = email.includes(query) ? '' : 'none';
+        });
+    });
+</script>
 </body>
 </html>

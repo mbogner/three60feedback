@@ -31,4 +31,14 @@ interface FeedbackRoundRepository : JpaRepository<FeedbackRound, UUID> {
     )
     fun findByIdWithResponses(@Param("feedbackRoundId") feedbackRoundId: UUID): FeedbackRound?
 
+    @Query(
+        """
+        select r from FeedbackRound r
+            join fetch r.givers
+            where r.receiver.email=:email and r.proxyReceiver is null
+            order by r.createdAt desc
+        """
+    )
+    fun findAllByReceiverEmail(email: String): List<FeedbackRound>
+
 }

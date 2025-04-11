@@ -49,7 +49,8 @@ class FeedbackRound(
 
     @field:Column(columnDefinition = "text")
     var summary: String? = null,
-    var summaryMailed: Boolean = false
+    var summaryMailed: Boolean = false,
+    var summaryTs: Instant? = null
 
 ) : AbstractEntity<UUID>() {
 

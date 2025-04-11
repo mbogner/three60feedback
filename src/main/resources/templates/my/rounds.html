@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>t60f users</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container">
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>My Three 60 Rounds</h1>
+            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
+            <div class="mb-3">
+                <a th:href="@{/}">← Back to Home</a>
+            </div>
+            <div th:if="${rounds.size() &gt; 0}">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Round</th>
+                        <th scope="col">Givers</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="round:${rounds}">
+                        <td>
+                            <span th:text="${round.id}"></span>
+                            <br/>
+                            <i>(
+                                <span th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
+                                )</i>
+                            <br/>
+                            <a th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id})}">
+                                Summary
+                            </a>
+                        </td>
+                        <td>
+                            <ul>
+                                <li th:each="giver:${round.givers}"
+                                    th:text="${#strings.arraySplit(giver.email, '@')[0]}"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${rounds.size() &lt; 1}">
+                No rounds yet.
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -2,8 +2,10 @@ package dev.mbo.t60f.domain.round
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import dev.mbo.logging.logger
+import jakarta.transaction.Transactional
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.stereotype.Service
+import java.time.Instant
 import java.util.UUID
 
 @Suppress("unused")
@@ -44,36 +46,64 @@ If there hasn't been any feedback in responses or you have too little informatio
     )
 
     data class Summary(
-        val text: String? = "no feedback to summarise",
+        val receiver: String,
         val requested: Int,
         val responded: Int = 0,
+        val roundCreatedAt: Instant,
     )
 
     private val log = logger()
 
+    @Transactional(Transactional.TxType.MANDATORY)
     fun createSummary(round: FeedbackRound): Summary {
         val responses = round.givers
         val received = responses.filter { it.positiveFeedback != null && it.negativeFeedback != null }
             .map { Response(from = it.email, positive = it.positiveFeedback!!, constructive = it.negativeFeedback!!) }
         if (received.isEmpty()) {
-            return Summary(requested = responses.size)
+            return Summary(
+                receiver = round.receiver.email,
+                requested = responses.size,
+                roundCreatedAt = round.createdAt!!
+            )
         }
+        // use cached value for 5 minutes
+        if (null != round.summary
+            && null != round.summaryTs
+            && round.summaryTs!!.isAfter(Instant.now().minusSeconds(5 * 60))
+        ) {
+            return Summary(
+                receiver = round.receiver.email,
+                requested = responses.size,
+                responded = received.size,
+                roundCreatedAt = round.createdAt!!
+            )
+        }
+
+        // update summary
         val tmpRound = Round(
             receiver = round.receiver.email,
             responses = received,
         )
         val json = mapper.writeValueAsString(tmpRound)
         val enrichedPrompt = PROMPT + json
+
+        round.summary = chatClient.prompt(enrichedPrompt).call().content()
+        round.summaryTs = Instant.now()
         return Summary(
-            text = chatClient.prompt(enrichedPrompt).call().content(),
+            receiver = round.receiver.email,
             requested = responses.size,
-            responded = received.size
+            responded = received.size,
+            roundCreatedAt = round.createdAt!!
         )
     }
 
-    fun createSummary(roundId: UUID): Summary {
-        val round = feedbackRoundRepository.findByIdWithResponses(roundId)
+    fun loadRound(roundId: UUID): FeedbackRound {
+        return feedbackRoundRepository.findByIdWithResponses(roundId)
             ?: throw IllegalArgumentException("No round with id $roundId")
-        return createSummary(round)
+    }
+
+    @Transactional(Transactional.TxType.MANDATORY)
+    fun createSummary(roundId: UUID): Summary {
+        return createSummary(loadRound(roundId))
     }
 }

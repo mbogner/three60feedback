@@ -19,10 +19,15 @@
                 Receiver: <span th:text="${round.receiver.email}"></span>
             </div>
             <h2>Meta</h2>
-            <p>Requested: <span th:utext="${summary.requested}"></span></p>
-            <p>Responded: <span th:utext="${summary.responded}"></span></p>
+            <p>Requested: <span th:text="${summary.requested}"></span></p>
+            <p>Responded: <span th:text="${summary.responded}"></span></p>
+            <p>CreatedAt: <span th:text="${#dates.format(@dateUtils.toLocal(summary.roundCreatedAt), 'dd.MM.yyyy HH:mm')}"></span></p>
             <h2>Summary</h2>
-            <p th:utext="${summary.text}"></p>
+            <i><small>( updatedAt:
+                <span th:text="${#dates.format(@dateUtils.toLocal(round.summaryTs), 'dd.MM.yyyy HH:mm')}"
+                      th:remove="tag"></span>
+                )</small></i>
+            <p th:utext="${round.summary}"></p>
         </div>
     </div>
 </div>

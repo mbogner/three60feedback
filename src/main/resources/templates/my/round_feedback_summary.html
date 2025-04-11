@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>t60f users</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container">
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>Three 60 Round Summary</h1>
+            <div class="mb-3">
+                <a th:href="@{/my/rounds}">← Back to Rounds</a>
+            </div>
+            <p>Requested: <span th:utext="${summary.requested}"></span></p>
+            <p>Responded: <span th:utext="${summary.responded}"></span></p>
+            <p>CreatedAt: <span
+                    th:text="${#dates.format(@dateUtils.toLocal(summary.roundCreatedAt), 'dd.MM.yyyy HH:mm')}"></span>
+            </p>
+            <h2>Summary</h2>
+            <i><small>( updatedAt:
+                <span th:text="${#dates.format(@dateUtils.toLocal(round.summaryTs), 'dd.MM.yyyy HH:mm')}"
+                      th:remove="tag"></span>
+                )</small></i>
+            <p th:utext="${round.summary}"></p>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
