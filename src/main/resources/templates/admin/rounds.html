@@ -20,6 +20,7 @@
                 <table class="table table-striped">
                     <thead class="thead-light">
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Company</th>
                         <th scope="col">Receiver</th>
                         <th scope="col">Givers</th>
@@ -29,6 +30,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="round:${rounds}">
+                        <td th:text="${round.id}"></td>
                         <td th:text="${round.receiver.company.name}"></td>
                         <td>
                             <span th:text="${#strings.arraySplit(round.receiver.email, '@')[0]}" th:remove="tag"></span>
