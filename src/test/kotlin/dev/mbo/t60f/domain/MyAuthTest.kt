@@ -30,6 +30,14 @@ class MyAuthTest : AbstractSpringBootTest() {
                 .andExpect(status().isFound)
                 .andExpect(redirectedUrlPattern("**/login"))
         }
+
+        @Test
+        fun myOpen() {
+            mockMvc().perform(get("/my/open-feedback"))
+                .andDo(print())
+                .andExpect(status().isFound)
+                .andExpect(redirectedUrlPattern("**/login"))
+        }
     }
 
     @Nested
@@ -51,6 +59,14 @@ class MyAuthTest : AbstractSpringBootTest() {
                 .andDo(print())
                 .andExpect(status().isOk)
         }
+
+        @Test
+        @WithMockUser(roles = ["USER"])
+        fun myOpenAsUser() {
+            mockMvc().perform(get("/my/open-feedback"))
+                .andDo(print())
+                .andExpect(status().isOk)
+        }
     }
 
     @Nested
@@ -69,6 +85,14 @@ class MyAuthTest : AbstractSpringBootTest() {
         @WithMockUser(roles = ["ADMIN"])
         fun roundsAsAdmin() {
             mockMvc().perform(get("/my/rounds"))
+                .andDo(print())
+                .andExpect(status().isForbidden)
+        }
+
+        @Test
+        @WithMockUser(roles = ["ADMIN"])
+        fun myOpenAsAdmin() {
+            mockMvc().perform(get("/my/open-feedback"))
                 .andDo(print())
                 .andExpect(status().isForbidden)
         }
