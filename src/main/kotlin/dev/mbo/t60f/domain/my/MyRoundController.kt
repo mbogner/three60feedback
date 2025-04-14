@@ -37,9 +37,11 @@ class MyRoundController(
         authentication: Authentication?
     ): String {
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
-        val responses = feedbackRoundRepository.findByIdWithResponses(roundId)?.givers
-            ?.filter { it.positiveFeedback != null && it.negativeFeedback != null }
-            ?.shuffled() // this way the user doesn't have a chance to know who wrote what
+        val round = feedbackRoundRepository.findByIdWithResponses(roundId)
+        require(round?.receiver?.email == authentication.name) { "you can only check your own overview" }
+        val responses = round.givers
+            .filter { it.positiveFeedback != null && it.negativeFeedback != null }
+            .shuffled() // this way the user doesn't have a chance to know who wrote what
         model.addAttribute("responses", responses)
         return "my/round_overview"
     }
