@@ -33,11 +33,24 @@
                                 <span th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
                                 -
                                 <span th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></span>
-                                )</i>
-                            <br/>
-                            <a th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id})}">
-                                Summary
-                            </a>
+                                )
+                                <br/>
+                                Requests: <span th:text="${round.givers.size()}"></span>
+                                |
+                                Responses: <span th:text="${round.answered()}"></span>
+                            </i>
+                            <span th:if="${round.answered() &gt; 0}">
+                                <br/>
+                                <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id})}">
+                                    Answers
+                                </a>
+                                <span th:if="${round.answered() &gt; 1}" th:remove="tag">
+                                    |
+                                    <a th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id})}">
+                                        Summary
+                                    </a>
+                                </span>
+                            </span>
                         </td>
                         <td>
                             <ul>

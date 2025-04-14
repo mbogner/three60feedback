@@ -66,4 +66,8 @@ class FeedbackRound(
         this.id = id
     }
 
+    fun answered(): Int {
+        return givers.filter { it.positiveFeedback != null && it.negativeFeedback != null }.size
+    }
+
 }

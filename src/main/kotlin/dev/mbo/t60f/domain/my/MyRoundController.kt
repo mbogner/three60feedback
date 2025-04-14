@@ -25,9 +25,23 @@ class MyRoundController(
         authentication: Authentication?
     ): String {
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
-        val rounds = feedbackRoundRepository.findAllByReceiverEmail(authentication.name)
+        val rounds: List<FeedbackRound> = feedbackRoundRepository.findAllByReceiverEmail(authentication.name)
         model.addAttribute("rounds", rounds)
         return "my/rounds"
+    }
+
+    @GetMapping("/{roundId}/overview")
+    fun overview(
+        @PathVariable("roundId") roundId: UUID,
+        model: ModelMap,
+        authentication: Authentication?
+    ): String {
+        if (authentication == null) throw IllegalArgumentException("authentication must not be null")
+        val responses = feedbackRoundRepository.findByIdWithResponses(roundId)?.givers
+            ?.filter { it.positiveFeedback != null && it.negativeFeedback != null }
+            ?.shuffled() // this way the user doesn't have a chance to know who wrote what
+        model.addAttribute("responses", responses)
+        return "my/round_overview"
     }
 
     @Transactional
