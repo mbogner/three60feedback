@@ -2,6 +2,7 @@ package dev.mbo.t60f.domain.response
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import java.util.UUID
 
 interface FeedbackResponseRepository : JpaRepository<FeedbackResponse, UUID> {
@@ -20,5 +21,16 @@ interface FeedbackResponseRepository : JpaRepository<FeedbackResponse, UUID> {
     fun findOpenResponses(): List<FeedbackResponse>
 
     fun findByIdAndFeedbackRoundId(id: UUID, roundId: UUID): FeedbackResponse?
+
+    @Query(
+        """
+        SELECT r
+        FROM FeedbackResponse r
+        WHERE r.email = :email 
+            AND (r.positiveFeedback is NULL OR r.negativeFeedback is NULL)
+        ORDER BY r.feedbackRound.validity DESC
+        """
+    )
+    fun findMyOpenResponses(@Param("email") email: String): List<FeedbackResponse>
 
 }

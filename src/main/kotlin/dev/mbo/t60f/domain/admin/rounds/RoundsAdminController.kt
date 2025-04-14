@@ -23,7 +23,11 @@ class RoundsAdminController(
 
     @GetMapping
     fun rounds(model: ModelMap): String {
-        model.addAttribute("rounds", feedbackRoundRepository.findAllWithResponses())
+        val rounds = feedbackRoundRepository.findAllWithResponses()
+        rounds.forEach {
+            it.givers.sortedBy { it.email }
+        }
+        model.addAttribute("rounds", rounds)
         return "admin/rounds"
     }
 
@@ -45,7 +49,8 @@ class RoundsAdminController(
         @PathVariable("roundId") roundId: UUID,
         model: ModelMap
     ): String {
-        val round = feedbackRoundRepository.findByIdOrNull(roundId) ?: throw EntityNotFoundException("no round with id $roundId found")
+        val round = feedbackRoundRepository.findByIdOrNull(roundId)
+            ?: throw EntityNotFoundException("no round with id $roundId found")
         val summary = summaryService.createSummary(roundId)
         model.addAttribute("round", round)
         model.addAttribute("summary", summary)

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>t60f users</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container">
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>My Open Three 60 Feedback</h1>
+            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
+            <div class="mb-3">
+                <a th:href="@{/}">← Back to Home</a>
+            </div>
+            <div th:if="${responses.size() &gt; 0}">
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Receiver</th>
+                        <th scope="col">CreatedAt</th>
+                        <th scope="col">Validity</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="response:${responses}">
+                        <td th:text="${response.feedbackRound.receiver.email}"></td>
+                        <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
+                        <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.validity), 'dd.MM.yyyy HH:mm')}"></td>
+                        <td><a th:href="@{/response/{responseId}(responseId=${response.id})}">Give Feedback</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${responses.size() &lt; 1}">
+                No open feedback.
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
