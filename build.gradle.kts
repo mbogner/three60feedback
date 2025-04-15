@@ -22,6 +22,7 @@ repositories {
 
 dependencies {
     val nettyResolverDnsNativeMacos: String by System.getProperties()
+    val springBootVersion: String by System.getProperties()
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     implementation(platform(libs.bom))
     implementation(platform(libs.library.bom))
@@ -54,7 +55,7 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
 
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
@@ -68,6 +69,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+val commitFull = getCommitHash(project)
 tasks {
     val javaVersion: String by System.getProperties()
 
@@ -123,7 +125,7 @@ tasks {
         doLast {
             outputDir.mkdirs()
             val props = Properties()
-            props.setProperty("commitFull", getCommitHash(project))
+            props.setProperty("commitFull", commitFull)
             outputFile.writer().use { writer ->
                 props.store(writer, null)
             }

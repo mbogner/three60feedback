@@ -1,13 +1,13 @@
 package dev.mbo.t60f.domain
 
-import dev.mbo.t60f.AbstractSpringBootTest
+import dev.mbo.t60f.AbstractSpringBootMailTest
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class IndexControllerTest : AbstractSpringBootTest() {
+class IndexControllerTest : AbstractSpringBootMailTest() {
 
     @Test
     fun index() {

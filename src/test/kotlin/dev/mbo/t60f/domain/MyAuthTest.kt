@@ -1,6 +1,6 @@
 package dev.mbo.t60f.domain
 
-import dev.mbo.t60f.AbstractSpringBootTest
+import dev.mbo.t60f.AbstractSpringBootMailTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.security.test.context.support.WithMockUser
@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirec
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class MyAuthTest : AbstractSpringBootTest() {
+class MyAuthTest : AbstractSpringBootMailTest() {
 
     @Nested
     inner class AnonymousAccess {
