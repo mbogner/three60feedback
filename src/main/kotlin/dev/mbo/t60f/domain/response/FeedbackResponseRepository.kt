@@ -20,7 +20,16 @@ interface FeedbackResponseRepository : JpaRepository<FeedbackResponse, UUID> {
     )
     fun findOpenResponses(): List<FeedbackResponse>
 
-    fun findByIdAndFeedbackRoundId(id: UUID, roundId: UUID): FeedbackResponse?
+    @Query(
+        """
+        SELECT f
+        FROM FeedbackResponse f 
+            LEFT JOIN FETCH f.messages
+        WHERE f.id = :id
+            AND f.feedbackRound.id = :roundId
+        """
+    )
+    fun findByIdAndFeedbackRoundId(@Param("id") id: UUID, @Param("roundId") roundId: UUID): FeedbackResponse?
 
     @Query(
         """

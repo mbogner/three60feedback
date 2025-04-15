@@ -19,13 +19,33 @@
             <br/>
             <h2>Details</h2>
             <h3>Giver</h3>
-            <p th:text="${giver.email}"></p>
+            <p th:text="${response.email}"></p>
             <h3>Positive Feedback</h3>
-            <p th:text="${giver.positiveFeedback}"></p>
+            <p th:text="${response.positiveFeedback}"></p>
             <h3>Negative</h3>
-            <p th:text="${giver.negativeFeedback}"></p>
+            <p th:text="${response.negativeFeedback}"></p>
             <h3>NotifiedAt</h3>
-            <p th:text="${giver.notifiedAt}"></p>
+            <p th:text="${response.notifiedAt}"></p>
+        </div>
+    </div>
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h2>Messages</h2>
+
+            <!-- Messages list -->
+            <div id="messageList" class="message-list d-flex flex-column gap-2">
+                <div th:each="message : ${response.messages}">
+                    <div th:class="${message.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
+                        <div class="meta">
+                            <span class="sender" th:text="${message.senderMail}"></span>
+                            <span class="ts"
+                                  th:text="${#dates.format(@dateUtils.toLocal(message.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
+                        </div>
+                        <div class="text" th:text="${message.message}"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

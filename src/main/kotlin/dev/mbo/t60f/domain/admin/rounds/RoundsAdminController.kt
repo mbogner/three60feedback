@@ -6,6 +6,7 @@ import dev.mbo.t60f.domain.round.FeedbackRoundSummaryService
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
@@ -35,11 +36,14 @@ class RoundsAdminController(
     fun giver(
         @PathVariable("roundId") roundId: UUID,
         @PathVariable("responseId") responseId: UUID,
-        model: ModelMap
+        model: ModelMap,
+        authentication: Authentication?
     ): String {
-        val giver = feedbackResponseRepository.findByIdAndFeedbackRoundId(responseId, roundId)
+        require(null != authentication && authentication.isAuthenticated) { "user has to be logged in" }
+        val response = feedbackResponseRepository.findByIdAndFeedbackRoundId(responseId, roundId)
             ?: throw EntityNotFoundException("no giver for round $roundId with id $responseId found")
-        model.addAttribute("giver", giver)
+        model.addAttribute("response", response)
+        model.addAttribute("loggedInUserMail", authentication.name)
         return "admin/response"
     }
 
