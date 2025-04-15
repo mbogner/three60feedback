@@ -1,7 +1,9 @@
 package dev.mbo.t60f.domain.response
 
+import dev.mbo.t60f.domain.response.message.FeedbackResponseMessage
 import dev.mbo.t60f.domain.round.FeedbackRound
 import dev.mbo.t60f.global.AbstractEntity
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -10,6 +12,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
@@ -54,7 +57,11 @@ class FeedbackResponse(
     var notifyFailed: Boolean = false,
 
     @field:Column(name = "reported", nullable = false)
-    var reported: Boolean = false
+    var reported: Boolean = false,
+
+    @field:NotNull
+    @field:OneToMany(mappedBy = "feedbackResponse", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    var messages: List<FeedbackResponseMessage> = mutableListOf()
 
 ) : AbstractEntity<UUID>() {
 

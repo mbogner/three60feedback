@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import java.util.UUID
 
 @Controller
@@ -44,6 +45,7 @@ class MyRoundController(
     @GetMapping("/{roundId}/overview")
     fun overview(
         @PathVariable("roundId") roundId: UUID,
+        @RequestParam(value = "source", required = false) source: String? = null,
         model: ModelMap,
         authentication: Authentication?
     ): String {
@@ -58,6 +60,7 @@ class MyRoundController(
             .filter { it.positiveFeedback != null && it.negativeFeedback != null } // sorted by createdAt desc
             .reversed()
         model.addAttribute("responses", responses)
+        model.addAttribute("source", source)
         return "my/round_overview"
     }
 

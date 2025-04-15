@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>t60f users</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
+    <style>
+        .bubble {
+            max-width: 70%;
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+            display: inline-block;
+            clear: both;
+        }
+
+        .bubble .meta {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .bubble.me {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            float: left;
+            border-top-left-radius: 0;
+        }
+
+        .bubble.other {
+            background-color: #f1f0f0;
+            align-self: flex-start;
+            float: right;
+            border-top-right-radius: 0;
+        }
+
+        .chat-input-container {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .chat-textarea {
+            border-radius: 20px;
+            padding: 10px 15px;
+            resize: none;
+            width: 100%;
+        }
+
+        .send-button {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 20px;
+            padding: 6px 16px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container">
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h1>Three 60 Feedback Giver</h1>
+            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
+            <div class="mb-3">
+                <a th:href="@{/}" th:if="${source == null}">← Back to Home</a>
+                <a th:href="@{/my/rounds}" th:if="${source == 'my'}">← Back to Rounds</a>
+                <a th:href="@{/my/rounds/proxy}" th:if="${source == 'proxy'}">← Back to Proxy Rounds</a>
+            </div>
+            <br/>
+            <h2>Details</h2>
+            <h3>Positive Feedback</h3>
+            <p th:text="${response.positiveFeedback}"></p>
+            <h3>Improvement Suggestions</h3>
+            <p th:text="${response.negativeFeedback}"></p>
+        </div>
+    </div>
+    <div class="card shadow-sm p-4">
+        <div class="card-body">
+            <h2>Messages</h2>
+
+            <!-- Chat input form -->
+            <div class="chat-input-container border-bottom pb-3 mb-4">
+                <form th:action="@{/my/response/{responseId}/questions(responseId=${response.id},source=${source})}"
+                      th:method="post">
+                    <div class="position-relative">
+                        <textarea id="responseMessage" name="responseMessage" class="form-control chat-textarea pe-5"
+                                  minlength="5" maxlength="1024" placeholder="Type your message..." rows="3"
+                                  required></textarea>
+                        <button class="btn btn-success send-button" type="submit">Send</button>
+                    </div>
+                    <div class="form-text text-muted small mt-1">
+                        Min. 5 characters. Reload page to get new messages.
+                    </div>
+                </form>
+            </div>
+
+            <!-- Messages list -->
+            <div id="messageList" class="message-list d-flex flex-column gap-2">
+                <div th:each="message : ${response.messages}">
+                    <div th:class="${message.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
+                        <div class="meta">
+                            <span class="sender" th:text="${message.senderMail}"></span>
+                            <span class="ts"
+                                  th:text="${#dates.format(@dateUtils.toLocal(message.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
+                        </div>
+                        <div class="text" th:text="${message.message}"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    function updateSubmitButton() {
+        const responseMessage = document.getElementById('responseMessage').value.trim();
+        const submitButton = document.querySelector('button[type="submit"]');
+
+        submitButton.disabled = responseMessage.length < 5;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const responseMessageField = document.getElementById('responseMessage');
+        const submitButton = document.querySelector('button[type="submit"]');
+
+        // Disable button initially
+        submitButton.disabled = true;
+
+        // Add listeners
+        responseMessageField.addEventListener('input', updateSubmitButton);
+    });
+</script>
+</body>
+</html>

@@ -33,4 +33,14 @@ interface FeedbackResponseRepository : JpaRepository<FeedbackResponse, UUID> {
     )
     fun findMyOpenResponses(@Param("email") email: String): List<FeedbackResponse>
 
+    @Query(
+        """
+        select r
+        from FeedbackResponse r
+            left join fetch r.messages
+            join fetch r.feedbackRound
+        where r.id = :responseId
+        """
+    )
+    fun findByIdWithMessages(@Param("responseId") responseId: UUID): FeedbackResponse?
 }

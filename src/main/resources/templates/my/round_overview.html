@@ -14,7 +14,8 @@
             <h1>My Three 60 Round Overview</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
             <div class="mb-3">
-                <a th:href="@{/my/rounds/proxy}">← Back to Proxy Rounds</a>
+                <a th:href="@{/my/rounds}" th:if="${source == null or source == 'my'}">← Back to Rounds</a>
+                <a th:href="@{/my/rounds/proxy}"  th:if="${source == 'proxy'}">← Back to Proxy Rounds</a>
             </div>
             <table class="table table-striped">
                 <thead class="thead-light">
@@ -26,7 +27,10 @@
                 </thead>
                 <tbody>
                 <tr th:each="response:${responses}">
-                    <td th:text="${response.notifiedAt}"></td>
+                    <td>
+                        <a th:href="@{/my/response/{responseId}/questions(responseId=${response.id},source=${source})}"
+                           th:text="${#dates.format(@dateUtils.toLocal(response.notifiedAt), 'dd.MM.yyyy HH:mm')}"></a>
+                    </td>
                     <td th:text="${response.positiveFeedback}"></td>
                     <td th:text="${response.negativeFeedback}"></td>
                 </tr>

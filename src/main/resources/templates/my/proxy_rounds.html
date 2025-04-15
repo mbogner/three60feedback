@@ -44,7 +44,7 @@
                             </i>
                             <span th:if="${round.answered() &gt; 0}">
                                 <br/>
-                                <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id})}">
+                                <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id},source='proxy')}">
                                     Answers
                                 </a>
                                 <span th:if="${round.answered() &gt; 1}" th:remove="tag">

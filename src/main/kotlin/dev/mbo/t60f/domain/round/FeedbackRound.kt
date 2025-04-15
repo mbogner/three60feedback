@@ -45,7 +45,7 @@ class FeedbackRound(
 
     var validity: Instant,
 
-    var focus: String?,
+    var focus: String? = null,
 
     @field:Column(columnDefinition = "text")
     var summary: String? = null,
