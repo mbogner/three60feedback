@@ -20,7 +20,7 @@ class MyRoundController(
 ) {
 
     @GetMapping
-    fun summary(
+    fun rounds(
         model: ModelMap,
         authentication: Authentication?
     ): String {
@@ -28,6 +28,17 @@ class MyRoundController(
         val rounds: List<FeedbackRound> = feedbackRoundRepository.findAllByReceiverEmail(authentication.name)
         model.addAttribute("rounds", rounds)
         return "my/rounds"
+    }
+
+    @GetMapping("/proxy")
+    fun proxyRounds(
+        model: ModelMap,
+        authentication: Authentication?
+    ): String {
+        if (authentication == null) throw IllegalArgumentException("authentication must not be null")
+        val rounds: List<FeedbackRound> = feedbackRoundRepository.findAllByProxyEmail(authentication.name)
+        model.addAttribute("rounds", rounds)
+        return "my/proxy_rounds"
     }
 
     @GetMapping("/{roundId}/overview")
@@ -38,10 +49,14 @@ class MyRoundController(
     ): String {
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
         val round = feedbackRoundRepository.findByIdWithResponses(roundId)
-        require(round?.receiver?.email == authentication.name) { "you can only check your own overview" }
+        require(
+            round?.receiver?.email == authentication.name
+                    || round?.proxyReceiver?.email == authentication.name
+        ) { "not allowed to see this round" }
+
         val responses = round.givers
-            .filter { it.positiveFeedback != null && it.negativeFeedback != null }
-            .shuffled() // this way the user doesn't have a chance to know who wrote what
+            .filter { it.positiveFeedback != null && it.negativeFeedback != null } // sorted by createdAt desc
+            .reversed()
         model.addAttribute("responses", responses)
         return "my/round_overview"
     }

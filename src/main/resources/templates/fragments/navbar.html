@@ -19,6 +19,11 @@
                 </li>
                 <li th:if="${#authorization.expression('isAuthenticated()')}">|</li>
 
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''COACH'')')}">
+                    <a class="nav-link" th:href="@{/my/rounds/proxy}">Proxy Rounds</a>
+                </li>
+                <li th:if="${#authorization.expression('hasRole(''COACH'')')}">|</li>
+
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
                     <a class="nav-link" th:href="@{/admin}">Admin</a>
                 </li>

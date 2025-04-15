@@ -14,9 +14,9 @@
             <h1>My Three 60 Round Overview</h1>
             <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
             <div class="mb-3">
-                <a th:href="@{/my/rounds}">← Back to Rounds</a>
+                <a th:href="@{/my/rounds/proxy}">← Back to Proxy Rounds</a>
             </div>
-            <table class="table table-striped" th:if="${responses.size() &gt; 0}">
+            <table class="table table-striped">
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">Timestamp</th>
