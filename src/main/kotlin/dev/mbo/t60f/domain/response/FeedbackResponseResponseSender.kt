@@ -61,8 +61,6 @@ ${response.negativeFeedback}
 Click this link to report the feedback: $baseUrl/response/${response.id}/report
 You can also undo the report by clicking: $baseUrl/response/${response.id}/unreport
 
-RoundId: ${response.feedbackRound.createdAt}
-
 Yours,
 t60f""".trimIndent()
         )
