@@ -79,5 +79,3 @@ sentry-release:
     - sentry-cli releases deploys "$SENTRY_RELEASE" new -e "$SENTRY_ENVIRONMENT"
   only:
     - tags
-  variables:
-    SENTRY_AUTH_TOKEN: $SENTRY_AUTH_TOKEN
