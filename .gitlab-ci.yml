@@ -4,16 +4,11 @@ include:
     file:
       - '/.gitlab-cicd-shared.yml'
       - '/.gitlab-cicd-java21.yml'
+      - '/.gitlab-cicd-dind-service.yml'
 
 stages:
   - Build
   - Publish
-
-services:
-  - name: mbopm/docker-dind-alpine-healthcheck:dind-alpine
-    alias: docker
-    entrypoint: ["dockerd-entrypoint.sh"]
-    command: [ "--host=tcp://0.0.0.0:2375", "--tls=false" ]
 
 build:
   extends: .build
