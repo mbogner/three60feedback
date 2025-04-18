@@ -9,10 +9,6 @@ stages:
   - Build
   - Publish
 
-variables:
-  SENTRY_ENVIRONMENT: "${SENTRY_ENVIRONMENT:-production}"
-  SENTRY_RELEASE: "${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}"
-
 services:
   - name: docker:dind
     # explicitly disable tls to avoid docker startup interruption
@@ -74,8 +70,8 @@ sentry-release:
   before_script:
     - npm install -g @sentry/cli
   script:
-    - sentry-cli releases new "$SENTRY_RELEASE" --org dev.mbo --project t60f
-    - sentry-cli releases set-commits "$SENTRY_RELEASE" --auto
-    - sentry-cli releases deploys "$SENTRY_RELEASE" new -e "$SENTRY_ENVIRONMENT"
+    - sentry-cli releases new "${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}" --org dev.mbo --project t60f
+    - sentry-cli releases set-commits "${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}" --auto
+    - sentry-cli releases deploys "${CI_COMMIT_TAG:-$CI_COMMIT_SHORT_SHA}" new -e "${SENTRY_ENVIRONMENT:-production}"
   only:
     - tags
