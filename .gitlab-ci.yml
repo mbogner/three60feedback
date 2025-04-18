@@ -1,3 +1,7 @@
+include:
+  - template: Code-Quality.gitlab-ci.yml
+  - template: SAST.gitlab-ci.yml
+
 variables:
   ## The following is added because sonar is complaining:
   ## Shallow clone detected, no blame information will be provided. You can convert to non-shallow with 'git fetch --unshallow'.
@@ -22,6 +26,8 @@ services:
 build:
   image: mbopm/openjdk-alpine-jdk:jdk21
   stage: Build
+  tags:
+    - docker
   script:
     - ./gradlew build jacocoTestReport --stacktrace
     - ./gradlew sonar --info -Dsonar.token=$SONAR2_LOGIN_TOKEN -Dsonar.host.url=$SONAR2_URL -Dsonar.branch.name=$CI_COMMIT_REF_SLUG
@@ -38,6 +44,18 @@ build:
       - .gradle/
   variables:
     GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+
+code_quality:
+  stage: Build
+  tags:
+    - docker
+
+sast:
+  stage: Build
+  tags:
+    - docker
+  artifacts:
+    expire_in: 7 days
 
 gen-sbom:
   stage: Build
