@@ -151,6 +151,16 @@ tasks {
         }
     }
 
+    named("sentryUploadSourceBundleJava").configure {
+        onlyIf {
+            System.getenv("CI_COMMIT_TAG") != null
+        }
+    }
+
+    named("build").configure {
+        finalizedBy("sentryUploadSourceBundleJava")
+    }
+
 }
 
 sonarqube {
