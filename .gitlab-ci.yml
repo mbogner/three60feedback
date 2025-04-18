@@ -1,7 +1,3 @@
-include:
-  # gitlab job definitions. see https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates/Jobs
-  - template: SAST.gitlab-ci.yml
-
 variables:
   ## The following is added because sonar is complaining:
   ## Shallow clone detected, no blame information will be provided. You can convert to non-shallow with 'git fetch --unshallow'.
@@ -60,13 +56,6 @@ sonar:
       - .gradle/
   variables:
     GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
-
-sast:
-  stage: Build
-  tags:
-    - docker
-  artifacts:
-    expire_in: 7 days
 
 gen-sbom:
   stage: Build
