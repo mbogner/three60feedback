@@ -1,5 +1,5 @@
 include:
-  - template: Code-Quality.gitlab-ci.yml
+  # gitlab job definitions. see https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates/Jobs
   - template: SAST.gitlab-ci.yml
 
 variables:
@@ -45,11 +45,6 @@ build:
   variables:
     GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
 
-code_quality:
-  stage: Build
-  tags:
-    - docker
-
 sast:
   stage: Build
   tags:
@@ -71,14 +66,14 @@ gen-sbom:
 
 scan:
   stage: Build
-  image: docker:latest
+  image: ghcr.io/google/osv-scanner:latest
   tags:
     - docker
   needs:
     - job: gen-sbom
       artifacts: true
   script:
-    - docker run -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
+    - osv-scanner scan -r -S ./build/reports/bom.json ./
 
 publish:
   stage: Publish
