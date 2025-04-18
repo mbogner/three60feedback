@@ -100,3 +100,7 @@ app:
           - ETag
         maxAge: 31536000
         allowCredentials: true
+
+sentry:
+  send-default-pii: true
+  environment: production

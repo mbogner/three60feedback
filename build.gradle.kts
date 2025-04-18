@@ -10,6 +10,7 @@ plugins {
     id("org.sonarqube")
     id("jacoco")
     id("org.cyclonedx.bom")
+    id("io.sentry.jvm.gradle")
 }
 
 group = "dev.mbo"
@@ -144,12 +145,18 @@ tasks {
         setOutputFormat("json")
     }
 
+    named("sentryBundleSourcesJava").configure {
+        onlyIf {
+            System.getenv("CI_COMMIT_TAG") != null
+        }
+    }
+
 }
 
 sonarqube {
     properties {
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.projectKey", "t60f")
+        property("sonar.projectKey", rootProject.name)
         property("sonar.projectName", "OR::t60f")
         property("sonar.sources", "src/main/kotlin,src/main/resources")
         property("sonar.exclusions", "**/src/gen/**/*")
@@ -159,6 +166,17 @@ sonarqube {
 jacoco {
     val jacocoToolVersion: String by System.getProperties()
     toolVersion = jacocoToolVersion
+}
+
+sentry {
+    org = "dev.mbo"
+    projectName = rootProject.name
+    includeSourceContext.set(true)
+    includeDependenciesReport.set(true)
+    autoInstallation {
+        enabled.set(true)
+    }
+    authToken = System.getenv("SENTRY_AUTH_TOKEN")
 }
 
 fun getCommitHash(project: Project): String {
