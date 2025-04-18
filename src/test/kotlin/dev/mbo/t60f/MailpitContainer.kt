@@ -3,7 +3,7 @@ package dev.mbo.t60f
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.wait.strategy.Wait
 
-class MailpitContainer : GenericContainer<MailpitContainer>("axllent/mailpit:v1.23") {
+class MailpitContainer : GenericContainer<MailpitContainer>("axllent/mailpit:v1.24") {
     companion object {
         private const val PORT_SMTP = 1025
         private const val PORT_HTTP = 8025
