@@ -29,15 +29,31 @@ build:
   tags:
     - docker
   script:
-    - ./gradlew build jacocoTestReport --stacktrace
-    - ./gradlew sonar --info -Dsonar.token=$SONAR2_LOGIN_TOKEN -Dsonar.host.url=$SONAR2_URL -Dsonar.branch.name=$CI_COMMIT_REF_SLUG
+    - ./gradlew build jacocoTestReport -x cyclonedxBom --stacktrace
   artifacts:
     paths:
-      - build/libs/t60f.jar
-    expire_in: 30 days
+      - ./build
+    expire_in: 7 days
     reports:
       junit: "**/build/test-results/test/TEST-*.xml"
   allow_failure: false
+  cache:
+    key: "$CI_PROJECT_PATH-slug"
+    paths:
+      - .gradle/
+  variables:
+    GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
+
+sonar:
+  image: mbopm/openjdk-alpine-jdk:jdk21
+  stage: Build
+  needs:
+    - job: build
+      artifacts: true
+  tags:
+    - docker
+  script:
+    - ./gradlew sonar --info -Dsonar.token=$SONAR2_LOGIN_TOKEN -Dsonar.host.url=$SONAR2_URL -Dsonar.branch.name=$CI_COMMIT_REF_SLUG
   cache:
     key: "$CI_PROJECT_PATH-slug"
     paths:
@@ -51,6 +67,8 @@ sast:
     - docker
   artifacts:
     expire_in: 7 days
+    reports:
+      sast: gl-sast-report.json
 
 gen-sbom:
   stage: Build
@@ -63,6 +81,12 @@ gen-sbom:
   script:
     - rm -f build/reports/bom.json
     - ./gradlew cyclonedxBom
+  cache:
+    key: "$CI_PROJECT_PATH-slug"
+    paths:
+      - .gradle/
+  variables:
+    GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
 
 scan:
   stage: Build
