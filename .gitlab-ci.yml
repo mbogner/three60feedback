@@ -29,7 +29,8 @@ gen-sbom:
     paths:
       - build/reports/bom.json
   script:
-    - ./gradlew clean cyclonedxBom
+    - rm -f build/reports/bom.json
+    - ./gradlew cyclonedxBom
 
 scan:
   stage: Build

@@ -1,6 +1,11 @@
+.cache/
+.docker/
 .gradle/
 .kotlin/
 .idea/
 .env
 build/
 *.iml
+*.log
+.DS_Store
+Thumbs.db
