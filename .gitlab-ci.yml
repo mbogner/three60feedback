@@ -1,6 +1,8 @@
 include:
   # gitlab job definitions. see https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates/Jobs
   - template: SAST.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+  - template: Secret-Detection.gitlab-ci.yml
 
 variables:
   ## The following is added because sonar is complaining:
@@ -69,6 +71,12 @@ sast:
     expire_in: 7 days
     reports:
       sast: gl-sast-report.json
+
+dependency_scanning:
+  stage: Build
+
+secret_detection:
+  stage: Build
 
 gen-sbom:
   stage: Build
