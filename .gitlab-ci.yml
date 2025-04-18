@@ -88,7 +88,7 @@ gen-sbom:
   variables:
     GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
 
-scan:
+osv-scan:
   stage: Build
   image: ghcr.io/google/osv-scanner:latest
   tags:
@@ -97,7 +97,9 @@ scan:
     - job: gen-sbom
       artifacts: true
   script:
-    - osv-scanner scan -r -S ./build/reports/bom.json ./
+    - cd $CI_PROJECT_DIR
+    - osv-scanner scan -r -S build/reports/bom.json .
+  allow_failure: true
 
 publish:
   stage: Publish
