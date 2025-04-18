@@ -1,20 +1,43 @@
-include:
-  - project: openresearch/gitlab-build-templates
-    ref: main
-    file:
-      - '/.gitlab-cicd-shared.yml'
-      - '/.gitlab-cicd-java21.yml'
-      - '/.gitlab-cicd-dind-service.yml'
+variables:
+  ## The following is added because sonar is complaining:
+  ## Shallow clone detected, no blame information will be provided. You can convert to non-shallow with 'git fetch --unshallow'.
+  GIT_DEPTH: 0
+  DEBIAN_FRONTEND: noninteractive
+  DOCKER_HOST: "tcp://docker:2375"
+  # Instruct Docker not to start over TLS.
+  DOCKER_TLS_CERTDIR: ""
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
 
 stages:
   - Build
   - Publish
 
+services:
+  - name: mbopm/docker-dind-alpine-healthcheck:dind-alpine
+    alias: docker
+    entrypoint: [ "dockerd-entrypoint.sh" ]
+    command: [ "--host=tcp://0.0.0.0:2375", "--tls=false" ]
+
 build:
-  extends: .build
+  image: mbopm/openjdk-alpine-jdk:jdk21
+  stage: Build
+  script:
+    - ./gradlew build jacocoTestReport --stacktrace
+    - ./gradlew sonar --info -Dsonar.token=$SONAR2_LOGIN_TOKEN -Dsonar.host.url=$SONAR2_URL -Dsonar.branch.name=$CI_COMMIT_REF_SLUG
   artifacts:
     paths:
       - build/libs/t60f.jar
+    expire_in: 30 days
+    reports:
+      junit: "**/build/test-results/test/TEST-*.xml"
+  allow_failure: false
+  cache:
+    key: "$CI_PROJECT_PATH-slug"
+    paths:
+      - .gradle/
+  variables:
+    GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
 
 gen-sbom:
   stage: Build
