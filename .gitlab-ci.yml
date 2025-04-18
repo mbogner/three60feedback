@@ -90,15 +90,14 @@ gen-sbom:
 
 osv-scan:
   stage: Build
-  image: ghcr.io/google/osv-scanner:latest
+  image: docker:latest
   tags:
     - docker
   needs:
     - job: gen-sbom
       artifacts: true
   script:
-    - cd $CI_PROJECT_DIR
-    - osv-scanner scan -r -S build/reports/bom.json .
+    - docker run -v "${PWD}":/src ghcr.io/google/osv-scanner scan -r -S /src/build/reports/bom.json /src
   allow_failure: true
 
 publish:
