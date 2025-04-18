@@ -1,7 +1,6 @@
 include:
   # gitlab job definitions. see https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates/Jobs
   - template: SAST.gitlab-ci.yml
-  - template: Dependency-Scanning.gitlab-ci.yml
   - template: Secret-Detection.gitlab-ci.yml
 
 variables:
