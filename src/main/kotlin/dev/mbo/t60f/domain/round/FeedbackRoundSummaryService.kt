@@ -2,6 +2,7 @@ package dev.mbo.t60f.domain.round
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import dev.mbo.logging.logger
+import dev.mbo.t60f.domain.response.message.FeedbackResponseMessage
 import jakarta.transaction.Transactional
 import org.springframework.ai.chat.client.ChatClient
 import org.springframework.stereotype.Service
@@ -19,9 +20,11 @@ class FeedbackRoundSummaryService(
     companion object {
         private val PROMPT = """
 We gathered positive and constructive feedback from different persons for the receiver mentioned in the json.
-The senders are also next to their response.
-Please provide an English summary of positive and constructive feedback that we can show to the receiver.
-Do not mention the names of the persons giving feedback.
+The senders are also next to their response. Further there is the option to discuss every feedback between the receiver
+of the feedback and the sender of the feedback.
+Please provide an English summary of positive and constructive feedback that we can show to the receiver. Also take in
+account the messages the persons exchanged for a given feedback response.
+Do not mention any names in your summary.
 You also don't have to include a the receiver's name in a separate field because that is already displayed next 
 to your answer.
 Stay polite but don't hold back negative points.
@@ -43,6 +46,13 @@ If there hasn't been any feedback in responses or you have too little informatio
         val from: String,
         val positive: String,
         val constructive: String,
+        val messages: List<Message> = emptyList(),
+    )
+
+    data class Message(
+        val sender: String,
+        val content: String,
+        val createdAt: Instant,
     )
 
     data class Summary(
@@ -58,7 +68,20 @@ If there hasn't been any feedback in responses or you have too little informatio
     fun createSummary(round: FeedbackRound): Summary {
         val responses = round.givers
         val received = responses.filter { it.positiveFeedback != null && it.negativeFeedback != null }
-            .map { Response(from = it.email, positive = it.positiveFeedback!!, constructive = it.negativeFeedback!!) }
+            .map {
+                Response(
+                    from = it.email,
+                    positive = it.positiveFeedback!!,
+                    constructive = it.negativeFeedback!!,
+                    messages = it.messages.map { message: FeedbackResponseMessage ->
+                        Message(
+                            sender = message.senderMail,
+                            content = message.message,
+                            createdAt = message.createdAt!!
+                        )
+                    }
+                )
+            }
         if (received.isEmpty()) {
             return Summary(
                 receiver = round.receiver.email,
@@ -86,9 +109,11 @@ If there hasn't been any feedback in responses or you have too little informatio
         )
         val json = mapper.writeValueAsString(tmpRound)
         val enrichedPrompt = PROMPT + json
+        log.debug("summary prompt:\n{}", enrichedPrompt)
 
         round.summary = chatClient.prompt(enrichedPrompt).call().content()
         round.summaryTs = Instant.now()
+        log.debug("response: {}", round.summary)
         return Summary(
             receiver = round.receiver.email,
             requested = responses.size,
@@ -98,7 +123,7 @@ If there hasn't been any feedback in responses or you have too little informatio
     }
 
     fun loadRound(roundId: UUID): FeedbackRound {
-        return feedbackRoundRepository.findByIdWithResponses(roundId)
+        return feedbackRoundRepository.findByIdWithResponsesAndMessages(roundId)
             ?: throw IllegalArgumentException("No round with id $roundId")
     }
 

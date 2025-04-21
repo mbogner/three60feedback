@@ -25,11 +25,12 @@ interface FeedbackRoundRepository : JpaRepository<FeedbackRound, UUID> {
         """
         select r from FeedbackRound r
             join fetch r.givers g
+            join fetch g.messages
         where r.id=:feedbackRoundId
         order by r.createdAt desc
         """
     )
-    fun findByIdWithResponses(@Param("feedbackRoundId") feedbackRoundId: UUID): FeedbackRound?
+    fun findByIdWithResponsesAndMessages(@Param("feedbackRoundId") feedbackRoundId: UUID): FeedbackRound?
 
     @Query(
         """

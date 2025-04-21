@@ -50,7 +50,7 @@ class MyRoundController(
         authentication: Authentication?
     ): String {
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
-        val round = feedbackRoundRepository.findByIdWithResponses(roundId)
+        val round = feedbackRoundRepository.findByIdWithResponsesAndMessages(roundId)
         require(
             round?.receiver?.email == authentication.name
                     || round?.proxyReceiver?.email == authentication.name
