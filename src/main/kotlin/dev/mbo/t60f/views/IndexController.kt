@@ -1,24 +1,23 @@
 package dev.mbo.t60f.views
 
 import org.springframework.stereotype.Controller
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import org.springframework.web.servlet.view.RedirectView
 import java.util.UUID
 
 @Controller
 class IndexController {
 
-    @GetMapping(path = ["", "/"])
+    @GetMapping(path = ["", "/", "/index", "/index.html"])
     fun index(
         @RequestParam(required = false) companyId: UUID?,
-        redirectAttrs: RedirectAttributes
-    ): RedirectView {
+        model: ModelMap,
+    ): String {
         if (null != companyId) {
-            redirectAttrs.addAttribute("companyId", companyId)
+            model.addAttribute("companyId", companyId)
         }
-        return RedirectView("/requests")
+        return "index"
     }
 
 }

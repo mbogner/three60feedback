@@ -15,7 +15,9 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
             <ul class="navbar-nav align-items-center gap-3">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}">New Round</a>
+                    <a class="nav-link" th:if="${null == companyId}" th:href="@{/requests}">New Round</a>
+                    <a class="nav-link" th:if="${null != companyId}"
+                       th:href="@{/requests(companyId=${companyId})}">New Round</a>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">

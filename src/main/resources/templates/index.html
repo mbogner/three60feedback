@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Three 60 Feedback Home</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .feedback-header {
+            text-align: center;
+            margin-top: 50px;
+            margin-bottom: 30px;
+        }
+        .card {
+            border-radius: 20px;
+        }
+        .feedback-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container">
+    <div class="feedback-header">
+        <h1>Welcome to Three 60 Feedback</h1>
+        <p class="lead text-muted">Gather insights through ideas, opinions, and results</p>
+    </div>
+
+    <div class="card shadow-sm p-4 border-0 bg-white">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center mb-4 mb-md-0">
+                    <img src="/img/feedback.png" alt="Feedback Overview Image" class="feedback-img"/>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="mb-3">Why Feedback Matters</h4>
+                    <p class="text-muted">
+                        Three 60 Feedback gives everyone a voice—whether you're leading a team or part of one.
+                        Share insights, exchange opinions, and build a culture of continuous improvement.
+                        From surveys to comments and ratings, we make it easy to gather what really matters.
+                    </p>
+                    <a th:if="${null == companyId}" th:href="@{/requests}" class="btn btn-info mt-3">Start a Feedback Round</a>
+                    <a th:if="${null != companyId}" th:href="@{/requests(companyId=${companyId})}" class="btn btn-info mt-3">Start a Feedback Round</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
