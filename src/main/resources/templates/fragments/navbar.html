@@ -14,6 +14,10 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
             <ul class="navbar-nav align-items-center gap-3">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">New Round</a>
+                </li>
+
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                     <a class="nav-link" th:href="@{/my/open-feedback}">Open Feedback</a>
                 </li>
