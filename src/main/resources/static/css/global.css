@@ -8,10 +8,11 @@ body {
 
 .container {
     margin-top: 40px;
-    background: white;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding-left: 16px;
+    padding-right: 16px;
+    min-width: 640px;
+    max-width: 90%;
+    width: 100%;
 }
 
 /* Inputs */
