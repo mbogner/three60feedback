@@ -1,6 +1,7 @@
 package dev.mbo.t60f.domain.user.adapter
 
 import dev.mbo.logging.logger
+import dev.mbo.t60f.domain.company.SyncType
 import jakarta.validation.Validator
 
 abstract class EmailAdapter(private val validator: Validator) {
@@ -11,6 +12,8 @@ abstract class EmailAdapter(private val validator: Validator) {
         baseUrl: String,
         apiKey: String,
     ): Set<Email>
+
+    abstract fun validFor(): SyncType
 
     protected fun validated(mails: Set<Email>): Set<Email> {
         val result = mutableSetOf<Email>()

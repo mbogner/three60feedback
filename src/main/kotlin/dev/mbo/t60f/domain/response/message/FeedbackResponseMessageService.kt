@@ -49,7 +49,7 @@ class FeedbackResponseMessageService(
 
     @Transactional
     fun sendMail(responseMessage: FeedbackResponseMessage) {
-        val to = calculateTo(responseMessage.senderMail, responseMessage)
+        val to = FeedbackResponseMessage.calculateTo(responseMessage.senderMail, responseMessage)
         val content = """
 Hi $to,
 
@@ -69,29 +69,6 @@ t60f
         responseMessage.messageSentAt = Instant.now()
         responseMessage.messageSendFails = 0
         messageRepository.save(responseMessage)
-    }
-
-    companion object {
-        fun calculateTo(loginMail: String, message: FeedbackResponseMessage): String {
-            val response = message.feedbackResponse
-            val round = response.feedbackRound
-
-            // no proxy case
-            return if (round.proxyReceiver == null) {
-                if (loginMail == round.receiver.email) {
-                    response.email
-                } else {
-                    round.receiver.email
-                }
-            } else {
-                // proxy case
-                if (loginMail == round.proxyReceiver!!.email) {
-                    response.email
-                } else {
-                    round.proxyReceiver!!.email
-                }
-            }
-        }
     }
 
 }

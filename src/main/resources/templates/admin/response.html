@@ -9,30 +9,35 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 mb-4 border-0">
         <div class="card-body">
-            <h1>Three 60 Feedback Giver</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div class="mb-3">
-                <a th:href="@{/admin/rounds}">← Back to Rounds</a>
+            <h1 class="mb-4">Three 60 Feedback Details</h1>
+
+            <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
+
+            <div class="mb-4">
+                <a th:href="@{/admin/rounds}" class="btn btn-outline-secondary btn-sm">← Back to Rounds</a>
             </div>
-            <br/>
-            <h2>Details</h2>
-            <h3>Giver</h3>
-            <p th:text="${response.email}"></p>
-            <h3>Positive Feedback</h3>
-            <p th:text="${response.positiveFeedback}"></p>
-            <h3>Negative</h3>
-            <p th:text="${response.negativeFeedback}"></p>
-            <h3>NotifiedAt</h3>
-            <p th:text="${response.notifiedAt}"></p>
+
+            <div class="mb-3">
+                <h5 class="fw-semibold">Sender</h5>
+                <p th:text="${response.email}" class="mb-3"></p>
+
+                <h5 class="fw-semibold">Positive Feedback</h5>
+                <p th:text="${response.positiveFeedback}" class="mb-3"></p>
+
+                <h5 class="fw-semibold">Negative Feedback</h5>
+                <p th:text="${response.negativeFeedback}" class="mb-3"></p>
+
+                <h5 class="fw-semibold">Notified At</h5>
+                <p th:text="${response.notifiedAt}"></p>
+            </div>
         </div>
     </div>
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h2>Messages</h2>
+            <h2 class="mb-3">Messages</h2>
 
-            <!-- Messages list -->
             <div id="messageList" class="message-list d-flex flex-column gap-2">
                 <div th:each="message : ${response.messages}">
                     <div th:class="${message.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">

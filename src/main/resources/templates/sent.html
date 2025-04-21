@@ -2,23 +2,27 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f Feedback</title>
+    <title>Three 60 Feedback Submission</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>Three 60 Feedback Submission</h1>
-            <div>
-                <a th:href="@{/(companyId=${companyId})}">Home</a>
+            <h1 class="mb-4">Three 60 Feedback Submission</h1>
+
+            <div class="mb-4">
+                <a th:href="@{/(companyId=${companyId})}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
             </div>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
+
+            <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

@@ -2,49 +2,56 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f feedback</title>
+    <title>Feedback Form | Three 60</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>Feedback Form</h1>
-            <p>
+            <h1 class="mb-4">Feedback Form</h1>
+
+            <p class="lead">
                 Hi <span th:remove="tag" th:text="${giver.email}"></span>!
             </p>
-            <ul>
-                <li>You received an anonymous feedback request for the person mentioned in the mail you received.</li>
-                <li>The name of that person is not shown on this page for privacy reason.</li>
-                <li>Nobody will know who wrote the feedback if you leave no hints to yourself.</li>
-                <li>This system will store everything for a certain time to avoid abuse.</li>
-                <li>Only the person starting the feedback round will be able to read it. This can be the person itself
-                    or a coach.
-                </li>
-                <li>You can only submit this form once per request.</li>
-                <li>The requested focus isn't displayed here for privacy reason. Please check the mail for it.</li>
-            </ul>
-            <p>
-                Please enter your feedback below:
-            </p>
+
+            <div class="mb-4 p-3 border rounded bg-light">
+                <p class="mb-2">You're about to give anonymous feedback. Here's what to know:</p>
+                <ul class="mb-0 ps-4 small text-muted">
+                    <li>This feedback request is anonymous. The recipient was mentioned in your email.</li>
+                    <li>Names are hidden here to protect privacy.</li>
+                    <li>Your identity remains private as long as you don’t include personal clues.</li>
+                    <li>Feedback is stored temporarily to prevent misuse.</li>
+                    <li>Only the feedback round creator (receiver or coach) will see your response.</li>
+                    <li>Submissions are one-time only.</li>
+                    <li>Requested focus is in the email — it's not shown here.</li>
+                </ul>
+            </div>
+
+            <p>Please enter your feedback below:</p>
+
             <form th:action="@{/response/{id}/send(id=${giver.id})}" th:method="post">
-                <p>
-                    <label for="positive">Positive Feedback</label><br/>
-                    <textarea cols="120" id="positive" name="positive" required="" rows="10"></textarea>
-                </p>
-                <p>
-                    <label for="negative">Improvement Suggestions</label><br/>
-                    <textarea cols="120" id="negative" name="negative" required="" rows="10"></textarea>
-                </p>
+                <div class="mb-4">
+                    <label for="positive" class="form-label fw-semibold">Positive Feedback</label>
+                    <textarea id="positive" name="positive" class="form-control" rows="6" required></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label for="negative" class="form-label fw-semibold">Improvement Suggestions</label>
+                    <textarea id="negative" name="negative" class="form-control" rows="6" required></textarea>
+                </div>
+
                 <button class="btn btn-info rounded" type="submit">Submit</button>
             </form>
-            <br/>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function updateSubmitButton() {
@@ -58,11 +65,8 @@
         const positiveField = document.getElementById('positive');
         const negativeField = document.getElementById('negative');
         const submitButton = document.querySelector('button[type="submit"]');
-
-        // Disable button initially
         submitButton.disabled = true;
 
-        // Add listeners
         positiveField.addEventListener('input', updateSubmitButton);
         negativeField.addEventListener('input', updateSubmitButton);
     });

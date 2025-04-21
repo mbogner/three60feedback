@@ -1,7 +1,7 @@
 package dev.mbo.t60f.domain.request
 
 import dev.mbo.t60f.domain.company.Company
-import dev.mbo.t60f.global.AbstractEntity
+import dev.mbo.t60f.global.jpa.AbstractEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

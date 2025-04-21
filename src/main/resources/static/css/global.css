@@ -90,8 +90,6 @@ td.statusWarn {
     background: orange;
 }
 
-/* Optional: animate buttons or transitions if desired */
-
 .bubble {
     max-width: 70%;
     margin: 10px 0;
@@ -103,13 +101,8 @@ td.statusWarn {
     clear: both;
 }
 
-.bubble .meta {
-    font-size: 0.75rem;
-    color: #666;
-    margin-bottom: 4px;
-}
-
 .bubble.me {
+    margin-right: auto;
     background-color: #dcf8c6;
     align-self: flex-end;
     float: left;
@@ -117,8 +110,15 @@ td.statusWarn {
 }
 
 .bubble.other {
+    margin-left: auto;
     background-color: #f1f0f0;
     align-self: flex-start;
     float: right;
     border-top-right-radius: 0;
+}
+
+.bubble .meta {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 4px;
 }

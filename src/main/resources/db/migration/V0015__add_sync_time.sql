@@ -1,0 +1,2 @@
+ALTER TABLE companies
+    ADD COLUMN sync_time TIMESTAMP WITHOUT TIME ZONE;

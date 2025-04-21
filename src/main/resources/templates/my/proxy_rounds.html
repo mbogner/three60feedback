@@ -2,75 +2,85 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>Proxy Rounds | Three 60</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>My Three 60 Rounds</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div class="mb-3">
-                <a th:href="@{/}">← Back to Home</a>
+            <h1 class="mb-4">My Proxy Rounds</h1>
+
+            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
+
+            <div class="mb-4">
+                <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
             </div>
-            <div th:if="${rounds.size() &gt; 0}">
-                <table class="table table-striped">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Round</th>
-                        <th scope="col">Givers</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="round:${rounds}">
-                        <td>
-                            <span th:text="${round.id}"></span>
-                            <br/>
-                            <i>
-                                <b>Receiver: <span th:text="${round.receiver.email}"></span></b>
-                                <br/>
-                                (
-                                <span th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
-                                -
-                                <span th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></span>
-                                )
-                                <br/>
-                                Requests: <span th:text="${round.givers.size()}"></span>
-                                |
-                                Responses: <span th:text="${round.answered()}"></span>
-                            </i>
-                            <span th:if="${round.answered() &gt; 0}">
-                                <br/>
-                                <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id},source='proxy')}">
-                                    Answers
-                                </a>
-                                <span th:if="${round.answered() &gt; 1}" th:remove="tag">
-                                    |
-                                    <a th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id})}">
-                                        Summary
+
+            <div th:if="${rounds.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Round Info</th>
+                            <th>Senders</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="round : ${rounds}">
+                            <td>
+                                <div class="fw-semibold mb-1">Round ID: <span th:text="${round.id}"></span></div>
+
+                                <div class="text-muted small mb-1">
+                                    Receiver: <span th:text="${round.receiver.email}"></span>
+                                </div>
+
+                                <div class="text-muted small mb-1">
+                                    <span th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
+                                    –
+                                    <span th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></span>
+                                </div>
+
+                                <div class="small text-muted mb-2">
+                                    Requests: <span th:text="${round.givers.size()}"></span> |
+                                    Responses: <span th:text="${round.answered()}"></span>
+                                </div>
+
+                                <div th:if="${round.answered() > 0}">
+                                    <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id},source='proxy')}"
+                                       class="btn btn-sm btn-outline-primary me-2">
+                                        View Answers
                                     </a>
-                                </span>
-                            </span>
-                        </td>
-                        <td>
-                            <ul>
-                                <li th:each="giver:${round.givers}"
-                                    th:text="${#strings.arraySplit(giver.email, '@')[0]}"></li>
-                            </ul>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                                    <a th:if="${round.answered() > 1}"
+                                       th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id},source='proxy')}"
+                                       class="btn btn-sm btn-outline-secondary">
+                                        View Summary
+                                    </a>
+                                </div>
+                            </td>
+
+                            <td>
+                                <ul class="list-unstyled mb-0 small">
+                                    <li th:each="giver : ${round.givers}"
+                                        th:text="${#strings.arraySplit(giver.email, '@')[0]}"></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div th:if="${rounds.size() &lt; 1}">
-                No rounds yet.
+
+            <div th:if="${rounds.size() < 1}" class="text-muted">
+                You don’t have any proxy rounds at the moment.
             </div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

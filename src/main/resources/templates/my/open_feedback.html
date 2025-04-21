@@ -2,46 +2,60 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>My Open Feedback | Three 60</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>My Open Three 60 Feedback</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div class="mb-3">
-                <a th:href="@{/}">← Back to Home</a>
+            <h1 class="mb-4">My Open Three 60 Feedback</h1>
+
+            <!-- Optional flash message -->
+            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
+
+            <div class="mb-4">
+                <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
             </div>
-            <div th:if="${responses.size() &gt; 0}">
-                <table class="table table-striped">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Receiver</th>
-                        <th scope="col">CreatedAt</th>
-                        <th scope="col">Validity</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="response:${responses}">
-                        <td th:text="${response.feedbackRound.receiver.email}"></td>
-                        <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
-                        <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.validity), 'dd.MM.yyyy HH:mm')}"></td>
-                        <td><a th:href="@{/response/{responseId}(responseId=${response.id})}">Give Feedback</a></td>
-                    </tr>
-                    </tbody>
-                </table>
+
+            <!-- Table if feedback exists -->
+            <div th:if="${responses.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">Receiver</th>
+                            <th scope="col">Created At</th>
+                            <th scope="col">Valid Until</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="response : ${responses}">
+                            <td th:text="${response.feedbackRound.receiver.email}"></td>
+                            <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.validity), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td>
+                                <a th:href="@{/response/{responseId}(responseId=${response.id})}"
+                                   class="btn btn-sm btn-outline-primary">Give Feedback</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div th:if="${responses.size() &lt; 1}">
-                No open feedback.
+
+            <!-- Empty state -->
+            <div th:if="${responses.size() < 1}" class="text-muted">
+                You have no open feedback requests.
             </div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

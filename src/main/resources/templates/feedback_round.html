@@ -2,83 +2,145 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f start</title>
+    <title>Start Feedback Round | Three 60</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
+    <style>
+        .input-group {
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            overflow: hidden;
+            transition: box-shadow 0.15s ease-in-out;
+        }
+
+        .input-group:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            border-color: #86b7fe;
+        }
+
+        .input-group .form-control {
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .input-group .btn {
+            border: none;
+            background-color: #fff;
+            font-size: 1.25rem;
+            color: #6c757d;
+            padding: 0 0.75rem;
+        }
+
+        .input-group .btn:hover {
+            background-color: #f1f1f1;
+            color: #000;
+        }
+
+        #clearGiverSearch {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
     <div class="card shadow-sm p-4">
         <div class="card-body">
-            <h1>Start Feedback Round for <span th:remove="tag" th:text="${user.email}"></span></h1>
+            <h1 class="mb-4">Start Feedback Round</h1>
+            <p class="text-muted mb-4">You are setting up a round for <strong th:text="${user.email}"></strong>.</p>
+
             <form th:action="@{/rounds/create}" th:method="post">
                 <input id="requestId" name="requestId" th:value="${requestId}" type="hidden"/>
                 <input id="receiver" name="receiver" th:value="${user.email}" type="hidden"/>
-                <div class="mb-3" th:if="${#authorization.expression('hasRole(''COACH'')')}">
-                    <label class="form-label" for="proxy">Proxy Receiver</label>
+
+                <!-- Proxy Receiver -->
+                <div class="mb-4" th:if="${#authorization.expression('hasRole(''COACH'')')}">
+                    <label class="form-label fw-semibold" for="proxy">Proxy Receiver</label>
                     <select class="form-select" id="proxy" name="proxy" aria-describedby="proxyHelp">
                         <option value="">No Proxy</option>
                         <option th:value="${#authentication.name}" th:text="${#authentication.name}"></option>
                     </select>
                     <div class="form-text" id="proxyHelp">
-                        The person who should receive the feedback instead. Leave empty to gather feedback for yourself.
+                        The person who should receive the feedback instead. Leave empty to gather feedback for the
+                        person mentioned above.
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="days">Round Validity Days (2-14)</label>
+
+                <!-- Validity -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold" for="days">Round Validity Days (2–14)</label>
                     <input class="form-control" id="days" max="14" min="2" name="days" th:value="7"
                            type="number" aria-describedby="daysHelp" required/>
                     <div class="form-text" id="daysHelp">
-                        The maximum amount of days this feedback round will be open. Starts from the exact time it
-                        created plus the amount of days you chose here.
+                        The round will be open for this many days starting from now.
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="focus">Focus <i>(optional)</i></label>
-                    <textarea class="form-control" id="focus" name="focus" type="text" aria-describedby="focusHelp"
+
+                <!-- Focus -->
+                <div class="mb-4">
+                    <label class="form-label fw-semibold" for="focus">Focus <i>(optional)</i></label>
+                    <textarea class="form-control" id="focus" name="focus" aria-describedby="focusHelp"
                               rows="5" maxlength="1024"></textarea>
                     <div class="form-text" id="focusHelp">
-                        Any special question(s) or point(s) you would like to ask?.
+                        Any special question(s) or point(s) you'd like to ask.
                     </div>
                 </div>
-                <div th:if="${users.size() &gt; 0}">
-                    <table class="table table-striped">
-                        <thead class="thead-light">
-                        <tr>
-                            <th scope="col">select at least 5 feedback givers to keep the round anonymous</th>
-                        </tr>
-                        <tr>
-                            <th scope="col">
-                                <button class="btn btn-secondary btn-sm rounded" onclick="selectAllCheckboxes(true)"
-                                        type="button">
-                                    Select All
-                                </button>
-                                <button class="btn btn-secondary btn-sm rounded" onclick="selectAllCheckboxes(false)"
-                                        type="button">
-                                    Deselect All
-                                </button>
-                            </th>
-                        </tr>
-                        </thead>
+
+                <!-- Givers -->
+                <div th:if="${users.size() > 0}" class="p-3 mb-4 border rounded bg-light">
+                    <h5 class="mb-3">Select Feedback Givers</h5>
+                    <p class="small text-muted mb-3">
+                        Please select at least 5 feedback givers to maintain anonymity.
+                    </p>
+
+                    <!-- Search -->
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <input type="text" id="giverSearch" class="form-control" placeholder="🔍 Search by email...">
+                            <button type="button" id="clearGiverSearch" class="btn" aria-label="Clear search">×</button>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="mb-3">
+                        <button class="btn btn-secondary btn-sm rounded me-2" onclick="selectAllCheckboxes(true)"
+                                type="button">
+                            Select All
+                        </button>
+                        <button class="btn btn-secondary btn-sm rounded" onclick="selectAllCheckboxes(false)"
+                                type="button">
+                            Deselect All
+                        </button>
+                        <div class="form-text mt-1">
+                            These buttons work on the full list, not just filtered results.
+                        </div>
+                    </div>
+
+                    <!-- Giver checkboxes -->
+                    <table class="table table-sm table-striped">
                         <tbody>
-                        <tr th:each="invite:${users}">
+                        <tr th:each="invite : ${users}" class="giver-row">
                             <td th:if="${user.email != invite.email}">
                                 <input name="invites" th:id="${invite.email}" th:value="${invite.email}"
                                        type="checkbox"/>
-                                <label th:for="${invite.email}" th:text="${invite.email}"></label>
+                                <label th:for="${invite.email}" th:text="${invite.email}" class="ms-2"></label>
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+
                 <button class="btn btn-info rounded" type="submit">Start Feedback Round</button>
             </form>
-            <br/>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function selectAllCheckboxes(select) {
@@ -101,6 +163,33 @@
             checkbox.addEventListener('change', updateSubmitButton);
         });
         updateSubmitButton(); // Initial check
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('giverSearch');
+        const clearButton = document.getElementById('clearGiverSearch');
+        const rows = document.querySelectorAll('.giver-row');
+
+        function filterGivers() {
+            const query = searchInput.value.toLowerCase();
+            let visible = 0;
+            rows.forEach(row => {
+                const label = row.querySelector('label')?.innerText.toLowerCase() || '';
+                const match = label.includes(query);
+                row.style.display = match ? '' : 'none';
+                if (match) visible++;
+            });
+        }
+
+        searchInput?.addEventListener('input', filterGivers);
+
+        clearButton?.addEventListener('click', () => {
+            searchInput.value = '';
+            filterGivers();
+            searchInput.focus();
+        });
+
+        filterGivers(); // initial filter
     });
 </script>
 </body>

@@ -2,7 +2,7 @@ package dev.mbo.t60f.domain.round
 
 import dev.mbo.t60f.domain.response.FeedbackResponse
 import dev.mbo.t60f.domain.user.User
-import dev.mbo.t60f.global.AbstractEntity
+import dev.mbo.t60f.global.jpa.AbstractEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

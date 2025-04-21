@@ -2,35 +2,58 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>Three 60 Round Summary</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>Three 60 Round Summary</h1>
+            <h1 class="mb-4">Three 60 Round Summary</h1>
+
+            <!-- Back link -->
             <div class="mb-3">
-                <a th:href="@{/admin/rounds}">← Back to Rounds</a>
+                <a th:href="@{/admin/rounds}" class="btn btn-outline-secondary btn-sm">← Back to Admin Rounds</a>
             </div>
-            <div class="mb-3">
-                Receiver: <span th:text="${round.receiver.email}"></span>
+
+            <!-- Receiver info -->
+            <div class="mb-4">
+                <strong>Receiver:</strong>
+                <span th:text="${round.receiver.email}"></span>
             </div>
-            <h2>Meta</h2>
-            <p>Requested: <span th:text="${summary.requested}"></span></p>
-            <p>Responded: <span th:text="${summary.responded}"></span></p>
-            <p>CreatedAt: <span th:text="${#dates.format(@dateUtils.toLocal(summary.roundCreatedAt), 'dd.MM.yyyy HH:mm')}"></span></p>
-            <h2>Summary</h2>
-            <i><small>( updatedAt:
-                <span th:text="${#dates.format(@dateUtils.toLocal(round.summaryTs), 'dd.MM.yyyy HH:mm')}"
-                      th:remove="tag"></span>
-                )</small></i>
-            <p th:utext="${round.summary}"></p>
+
+            <!-- Meta section -->
+            <h2 class="h5 text-muted fw-semibold mb-3">Meta</h2>
+            <div class="mb-4">
+                <div class="mb-2">
+                    <strong>Requested:</strong>
+                    <span th:text="${summary.requested}"></span>
+                </div>
+                <div class="mb-2">
+                    <strong>Responded:</strong>
+                    <span th:text="${summary.responded}"></span>
+                </div>
+                <div class="mb-2">
+                    <strong>Created At:</strong>
+                    <span th:text="${#dates.format(@dateUtils.toLocal(summary.roundCreatedAt), 'dd.MM.yyyy HH:mm')}"></span>
+                </div>
+            </div>
+
+            <!-- Summary section -->
+            <h2 class="h5 text-muted fw-semibold mb-3">Summary</h2>
+            <div class="text-muted small mb-2">
+                Last updated:
+                <span th:text="${#dates.format(@dateUtils.toLocal(round.summaryTs), 'dd.MM.yyyy HH:mm')}"></span>
+            </div>
+
+            <div class="p-3 border rounded bg-light" th:utext="${round.summary}"></div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

@@ -30,26 +30,33 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 mb-4 border-0">
         <div class="card-body">
-            <h1>Three 60 Feedback Giver</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div class="mb-3">
-                <a th:href="@{/}" th:if="${source == null}">← Back to Home</a>
-                <a th:href="@{/my/rounds}" th:if="${source == 'my'}">← Back to Rounds</a>
-                <a th:href="@{/my/rounds/proxy}" th:if="${source == 'proxy'}">← Back to Proxy Rounds</a>
+            <h1 class="mb-4">Three 60 Feedback Details</h1>
+
+            <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
+
+            <div class="mb-4">
+                <a th:href="@{/}" th:if="${source == null}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
+                <a th:href="@{/my/rounds}" th:if="${source == 'my'}" class="btn btn-outline-secondary btn-sm">← Back to Rounds</a>
+                <a th:href="@{/my/rounds/proxy}" th:if="${source == 'proxy'}" class="btn btn-outline-secondary btn-sm">← Back to Proxy Rounds</a>
             </div>
-            <br/>
-            <h2>Details</h2>
-            <h3>Positive Feedback</h3>
-            <p th:text="${response.positiveFeedback}"></p>
-            <h3>Improvement Suggestions</h3>
-            <p th:text="${response.negativeFeedback}"></p>
+
+            <div class="mb-3">
+                <h5 class="fw-semibold">Positive Feedback</h5>
+                <p th:text="${response.positiveFeedback}" class="mb-3"></p>
+
+                <h5 class="fw-semibold">Improvement Suggestions</h5>
+                <p th:text="${response.negativeFeedback}" class="mb-3"></p>
+
+                <h5 class="fw-semibold">Notified At</h5>
+                <p th:text="${response.notifiedAt}"></p>
+            </div>
         </div>
     </div>
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h2>Messages</h2>
+            <h2 class="mb-3">Messages</h2>
 
             <!-- Chat input form -->
             <div class="chat-input-container border-bottom pb-3 mb-4">
@@ -72,7 +79,7 @@
                 <div th:each="message : ${response.messages}">
                     <div th:class="${message.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
                         <div class="meta">
-                            <span class="sender" th:text="${message.senderMail}"></span>
+                            <span class="sender" th:text="${message.senderMail == loggedInUserMail} ? ${loggedInUserMail} : 'sender'"></span>
                             <span class="ts"
                                   th:text="${#dates.format(@dateUtils.toLocal(message.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
                         </div>

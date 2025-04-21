@@ -2,7 +2,7 @@ package dev.mbo.t60f.domain.response
 
 import dev.mbo.t60f.domain.response.message.FeedbackResponseMessage
 import dev.mbo.t60f.domain.round.FeedbackRound
-import dev.mbo.t60f.global.AbstractEntity
+import dev.mbo.t60f.global.jpa.AbstractEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

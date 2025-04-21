@@ -2,46 +2,81 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>Round Overview | Three 60</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
+    <style>
+        .clickable-row {
+            cursor: pointer;
+        }
+
+        .clickable-row:hover {
+            background-color: #f8f9fa;
+        }
+
+        .feedback-table th,
+        .feedback-table td {
+            width: 50%;
+            vertical-align: top;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>My Three 60 Round Overview</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div class="mb-3">
-                <a th:href="@{/my/rounds}" th:if="${source == null or source == 'my'}">← Back to Rounds</a>
-                <a th:href="@{/my/rounds/proxy}"  th:if="${source == 'proxy'}">← Back to Proxy Rounds</a>
+            <h1 class="mb-4">My Three 60 Round Overview</h1>
+
+            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
+
+            <!-- Back navigation -->
+            <div class="mb-4">
+                <a th:href="@{/my/rounds}"
+                   th:if="${source == null or source == 'my'}"
+                   class="btn btn-outline-secondary btn-sm">← Back to Rounds</a>
+
+                <a th:href="@{/my/rounds/proxy}"
+                   th:if="${source == 'proxy'}"
+                   class="btn btn-outline-secondary btn-sm">← Back to Proxy Rounds</a>
             </div>
-            <table class="table table-striped">
-                <thead class="thead-light">
-                <tr>
-                    <th scope="col">Timestamp</th>
-                    <th scope="col">Positive Feedback</th>
-                    <th scope="col">Improvement Suggestion</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="response:${responses}">
-                    <td>
-                        <a th:href="@{/my/response/{responseId}/questions(responseId=${response.id},source=${source})}"
-                           th:text="${#dates.format(@dateUtils.toLocal(response.notifiedAt), 'dd.MM.yyyy HH:mm')}"></a>
-                    </td>
-                    <td th:text="${response.positiveFeedback}"></td>
-                    <td th:text="${response.negativeFeedback}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div th:if="${responses.size() &lt; 1}">
-            No responses yet.
+
+            <!-- Table -->
+            <div th:if="${responses.size() > 0}">
+                <div class="mb-3">
+                    <div class="form-text mt-2">
+                        Tip: Click anywhere on a row to view the full response.
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle feedback-table">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">Positive Feedback</th>
+                            <th scope="col">Improvement Suggestion</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="response : ${responses}"
+                            th:attr="onclick=|window.location='@{/my/response/{responseId}/questions(responseId=${response.id},source=${source})}'|"
+                            class="clickable-row">
+                            <td th:text="${response.positiveFeedback}"></td>
+                            <td th:text="${response.negativeFeedback}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Empty state -->
+            <div th:if="${responses.size() < 1}" class="text-muted">
+                No responses yet.
+            </div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

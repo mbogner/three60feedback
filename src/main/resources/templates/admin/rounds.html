@@ -2,74 +2,82 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>Three 60 Rounds</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>Three 60 Rounds</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div class="mb-3">
-                <a th:href="@{/admin}">← Back to Admin</a>
+            <h1 class="mb-4">Three 60 Rounds</h1>
+
+            <div class="alert alert-primary" th:if="${message}" th:text="${message}"></div>
+
+            <div class="mb-4">
+                <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm">← Back to Admin</a>
             </div>
-            <div th:if="${rounds.size() &gt; 0}">
-                <table class="table table-striped">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Company</th>
-                        <th scope="col">Receiver</th>
-                        <th scope="col">Givers</th>
-                        <th scope="col">CreatedAt</th>
-                        <th scope="col">Validity</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="round:${rounds}">
-                        <td th:text="${round.id}"></td>
-                        <td th:text="${round.receiver.company.name}"></td>
-                        <td>
-                            <span th:text="${#strings.arraySplit(round.receiver.email, '@')[0]}" th:remove="tag"></span>
-                            <span th:if="${round.proxyReceiver != null}">
-                                <br/>
-                                (Proxy: <span th:text="${#strings.arraySplit(round.proxyReceiver.email, '@')[0]}"
-                                              th:remove="tag"></span>)
-                            </span>
-                        </td>
-                        <td>
-                            <ul style="list-style: none; padding-left: 0;">
-                                <li th:each="giver:${round.givers}">
-                                    <span th:if="${giver.notifiedAt != null}" th:remove="tag">
-                                        <span class="handed-in">✅</span>
-                                        <a th:href="@{/admin/rounds/{roundId}/responses/{responseId}(roundId=${round.id},responseId=${giver.id})}"
-                                           th:text="${#strings.arraySplit(giver.email, '@')[0]}">
-                                        </a>
-                                    </span>
-                                    <span th:if="${giver.notifiedAt == null}" th:remove="tag">
-                                        <span class="handed-in">❌</span>
-                                        <span th:text="${#strings.arraySplit(giver.email, '@')[0]}"></span>
-                                    </span>
-                                    <span th:if="${giver.reported == true}">‼️</span>
-                                </li>
-                                <li><a th:href="@{/admin/rounds/{roundId}/summary(roundId=${round.id})}">Summary</a></li>
-                            </ul>
-                        </td>
-                        <td th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
-                        <td th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+
+            <div th:if="${rounds.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Company</th>
+                            <th>Receiver</th>
+                            <th>Givers</th>
+                            <th>Created At</th>
+                            <th>Valid Until</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="round : ${rounds}">
+                            <td th:text="${round.id}"></td>
+                            <td th:text="${round.receiver.company.name}"></td>
+                            <td>
+                                <span class="fw-semibold" th:text="${#strings.arraySplit(round.receiver.email, '@')[0]}"></span>
+                                <div th:if="${round.proxyReceiver != null}" class="text-muted small">
+                                    (Proxy: <span th:text="${#strings.arraySplit(round.proxyReceiver.email, '@')[0]}"></span>)
+                                </div>
+                            </td>
+                            <td>
+                                <ul class="list-unstyled mb-0">
+                                    <li th:each="giver : ${round.givers}" class="mb-1">
+                                        <span th:if="${giver.notifiedAt != null}">
+                                            ✅
+                                            <a th:href="@{/admin/rounds/{roundId}/responses/{responseId}(roundId=${round.id}, responseId=${giver.id})}"
+                                               th:text="${#strings.arraySplit(giver.email, '@')[0]}"
+                                               class="text-decoration-none fw-semibold"></a>
+                                        </span>
+                                        <span th:if="${giver.notifiedAt == null}">
+                                            ❌ <span th:text="${#strings.arraySplit(giver.email, '@')[0]}"></span>
+                                        </span>
+                                        <span th:if="${giver.reported == true}" class="ms-2 text-danger">‼️</span>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a class="btn btn-sm btn-outline-secondary"
+                                           th:href="@{/admin/rounds/{roundId}/summary(roundId=${round.id})}">Summary</a>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div th:if="${rounds.size() &lt; 1}">
+
+            <div th:if="${rounds.size() < 1}" class="text-muted">
                 No open rounds at the moment.
             </div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>

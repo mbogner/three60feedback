@@ -1,7 +1,7 @@
 package dev.mbo.t60f.domain.response.message
 
 import dev.mbo.t60f.domain.response.FeedbackResponse
-import dev.mbo.t60f.global.AbstractEntity
+import dev.mbo.t60f.global.jpa.AbstractEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -61,6 +61,29 @@ class FeedbackResponseMessage(
             .plus("message" to message)
             .plus("messageSentAt" to messageSentAt)
             .plus("messageSendFails" to messageSendFails)
+    }
+
+    companion object {
+        fun calculateTo(loginMail: String, message: FeedbackResponseMessage): String {
+            val response = message.feedbackResponse
+            val round = response.feedbackRound
+
+            // no proxy case
+            return if (round.proxyReceiver == null) {
+                if (loginMail == round.receiver.email) {
+                    response.email
+                } else {
+                    round.receiver.email
+                }
+            } else {
+                // proxy case
+                if (loginMail == round.proxyReceiver!!.email) {
+                    response.email
+                } else {
+                    round.proxyReceiver!!.email
+                }
+            }
+        }
     }
 
 }

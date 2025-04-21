@@ -2,24 +2,34 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>Admin | Three 60 Feedback</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm border-0">
         <div class="card-body">
-            <h1>Three 60 Admin</h1>
-            <ul>
-                <li><a href="/admin/companies">Companies</a></li>
-                <li><a href="/admin/rounds">Rounds</a></li>
-            </ul>
+            <h1 class="mb-4">Admin Dashboard</h1>
+            <div class="list-group">
+                <a href="/admin/companies" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span>🏢 Companies</span>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+                <a href="/admin/rounds" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span>📊 Rounds</span>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<!-- Bootstrap Icons (optional, for chevrons/icons) -->
+<link rel="stylesheet" th:href="@{/css/bootstrap-icons.css}"/>
 </body>
 </html>

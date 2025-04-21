@@ -2,7 +2,7 @@ package dev.mbo.t60f.domain.user
 
 import dev.mbo.t60f.domain.company.Company
 import dev.mbo.t60f.domain.user.converter.RoleListConverter
-import dev.mbo.t60f.global.AbstractEntity
+import dev.mbo.t60f.global.jpa.AbstractEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Convert
 import jakarta.persistence.Entity

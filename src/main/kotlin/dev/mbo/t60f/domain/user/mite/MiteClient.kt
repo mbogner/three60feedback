@@ -1,8 +1,9 @@
 package dev.mbo.t60f.domain.user.mite
 
 import dev.mbo.logging.logger
-import dev.mbo.t60f.global.ClientException
-import dev.mbo.t60f.global.ClientUtil
+import dev.mbo.t60f.domain.user.mite.dto.MiteUserWrapperDto
+import dev.mbo.t60f.global.exc.ClientException
+import dev.mbo.t60f.global.util.ClientUtil
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders

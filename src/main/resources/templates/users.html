@@ -2,58 +2,137 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8"/>
-    <title>t60f users</title>
+    <title>Start Feedback Round | Three 60</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" th:href="@{/css/global.css}"/>
+    <style>
+        #clearSearch {
+            font-size: 1.2rem;
+            padding: 0 0.75rem;
+            line-height: 1;
+        }
+
+        .input-group {
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            overflow: hidden;
+            transition: box-shadow 0.15s ease-in-out;
+        }
+
+        .input-group:focus-within {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            border-color: #86b7fe;
+        }
+
+        .input-group .form-control {
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .input-group .btn {
+            border: none;
+            background-color: #fff;
+            font-size: 1.25rem;
+            color: #6c757d;
+            padding: 0 0.75rem;
+        }
+
+        .input-group .btn:hover {
+            background-color: #f1f1f1;
+            color: #000;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            cursor: default;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
+
 <div class="container">
-    <div class="card shadow-sm p-4">
+    <div class="card shadow-sm p-4 border-0">
         <div class="card-body">
-            <h1>Three 60 Feedback Round</h1>
-            <div class="alert alert-primary mt-2" th:if="${message}" th:text="${message}"></div>
-            <div th:if="${users.size() &gt; 0}">
-                <div class="mb-3" th:if="${#authorization.expression('hasRole(''COACH'')')}">
-                    <input type="text" id="emailSearch" class="form-control" placeholder="Search by email...">
+            <h1 class="mb-4">Start a Feedback Round</h1>
+
+            <!-- Flash message -->
+            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
+
+            <!-- Search input -->
+            <div class="mb-4" th:if="${#authorization.expression('hasRole(''COACH'')')}">
+                <div class="input-group">
+                    <input type="text" id="emailSearch" class="form-control" placeholder="🔍 Search by email...">
+                    <button type="button" id="clearSearch" class="btn" aria-label="Clear search">×</button>
                 </div>
-                <table class="table table-striped">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Request from</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody id="userTableBody">
-                    <tr th:each="user : ${users}">
-                        <td><span th:remove="tag" th:text="${user.email}"></span></td>
-                        <td>
-                            <a class="btn btn-info rounded"
-                               th:href="@{/users/{userId}/feedback_round(userId=${user.id},requestId=${requestId})}">
-                                Start Feedback Round
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
             </div>
-            <div th:if="${users.size() &lt; 1}">
-                No user yet.
+
+            <!-- User table -->
+            <div th:if="${users.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col">User Email</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="userTableBody">
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.email}"></td>
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm rounded"
+                                   th:href="@{/users/{userId}/feedback_round(userId=${user.id},requestId=${requestId})}">
+                                    Start Feedback Round
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <br/>
+
+            <!-- Empty state -->
+            <div th:if="${users.size() < 1}" class="text-muted">
+                No users available to start a round.
+            </div>
         </div>
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
-    document.getElementById('emailSearch').addEventListener('input', function () {
+    document.getElementById('emailSearch')?.addEventListener('input', function () {
         const query = this.value.toLowerCase();
         const rows = document.querySelectorAll('#userTableBody tr');
 
         rows.forEach(row => {
             const email = row.querySelector('td').innerText.toLowerCase();
             row.style.display = email.includes(query) ? '' : 'none';
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('emailSearch');
+        const clearButton = document.getElementById('clearSearch');
+        const rows = document.querySelectorAll('#userTableBody tr');
+
+        function filterRows() {
+            const query = searchInput.value.toLowerCase();
+            rows.forEach(row => {
+                const email = row.querySelector('td').innerText.toLowerCase();
+                row.style.display = email.includes(query) ? '' : 'none';
+            });
+        }
+
+        searchInput?.addEventListener('input', filterRows);
+
+        clearButton?.addEventListener('click', () => {
+            searchInput.value = '';
+            filterRows();
+            searchInput.focus();
         });
     });
 </script>

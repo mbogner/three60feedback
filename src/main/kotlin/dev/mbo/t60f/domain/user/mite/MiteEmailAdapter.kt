@@ -1,6 +1,7 @@
 package dev.mbo.t60f.domain.user.mite
 
 import dev.mbo.logging.logger
+import dev.mbo.t60f.domain.company.SyncType
 import dev.mbo.t60f.domain.user.adapter.Email
 import dev.mbo.t60f.domain.user.adapter.EmailAdapter
 import jakarta.validation.Validator
@@ -22,6 +23,10 @@ class MiteEmailAdapter(
         log.info("retrieved ${miteUsers.size} active users from mite")
         val mails = miteUsers.map { Email(it.user.email) }.toSet()
         return validated(mails)
+    }
+
+    override fun validFor(): SyncType {
+        return SyncType.MITE
     }
 
 }
