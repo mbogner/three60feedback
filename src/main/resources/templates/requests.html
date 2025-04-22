@@ -20,7 +20,7 @@
 
             <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
 
-            <form th:action="@{/requests}" th:method="post" class="needs-validation" novalidate>
+            <form th:action="@{/requests}" th:method="post" class="needs-validation">
                 <div class="mb-4">
                     <label for="companyId" class="form-label fw-semibold">Company ID</label>
                     <input type="text" class="form-control" id="companyId" name="companyId" th:value="${companyId}"
