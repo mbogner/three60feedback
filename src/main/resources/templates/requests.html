@@ -24,7 +24,7 @@
                 <div class="mb-4">
                     <label for="companyId" class="form-label fw-semibold">Company ID</label>
                     <input type="text" class="form-control" id="companyId" name="companyId" th:value="${companyId}"
-                           aria-describedby="companyIdHelp" required>
+                           aria-describedby="companyIdHelp" minlength="5" maxlength="255" required>
                     <div id="companyIdHelp" class="form-text">
                         Get this from your supervisor or team lead.
                     </div>
@@ -32,7 +32,7 @@
 
                 <div class="mb-4">
                     <label for="email" class="form-label fw-semibold">Your Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email"
+                    <input type="email" class="form-control" id="email" name="email" minlength="5" maxlength="255"
                            aria-describedby="emailHelp" required>
                     <div id="emailHelp" class="form-text">
                         You'll receive your feedback round link via this email.

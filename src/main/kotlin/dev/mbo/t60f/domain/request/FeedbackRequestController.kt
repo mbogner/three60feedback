@@ -45,6 +45,7 @@ class FeedbackRequestController(
         response: HttpServletResponse
     ): String {
         log.debug("request: {}", dto)
+        require(dto.email.trim().isNotBlank()) { "email must not be blank" }
         service.create(dto)
         model.addAttribute("message", "Sent token to ${dto.email}")
         model.addAttribute("companyId", dto.companyId)
