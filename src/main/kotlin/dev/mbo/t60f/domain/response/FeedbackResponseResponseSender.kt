@@ -58,7 +58,11 @@ Improvement Suggestions:
 ${response.negativeFeedback}
 --------------
 
+You can ask questions or comment here:
+$baseUrl/my/response/${response.id}/questions?source=mail
+
 Click this link to report the feedback: $baseUrl/response/${response.id}/report
+After reporting you have to contact an admin.
 You can also undo the report by clicking: $baseUrl/response/${response.id}/unreport
 
 Yours,
