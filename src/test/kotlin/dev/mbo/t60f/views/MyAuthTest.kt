@@ -33,7 +33,7 @@ class MyAuthTest : AbstractSpringBootMailTest() {
 
         @Test
         fun proxRoundsAuth() {
-            mockMvc().perform(get("/my/rounds/proxy"))
+            mockMvc().perform(get("/my/proxy"))
                 .andDo(print())
                 .andExpect(status().isFound)
                 .andExpect(redirectedUrlPattern("**/login"))
@@ -71,7 +71,7 @@ class MyAuthTest : AbstractSpringBootMailTest() {
         @Test
         @WithMockUser(roles = ["USER"])
         fun proxyRoundsAsUser() {
-            mockMvc().perform(get("/my/rounds/proxy"))
+            mockMvc().perform(get("/my/proxy"))
                 .andDo(print())
                 .andExpect(status().isOk)
         }
@@ -108,7 +108,7 @@ class MyAuthTest : AbstractSpringBootMailTest() {
         @Test
         @WithMockUser(roles = ["ADMIN"])
         fun proxyRoundsAsAdmin() {
-            mockMvc().perform(get("/my/rounds/proxy"))
+            mockMvc().perform(get("/my/proxy"))
                 .andDo(print())
                 .andExpect(status().isForbidden)
         }
