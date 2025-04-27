@@ -34,6 +34,9 @@ class AdminCompanyController(
         return "admin/companies"
     }
 
+    @GetMapping("/new")
+    fun edit(): String = "admin/company_new"
+
     @Transactional
     @PostMapping
     fun create(

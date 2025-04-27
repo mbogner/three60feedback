@@ -15,6 +15,9 @@
                 <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm">
                     <i class="bi bi-arrow-left"></i>&nbsp;Back to Admin
                 </a>
+                <a th:href="@{/admin/companies/new}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-file-earmark-plus"></i>&nbsp;New
+                </a>
             </div>
 
             <div th:if="${companies.size() > 0}">
@@ -68,44 +71,6 @@
 
             <div th:if="${companies.size() < 1}" class="text-muted mb-4">
                 No companies yet.
-            </div>
-
-            <div class="card border-0 shadow-sm mt-5">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Add New Company</h5>
-                    <form th:action="@{/admin/companies}" th:method="post">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required minlength="2"
-                                   maxlength="255" aria-describedby="nameHelp"/>
-                            <div class="form-text" id="nameHelp">Name of the company to create.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="domains" class="form-label">Domains</label>
-                            <input type="text" class="form-control" id="domains" name="domains" required minlength="3"
-                                   maxlength="1000" pattern="(.+[.].+,?)+" aria-describedby="domainsHelp"/>
-                            <div class="form-text" id="domainsHelp">Comma separated list of domains to accept.</div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="miteBaseUrl" class="form-label">MiteBaseUrl</label>
-                            <input type="url" class="form-control" id="miteBaseUrl" name="miteBaseUrl" required
-                                   minlength="10" maxlength="255" pattern="^https://.+[.]mite[.]de$"
-                                   aria-describedby="miteBaseUrlHelp"/>
-                            <div class="form-text" id="miteBaseUrlHelp">Mite base URL starting with https://.</div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="miteApiKey" class="form-label">MiteApiKey</label>
-                            <input type="password" class="form-control" id="miteApiKey" name="miteApiKey" required
-                                   minlength="8" maxlength="32" aria-describedby="miteApiKeyHelp"/>
-                            <div class="form-text" id="miteApiKeyHelp">API key for the mite account.</div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary rounded">Create Company</button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
