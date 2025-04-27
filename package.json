@@ -8,6 +8,7 @@
     "watch-ts": "tsc --watch"
   },
   "devDependencies": {
+    "@types/bootstrap": "^5.2.10",
     "sass": "^1.87.0",
     "typescript": "^5.8.3"
   }

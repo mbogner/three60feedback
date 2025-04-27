@@ -1,6 +1,26 @@
-function confirmUserSync(): boolean {
-    return confirm('Are you sure? This will contact external systems and update the user list.');
-}
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof bootstrap === 'undefined') {
+        console.error('Bootstrap is not loaded.');
+        return;
+    }
 
-// Expose it to global window because your HTML calls it inline `onclick="return confirmSync()"`
-(window as any).confirmSync = confirmUserSync;
+    const openModalButton = document.getElementById('openSyncModal') as HTMLButtonElement | null;
+    const confirmButton = document.getElementById('confirmSyncButton') as HTMLButtonElement | null;
+    const syncForm = document.getElementById('syncForm') as HTMLFormElement | null;
+    const confirmModalElement = document.getElementById('confirmSyncModal') as HTMLElement | null;
+
+    if (!openModalButton || !confirmButton || !syncForm || !confirmModalElement) {
+        console.error('One or more required elements not found.');
+        return;
+    }
+
+    const confirmModal = new (bootstrap as any).Modal(confirmModalElement);
+
+    openModalButton.addEventListener('click', () => {
+        confirmModal.show();
+    });
+
+    confirmButton.addEventListener('click', () => {
+        syncForm.submit();
+    });
+});

@@ -9,18 +9,18 @@
         <div class="card-body">
             <h1 class="mb-4">Company Users</h1>
 
-            <div class="alert alert-primary" th:if="${message}" th:text="${message}"></div>
+            <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
 
             <div class="mb-4">
-                <a th:href="@{/admin/companies}" class="btn btn-outline-secondary btn-sm"><i
-                        class="bi bi-arrow-left"></i>&nbsp; Back to Companies</a>
+                <a th:href="@{/admin/companies}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i>&nbsp; Back to Companies
+                </a>
             </div>
 
             <!-- Top Sync Button -->
-            <form th:action="@{/admin/sync}" th:method="post" class="mb-4">
+            <form id="syncForm" th:action="@{/admin/sync}" th:method="post" class="mb-4">
                 <input id="companyId" name="companyId" th:value="${companyId}" type="hidden"/>
-                <button type="submit" class="btn btn-primary rounded" onclick="return confirmSync()"
-                        aria-describedby="submitHelp">
+                <button type="button" class="btn btn-primary rounded" id="openSyncModal" aria-describedby="submitHelp">
                     <i class="bi bi-arrow-repeat"></i>&nbsp;Sync&nbsp;Users
                 </button>
                 <div class="form-text mt-1" id="submitHelp">
@@ -53,6 +53,26 @@
         </div>
     </div>
 </div>
+
+<!-- Confirm Sync Modal -->
+<div class="modal fade" id="confirmSyncModal" tabindex="-1" aria-labelledby="confirmSyncModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmSyncModalLabel">Confirm User Sync</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to sync users? This will contact external systems and update the user list.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSyncButton">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 <script th:src="@{/js/admin/sync.js(v=${commitVersion})}" defer></script>
 </body>

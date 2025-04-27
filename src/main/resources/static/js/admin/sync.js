@@ -1,6 +1,22 @@
 "use strict";
-function confirmUserSync() {
-    return confirm('Are you sure? This will contact external systems and update the user list.');
-}
-// Expose it to global window because your HTML calls it inline `onclick="return confirmSync()"`
-window.confirmSync = confirmUserSync;
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof bootstrap === 'undefined') {
+        console.error('Bootstrap is not loaded.');
+        return;
+    }
+    const openModalButton = document.getElementById('openSyncModal');
+    const confirmButton = document.getElementById('confirmSyncButton');
+    const syncForm = document.getElementById('syncForm');
+    const confirmModalElement = document.getElementById('confirmSyncModal');
+    if (!openModalButton || !confirmButton || !syncForm || !confirmModalElement) {
+        console.error('One or more required elements not found.');
+        return;
+    }
+    const confirmModal = new bootstrap.Modal(confirmModalElement);
+    openModalButton.addEventListener('click', () => {
+        confirmModal.show();
+    });
+    confirmButton.addEventListener('click', () => {
+        syncForm.submit();
+    });
+});
