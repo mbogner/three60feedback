@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('index', ${commitVersion}, 'Three 60 Feedback Home')}"></head>
+<head th:replace="~{fragments/head :: head('index', 'Three 60 Feedback Home')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -14,7 +14,7 @@
         <div class="card-body">
             <div class="row align-items-center">
                 <div class="col-md-6 text-center mb-4 mb-md-0">
-                    <img src="/img/feedback.png" alt="Feedback Overview Image" class="feedback-img"/>
+                    <img th:src="@{/img/feedback.png(v=${commitVersion})}" alt="Feedback Overview Image" class="feedback-img"/>
                 </div>
                 <div class="col-md-6">
                     <h4 class="mb-3">Why Feedback Matters</h4>
@@ -32,6 +32,6 @@
         </div>
     </div>
 </div>
-<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

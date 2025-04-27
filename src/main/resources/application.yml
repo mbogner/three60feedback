@@ -71,9 +71,14 @@ spring:
     resources:
       add-mappings: true
       cache:
-        period: 1d
+        period: 365d
       chain:
         cache: true
+        strategy:
+          content:
+            enabled: true
+            paths: /**
+        enabled: true
   threads:
     virtual:
       enabled: true

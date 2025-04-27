@@ -1,9 +1,11 @@
-table td {
+table {
+  td {
     vertical-align: top;
-}
 
-table td:first-child {
-    text-align: right;
-    font-weight: bold;
-    padding-right: 10px;
+    &:first-child {
+      text-align: right;
+      font-weight: bold;
+      padding-right: 10px;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('feedback', ${commitVersion}, 'Three 60 Feedback Form')}"></head>
+<head th:replace="~{fragments/head :: head('feedback', 'Three 60 Feedback Form')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script>
     function updateSubmitButton() {
         const positive = document.getElementById('positive').value.trim();

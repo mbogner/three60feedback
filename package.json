@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "scripts": {
     "build-css": "sass src/main/resources/scss:src/main/resources/static/css",
-    "watch-css": "sass --watch src/main/resources/scss:src/main/resources/static/css"
+    "watch-css": "sass --watch src/main/resources/scss:src/main/resources/static/css",
+    "build-ts": "tsc",
+    "watch-ts": "tsc --watch"
   },
   "devDependencies": {
-    "sass": "^1.87.0"
+    "sass": "^1.87.0",
+    "typescript": "^5.8.3"
   }
 }

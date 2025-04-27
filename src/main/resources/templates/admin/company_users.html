@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('admin/company_users', ${commitVersion}, 'Three 60 Feedback Company Users')}"></head>
+<head th:replace="~{fragments/head :: head('admin/company_users', 'Three 60 Feedback Company Users')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -50,8 +50,8 @@
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <select name="roles" multiple class="form-select">
                                 <option th:each="role : ${T(dev.mbo.t60f.domain.user.Role).values()}"
-                                        th:value="${role}"
-                                        th:text="${role}"
+                                        th:value="${role.name()}"
+                                        th:text="${role.name()}"
                                         th:selected="${user.roles.contains(role)}">
                                 </option>
                             </select>
@@ -69,7 +69,7 @@
         No users found for this company.
     </div>
 </div>
-<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const input = document.getElementById("userFilter");

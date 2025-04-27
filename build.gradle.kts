@@ -69,6 +69,12 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+configurations.create("resolvedRuntimeClasspath") {
+    extendsFrom(configurations.getByName("runtimeClasspath"))
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
 val commitFull = getCommitHash(project)
 tasks {
     val javaVersion: String by System.getProperties()
@@ -139,11 +145,14 @@ tasks {
         }
         exclude("static/scss/**")
         exclude("scss/**")
+        exclude("static/ts/**")
+        exclude("ts/**")
     }
 
     cyclonedxBom {
         setOutputName("bom")
         setOutputFormat("json")
+        includeConfigs.set(listOf("resolvedRuntimeClasspath"))
     }
 
     named("sentryBundleSourcesJava").configure {
@@ -158,14 +167,8 @@ tasks {
         }
     }
 
-    val buildCss = register<Exec>("buildCss") {
-        workingDir = project.projectDir
-        commandLine("npm", "run", "build-css")
-    }
-
     named("build").configure {
         finalizedBy("sentryUploadSourceBundleJava")
-        dependsOn(buildCss)
     }
 
 }

@@ -1,13 +1,15 @@
 .clickable-row {
-    cursor: pointer;
-}
+  cursor: pointer;
 
-.clickable-row:hover {
+  &:hover {
     background-color: #f8f9fa;
+  }
 }
 
-.feedback-table th,
-.feedback-table td {
+.feedback-table {
+  th,
+  td {
     width: 50%;
     vertical-align: top;
+  }
 }

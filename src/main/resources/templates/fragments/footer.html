@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer class="text-center mt-5 text-muted small" th:fragment="footer(version)">
-    <p>Version: <span th:text="${version}">unknown</span></p>
+<footer class="text-center mt-5 text-muted small" th:fragment="footer">
+    <p>Version: <span th:text="${commitVersion}">unknown</span></p>
 </footer>
 </body>
 </html>

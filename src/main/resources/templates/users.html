@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('users', ${commitVersion}, 'Three 60 Feedback Users')}"></head>
+<head th:replace="~{fragments/head :: head('users', 'Three 60 Feedback Users')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -14,7 +14,7 @@
 
             <!-- Search input -->
             <div class="mb-4" th:if="${#authorization.expression('hasRole(''COACH'')')}">
-                <div class="input-group">
+                <div class="input-group user-search-input-group">
                     <input type="text" id="emailSearch" class="form-control" placeholder="🔍 Search by email...">
                     <button type="button" id="clearSearch" class="btn" aria-label="Clear search">×</button>
                 </div>
@@ -52,39 +52,7 @@
         </div>
     </div>
 </div>
-<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-<script>
-    document.getElementById('emailSearch')?.addEventListener('input', function () {
-        const query = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#userTableBody tr');
-
-        rows.forEach(row => {
-            const email = row.querySelector('td').innerText.toLowerCase();
-            row.style.display = email.includes(query) ? '' : 'none';
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const searchInput = document.getElementById('emailSearch');
-        const clearButton = document.getElementById('clearSearch');
-        const rows = document.querySelectorAll('#userTableBody tr');
-
-        function filterRows() {
-            const query = searchInput.value.toLowerCase();
-            rows.forEach(row => {
-                const email = row.querySelector('td').innerText.toLowerCase();
-                row.style.display = email.includes(query) ? '' : 'none';
-            });
-        }
-
-        searchInput?.addEventListener('input', filterRows);
-
-        clearButton?.addEventListener('click', () => {
-            searchInput.value = '';
-            filterRows();
-            searchInput.focus();
-        });
-    });
-</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script th:src="@{/js/users.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

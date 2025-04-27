@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('feedback_round', ${commitVersion}, 'Three 60 Feedback Round')}"></head>
+<head th:replace="~{fragments/head :: head('feedback_round', 'Three 60 Feedback Round')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -56,7 +56,7 @@
 
                     <!-- Search -->
                     <div class="mb-3">
-                        <div class="input-group">
+                        <div class="input-group user-search-input-group">
                             <input type="text" id="giverSearch" class="form-control" placeholder="🔍 Search by email...">
                             <button type="button" id="clearGiverSearch" class="btn" aria-label="Clear search">×</button>
                         </div>
@@ -96,7 +96,7 @@
         </div>
     </div>
 </div>
-<div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 <script>
     function selectAllCheckboxes(select) {
         const checkboxes = document.querySelectorAll('input[type="checkbox"][name="invites"]');
