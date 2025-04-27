@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Three 60 Feedback Companies', null)}"></head>
+<head th:replace="~{fragments/head :: head(title='Three 60 Feedback Companies', css=null, js='admin/sync')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -55,7 +55,7 @@
 </div>
 
 <!-- Confirm Sync Modal -->
-<div class="modal fade" id="confirmSyncModal" tabindex="-1" aria-labelledby="confirmSyncModalLabel" aria-hidden="true">
+<div class="modal fade" id="confirmSyncModal" tabindex="-1" aria-labelledby="confirmSyncModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -72,8 +72,6 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script th:src="@{/js/admin/sync.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

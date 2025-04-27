@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmButton = document.getElementById('confirmSyncButton');
     const syncForm = document.getElementById('syncForm');
     const confirmModalElement = document.getElementById('confirmSyncModal');
-    if (!openModalButton || !confirmButton || !syncForm || !confirmModalElement) {
+    const cancelButton = confirmModalElement === null || confirmModalElement === void 0 ? void 0 : confirmModalElement.querySelector('button.btn-secondary');
+    if (!openModalButton || !confirmButton || !syncForm || !confirmModalElement || !cancelButton) {
         console.error('One or more required elements not found.');
         return;
     }
@@ -18,5 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     confirmButton.addEventListener('click', () => {
         syncForm.submit();
+    });
+    // Accessibility fix: move focus BEFORE hiding, when Cancel is clicked
+    cancelButton.addEventListener('click', () => {
+        openModalButton === null || openModalButton === void 0 ? void 0 : openModalButton.focus();
     });
 });

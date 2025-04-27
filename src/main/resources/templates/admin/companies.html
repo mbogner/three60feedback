@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Three 60 Feedback Companies', null)}"></head>
+<head th:replace="~{fragments/head :: head(title='Three 60 Feedback Companies', css=null, js='admin/companies')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -77,8 +77,7 @@
 </div>
 
 <!-- Confirm Delete Modal -->
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -95,8 +94,6 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script th:src="@{/js/admin/companies.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

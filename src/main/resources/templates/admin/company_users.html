@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('Three 60 Feedback Company Users', 'admin/company_users')}"></head>
+<head th:replace="~{fragments/head :: head(title='Three 60 Feedback Company Users', css='admin/company_users', js='admin/company_users')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -70,6 +70,5 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script th:src="@{/js/admin/company_users.js(v=${commitVersion})}" defer></script>
 </body>
 </html>
