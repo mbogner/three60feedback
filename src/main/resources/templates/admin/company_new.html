@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('admin/company_new', 'Three 60 Feedback New Company')}"></head>
+<head th:replace="~{fragments/head :: head('Three 60 Feedback New Company', null)}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -44,7 +44,7 @@
                 <div class="mb-4">
                     <label for="miteApiKey" class="form-label">MiteApiKey</label>
                     <input type="password" class="form-control" id="miteApiKey" name="miteApiKey" required
-                           minlength="8" maxlength="32" aria-describedby="miteApiKeyHelp"/>
+                           minlength="8" maxlength="32" aria-describedby="miteApiKeyHelp" autocomplete="mite-api-key"/>
                     <div class="form-text" id="miteApiKeyHelp">API key for the mite account.</div>
                 </div>
 
