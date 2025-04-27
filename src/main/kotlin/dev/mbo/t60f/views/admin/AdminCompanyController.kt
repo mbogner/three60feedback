@@ -4,8 +4,11 @@ import dev.mbo.kotlinencryption.Encryptor
 import dev.mbo.logging.logger
 import dev.mbo.t60f.domain.company.Company
 import dev.mbo.t60f.domain.company.CompanyRepository
+import dev.mbo.t60f.domain.company.CompanyService
+import dev.mbo.t60f.views.admin.dto.EditCompanyDto
 import dev.mbo.t60f.views.admin.dto.NewCompanyDto
 import jakarta.transaction.Transactional
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,6 +24,7 @@ import java.util.UUID
 @RequestMapping("/admin/companies")
 class AdminCompanyController(
     private val companyRepository: CompanyRepository,
+    private val companyService: CompanyService,
     private val encryptor: Encryptor,
 ) {
 
@@ -35,7 +39,30 @@ class AdminCompanyController(
     }
 
     @GetMapping("/new")
-    fun edit(): String = "admin/company_new"
+    fun newCompany(): String = "admin/company_new"
+
+    @GetMapping("/{companyId}/edit")
+    fun editCompany(
+        @PathVariable companyId: UUID,
+        model: ModelMap
+    ): String {
+        val company = companyRepository.findByIdOrNull(companyId)
+            ?: throw IllegalArgumentException("Unknown company")
+        model.addAttribute("companyId", companyId)
+        model.addAttribute("company", EditCompanyDto.from(company))
+        return "admin/company_edit"
+    }
+
+    @PostMapping("/{companyId}/edit")
+    fun updateCompany(
+        @PathVariable companyId: UUID,
+        @ModelAttribute company: EditCompanyDto,
+        model: RedirectAttributes
+    ): RedirectView {
+        companyService.updateCompany(companyId, company)
+        model.addFlashAttribute("message", "company updated: ${company.name}")
+        return RedirectView("/admin/companies")
+    }
 
     @Transactional
     @PostMapping

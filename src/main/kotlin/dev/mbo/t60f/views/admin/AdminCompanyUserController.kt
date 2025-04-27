@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.RedirectView
 import java.util.UUID
 
 @Controller
-@RequestMapping("/admin/company/{companyId}/users")
+@RequestMapping("/admin/companies/{companyId}/users")
 class AdminCompanyUserController(
     private val userService: UserService
 ) {
@@ -39,6 +39,6 @@ class AdminCompanyUserController(
     ): RedirectView {
         val user = userService.updateUserRoles(userId, roles.toSet())
         redirectAttributes.addFlashAttribute("message", "Roles updated for user ${user.email} to ${user.roles}")
-        return RedirectView("/admin/company/$companyId/users")
+        return RedirectView("/admin/companies/$companyId/users")
     }
 }

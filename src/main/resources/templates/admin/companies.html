@@ -50,17 +50,25 @@
                             </td>
                             <td>
                                 <div class="d-flex flex-wrap gap-2">
+                                    <a class="btn btn-sm btn-outline-primary" title="edit company"
+                                       th:href="@{/admin/companies/{companyId}/edit(companyId=${company.id})}">
+                                        <i class="bi bi-pen"></i>
+                                    </a>
                                     <form th:action="@{/admin/companies/{id}/delete(id=${company.id})}" th:method="post"
                                           class="delete-company-form">
                                         <button type="button" class="btn btn-sm btn-outline-danger open-delete-modal"
-                                                th:attr="data-company-name=${company.name}">
-                                            Delete
+                                                th:attr="data-company-name=${company.name}" title="delete company">
+                                            <i class="bi bi-file-earmark-x"></i>
                                         </button>
                                     </form>
-                                    <a class="btn btn-sm btn-outline-primary"
-                                       th:href="@{/admin/sync(companyId=${company.id})}">User Sync</a>
-                                    <a class="btn btn-sm btn-outline-primary"
-                                       th:href="@{/admin/company/{companyId}/users(companyId=${company.id})}">Users</a>
+                                    <a class="btn btn-sm btn-outline-secondary" title="sync users"
+                                       th:href="@{/admin/sync(companyId=${company.id})}">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-secondary" title="list users"
+                                       th:href="@{/admin/companies/{companyId}/users(companyId=${company.id})}">
+                                        <i class="bi bi-people"></i>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
