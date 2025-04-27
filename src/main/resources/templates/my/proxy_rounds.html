@@ -46,12 +46,12 @@
                                 </div>
 
                                 <div th:if="${round.answered() > 0}">
-                                    <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id},source='proxy')}"
+                                    <a th:href="@{/my/proxy/{roundId}/overview(roundId=${round.id},source='proxy')}"
                                        class="btn btn-sm btn-outline-primary me-2">
                                         View Answers
                                     </a>
                                     <a th:if="${round.answered() > 1}"
-                                       th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id},source='proxy')}"
+                                       th:href="@{/my/proxy/{roundId}/summary(roundId=${round.id},source='proxy')}"
                                        class="btn btn-sm btn-outline-secondary">
                                         View Summary
                                     </a>

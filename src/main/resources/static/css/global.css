@@ -1,9 +1,13 @@
-/* Modern enhancements */
 body {
   font-family: "Segoe UI", Roboto, sans-serif;
   background-color: #f8f9fa;
   color: #333;
   line-height: 1.6;
+}
+@media (min-width: 768px) {
+  body {
+    overflow-y: scroll;
+  }
 }
 
 .container {
@@ -13,6 +17,16 @@ body {
   min-width: 640px;
   max-width: 90%;
   width: 100%;
+}
+
+.navbar {
+  user-select: none;
+}
+.navbar li.active {
+  background: #a9c0ef;
+}
+.navbar .navbar-username {
+  user-select: text;
 }
 
 /* Inputs */

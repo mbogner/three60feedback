@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import java.util.UUID
 
 @Controller
-@RequestMapping("/my/rounds")
+@RequestMapping("/my")
 class MyRoundController(
     private val summaryService: FeedbackRoundSummaryService,
     private val feedbackRoundRepository: FeedbackRoundRepository,
 ) {
 
-    @GetMapping
+    @GetMapping("/rounds")
     fun rounds(
         model: ModelMap,
         authentication: Authentication?
@@ -42,7 +42,7 @@ class MyRoundController(
         return "my/proxy_rounds"
     }
 
-    @GetMapping("/{roundId}/overview")
+    @GetMapping("/rounds/{roundId}/overview", "/proxy/{roundId}/overview")
     fun overview(
         @PathVariable("roundId") roundId: UUID,
         @RequestParam(value = "source", required = false) source: String? = null,
@@ -68,7 +68,7 @@ class MyRoundController(
     }
 
     @Transactional
-    @GetMapping("/{roundId}/summary")
+    @GetMapping("/rounds/{roundId}/summary", "/proxy/{roundId}/summary")
     fun summary(
         @PathVariable("roundId") roundId: UUID,
         model: ModelMap,

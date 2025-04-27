@@ -14,7 +14,7 @@
 
         <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
             <ul class="navbar-nav align-items-center gap-3">
-                <li class="nav-item">
+                <li class="nav-item" th:classappend="${servletPath.startsWith('/requests')} ? 'active'">
                     <a class="nav-link" th:if="${null == companyId}" th:href="@{/requests}">
                         <i class="bi bi-plus-circle"></i>&nbsp;New&nbsp;Round
                     </a>
@@ -24,24 +24,28 @@
                     </a>
                 </li>
 
-                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}"
+                    th:classappend="${servletPath.startsWith('/my/open-feedback')} ? 'active'">
                     <a class="nav-link" th:href="@{/my/open-feedback}"><i class="bi bi-pen"></i>&nbsp;Open&nbsp;Feedback</a>
                 </li>
 
-                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}"
+                    th:classappend="${servletPath.startsWith('/my/rounds')} ? 'active'">
                     <a class="nav-link" th:href="@{/my/rounds}"><i class="bi bi-book"></i>&nbsp;My&nbsp;Rounds</a>
                 </li>
 
-                <li class="nav-item" th:if="${#authorization.expression('hasRole(''COACH'')')}">
-                    <a class="nav-link" th:href="@{/my/rounds/proxy}"><i class="bi bi-shadows"></i>&nbsp;Proxy&nbsp;Rounds</a>
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''COACH'')')}"
+                    th:classappend="${servletPath.startsWith('/my/proxy')} ? 'active'">
+                    <a class="nav-link" th:href="@{/my/proxy}"><i class="bi bi-shadows"></i>&nbsp;Proxy&nbsp;Rounds</a>
                 </li>
 
-                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}"
+                    th:classappend="${servletPath.startsWith('/admin')} ? 'active'">
                     <a class="nav-link" th:href="@{/admin}"><i class="bi bi-person-fill-lock"></i>&nbsp;Admin</a>
                 </li>
 
                 <li class="nav-item text-muted small" th:if="${#authorization.expression('isAuthenticated()')}">
-                    Logged in as <strong th:text="${#authentication.name}">User</strong>
+                    Logged in as <strong class="navbar-username" th:text="${#authentication.name}">User</strong>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
