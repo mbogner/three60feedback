@@ -32,11 +32,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
     jsr250Enabled = false, // allows us to use the @RoleAllowed annotation
 )
 @Configuration
-class SecurityConfig(
-    private val corsConfigModel: CorsConfigModel,
-) : WebMvcConfigurer {
-
-    private val log = logger()
+class SecurityConfig {
 
     @Bean
     fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
@@ -82,19 +78,6 @@ class SecurityConfig(
                     .permitAll()
             }
         return http.build()
-    }
-
-    override fun addCorsMappings(registry: CorsRegistry) {
-        for (entry in corsConfigModel.allowed) {
-            log.info("adding cors config: {}", entry)
-            registry.addMapping(entry.mapping)
-                .allowedOriginPatterns(*entry.origins)
-                .allowedHeaders(*entry.headers)
-                .allowedMethods(*entry.methods)
-                .exposedHeaders(*entry.exposedHeaders)
-                .allowCredentials(entry.allowCredentials)
-                .maxAge(entry.maxAge)
-        }
     }
 
 }

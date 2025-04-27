@@ -15,25 +15,29 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
             <ul class="navbar-nav align-items-center gap-3">
                 <li class="nav-item">
-                    <a class="nav-link" th:if="${null == companyId}" th:href="@{/requests}">New Round</a>
+                    <a class="nav-link" th:if="${null == companyId}" th:href="@{/requests}">
+                        <i class="bi bi-plus-circle"></i>&nbsp;New&nbsp;Round
+                    </a>
                     <a class="nav-link" th:if="${null != companyId}"
-                       th:href="@{/requests(companyId=${companyId})}">New Round</a>
+                       th:href="@{/requests(companyId=${companyId})}">
+                        <i class="bi bi-plus-circle"></i>&nbsp;New&nbsp;Round
+                    </a>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a class="nav-link" th:href="@{/my/open-feedback}">Open Feedback</a>
+                    <a class="nav-link" th:href="@{/my/open-feedback}"><i class="bi bi-pen"></i>&nbsp;Open&nbsp;Feedback</a>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a class="nav-link" th:href="@{/my/rounds}">My Rounds</a>
+                    <a class="nav-link" th:href="@{/my/rounds}"><i class="bi bi-book"></i>&nbsp;My&nbsp;Rounds</a>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''COACH'')')}">
-                    <a class="nav-link" th:href="@{/my/rounds/proxy}">Proxy Rounds</a>
+                    <a class="nav-link" th:href="@{/my/rounds/proxy}"><i class="bi bi-shadows"></i>&nbsp;Proxy&nbsp;Rounds</a>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                    <a class="nav-link" th:href="@{/admin}">Admin</a>
+                    <a class="nav-link" th:href="@{/admin}"><i class="bi bi-person-fill-lock"></i>&nbsp;Admin</a>
                 </li>
 
                 <li class="nav-item text-muted small" th:if="${#authorization.expression('isAuthenticated()')}">
@@ -41,11 +45,12 @@
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/logout}">Logout</a>
+                    <a class="btn btn-outline-secondary btn-sm" th:href="@{/logout}"><i
+                            class="bi bi-box-arrow-right"></i>&nbsp;Logout</a>
                 </li>
 
                 <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a class="btn btn-primary btn-sm" th:href="@{/login}">Login</a>
+                    <a class="btn btn-primary btn-sm" th:href="@{/login}"><i class="bi bi-box-arrow-in-left"></i>&nbsp;Login</a>
                 </li>
             </ul>
         </div>

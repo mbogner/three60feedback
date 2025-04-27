@@ -5,6 +5,8 @@
 .idea/
 .env
 build/
+tmp/
+node_modules/
 *.iml
 *.log
 .DS_Store

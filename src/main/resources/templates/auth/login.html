@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>t60f Login</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('auth/login', ${commitVersion}, 'Three 60 Feedback Login')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
@@ -40,6 +35,5 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

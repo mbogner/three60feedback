@@ -51,14 +51,17 @@ class MyRoundController(
     ): String {
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
         val round = feedbackRoundRepository.findByIdWithResponsesAndMessages(roundId)
+        if (null == round) {
+            throw IllegalArgumentException("round with id $roundId not found in database")
+        }
         require(
-            round?.receiver?.email == authentication.name
-                    || round?.proxyReceiver?.email == authentication.name
+            round.receiver.email == authentication.name
+                    || round.proxyReceiver?.email == authentication.name
         ) { "not allowed to see this round" }
 
         val responses = round.givers
-            .filter { it.positiveFeedback != null && it.negativeFeedback != null } // sorted by createdAt desc
-            .reversed()
+            .filter { it.positiveFeedback != null && it.negativeFeedback != null }
+            .sortedBy { it.notifiedAt }
         model.addAttribute("responses", responses)
         model.addAttribute("source", source)
         return "my/round_overview"

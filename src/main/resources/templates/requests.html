@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Request Feedback | Three 60</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('requests', ${commitVersion}, 'Three 60 Feedback Request')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -44,8 +39,6 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

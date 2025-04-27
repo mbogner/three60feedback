@@ -137,6 +137,8 @@ tasks {
         from(layout.buildDirectory.dir("generated/resources/git")) {
             into("") // root of classpath
         }
+        exclude("static/scss/**")
+        exclude("scss/**")
     }
 
     cyclonedxBom {
@@ -156,8 +158,14 @@ tasks {
         }
     }
 
+    val buildCss = register<Exec>("buildCss") {
+        workingDir = project.projectDir
+        commandLine("npm", "run", "build-css")
+    }
+
     named("build").configure {
         finalizedBy("sentryUploadSourceBundleJava")
+        dependsOn(buildCss)
     }
 
 }

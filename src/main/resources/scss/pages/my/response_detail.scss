@@ -1,0 +1,19 @@
+.chat-input-container {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.chat-textarea {
+    border-radius: 20px;
+    padding: 10px 15px;
+    resize: none;
+    width: 100%;
+}
+
+.send-button {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border-radius: 20px;
+    padding: 6px 16px;
+}

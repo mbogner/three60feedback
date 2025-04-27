@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Three 60 Users</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('admin/sync', ${commitVersion}, 'Three 60 Feedback Companies')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -17,7 +12,8 @@
             <div class="alert alert-primary" th:if="${message}" th:text="${message}"></div>
 
             <div class="mb-4">
-                <a th:href="@{/admin/companies}" class="btn btn-outline-secondary btn-sm">← Back to Companies</a>
+                <a th:href="@{/admin/companies}" class="btn btn-outline-secondary btn-sm"><i
+                        class="bi bi-arrow-left"></i>&nbsp; Back to Companies</a>
             </div>
 
             <!-- Top Sync Button -->
@@ -25,7 +21,7 @@
                 <input id="companyId" name="companyId" th:value="${companyId}" type="hidden"/>
                 <button type="submit" class="btn btn-primary rounded" onclick="return confirmSync()"
                         aria-describedby="submitHelp">
-                    🔄 Sync Users
+                    <i class="bi bi-arrow-repeat"></i>&nbsp;Sync&nbsp;Users
                 </button>
                 <div class="form-text mt-1" id="submitHelp">
                     This will fetch all users from the external system and remove any that no longer exist.
@@ -57,10 +53,7 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function confirmSync() {
         return confirm('Are you sure? This will contact external systems and update the user list.');

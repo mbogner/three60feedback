@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Three 60 Companies</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('admin/companies', ${commitVersion}, 'Three 60 Feedback Companies')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -17,7 +12,8 @@
             <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
 
             <div class="mb-4">
-                <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm">← Back to Admin</a>
+                <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp;
+                    Back to Admin</a>
             </div>
 
             <div th:if="${companies.size() > 0}">
@@ -26,7 +22,7 @@
                         <thead class="table-light">
                         <tr>
                             <th>Name</th>
-                            <th>Domains</th>
+                            <th>Allowed Domain(s)</th>
                             <th>MiteBaseUrl</th>
                             <th>Actions</th>
                         </tr>
@@ -37,7 +33,13 @@
                                 <a th:href="@{/(companyId=${company.id})}" th:text="${company.name}"
                                    class="fw-semibold"></a>
                             </td>
-                            <td th:text="${company.domains}"></td>
+                            <td>
+                                <ul>
+                                    <li th:each="domain: ${company.domains}">
+                                        <a th:href="${'https://' + domain}" th:text="${domain}" target="_blank"></a>
+                                    </li>
+                                </ul>
+                            </td>
                             <td>
                                 <a th:href="${company.syncBaseUrl}" th:text="${company.syncBaseUrl}" target="_blank"
                                    class="text-decoration-none"></a>
@@ -104,10 +106,7 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     function confirmDelete() {
         return confirm('Are you sure? This will delete the company.');

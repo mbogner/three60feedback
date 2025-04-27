@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Three 60 Round Summary</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('admin/feedback_summary', ${commitVersion}, 'Three 60 Feedback Summary')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -16,7 +11,8 @@
 
             <!-- Back link -->
             <div class="mb-3">
-                <a th:href="@{/admin/rounds}" class="btn btn-outline-secondary btn-sm">← Back to Admin Rounds</a>
+                <a th:href="@{/admin/rounds}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp;
+                    Back to Admin Rounds</a>
             </div>
 
             <!-- Receiver info -->
@@ -53,8 +49,6 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

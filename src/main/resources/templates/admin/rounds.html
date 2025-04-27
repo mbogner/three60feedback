@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Three 60 Rounds</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('admin/rounds', ${commitVersion}, 'Three 60 Feedback Rounds')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -17,7 +12,8 @@
             <div class="alert alert-primary" th:if="${message}" th:text="${message}"></div>
 
             <div class="mb-4">
-                <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm">← Back to Admin</a>
+                <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp;
+                    Back to Admin</a>
             </div>
 
             <div th:if="${rounds.size() > 0}">
@@ -38,9 +34,11 @@
                             <td th:text="${round.id}"></td>
                             <td th:text="${round.receiver.company.name}"></td>
                             <td>
-                                <span class="fw-semibold" th:text="${#strings.arraySplit(round.receiver.email, '@')[0]}"></span>
+                                <span class="fw-semibold"
+                                      th:text="${#strings.arraySplit(round.receiver.email, '@')[0]}"></span>
                                 <div th:if="${round.proxyReceiver != null}" class="text-muted small">
-                                    (Proxy: <span th:text="${#strings.arraySplit(round.proxyReceiver.email, '@')[0]}"></span>)
+                                    (Proxy: <span
+                                        th:text="${#strings.arraySplit(round.proxyReceiver.email, '@')[0]}"></span>)
                                 </div>
                             </td>
                             <td>
@@ -77,8 +75,6 @@
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </body>
 </html>

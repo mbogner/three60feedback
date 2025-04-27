@@ -1,0 +1,11 @@
+{
+  "name": "t60f",
+  "version": "0.0.1",
+  "scripts": {
+    "build-css": "sass src/main/resources/scss:src/main/resources/static/css",
+    "watch-css": "sass --watch src/main/resources/scss:src/main/resources/static/css"
+  },
+  "devDependencies": {
+    "sass": "^1.87.0"
+  }
+}

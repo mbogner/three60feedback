@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(page, version, title)">
+    <meta charset="utf-8"/>
+    <title th:text="${title} ?: 'Three 60 Feedback'"></title>
+
+    <!-- Preload core styles -->
+    <link rel="preload" as="style" th:href="@{/css/bootstrap.min.css(version=${version})}"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" th:href="@{/css/bootstrap-icons.min.css(version=${version})}"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" th:href="@{/css/global.css(version=${version})}"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" th:href="@{/css/pages/{page}.css(page=${page},version=${version})}"
+          onload="this.onload=null;this.rel='stylesheet'">
+
+    <noscript>
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css(version=${version})}">
+        <link rel="stylesheet" th:href="@{/css/bootstrap-icons.min.css(version=${version})}">
+        <link rel="stylesheet" th:href="@{/css/global.css(version=${version})}">
+        <link rel="stylesheet" th:href="@{/css/pages/{page}.css(page=${page},version=${version})}">
+    </noscript>
+
+    <script th:src="@{/js/bootstrap.bundle.min.js(version=${commitVersion})}" defer></script>
+</head>
+</html>

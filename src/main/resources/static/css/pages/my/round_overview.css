@@ -1,0 +1,15 @@
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #f8f9fa;
+}
+
+.feedback-table th,
+.feedback-table td {
+  width: 50%;
+  vertical-align: top;
+}
+
+/*# sourceMappingURL=round_overview.css.map */

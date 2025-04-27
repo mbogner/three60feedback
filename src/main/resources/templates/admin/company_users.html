@@ -1,68 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Company Users</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-    <style>
-        .input-group {
-            border: 1px solid #ced4da;
-            border-radius: 0.375rem;
-            overflow: hidden;
-            transition: box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out;
-        }
-
-        .input-group:focus-within {
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-            border-color: #86b7fe;
-        }
-
-        .input-group .form-control {
-            border: none;
-            border-radius: 0;
-            box-shadow: none;
-        }
-
-        .input-group .clear-btn {
-            border: none;
-            background-color: #fff;
-            font-size: 1.25rem;
-            padding: 0 0.75rem;
-            color: #6c757d;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .input-group .clear-btn:hover {
-            background-color: #f8f9fa;
-            color: #000;
-        }
-
-        /* Make multi-select fit content up to a max height */
-        select.form-select[multiple] {
-            height: auto;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        td, th {
-            vertical-align: middle;
-        }
-
-        .table td {
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
-        }
-
-        h1 {
-            font-weight: 600;
-            font-size: 1.75rem;
-        }
-    </style>
-</head>
+<head th:replace="~{fragments/head :: head('admin/company_users', ${commitVersion}, 'Three 60 Feedback Company Users')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -72,7 +10,8 @@
     <div class="alert alert-primary" th:if="${message}" th:text="${message}"></div>
 
     <div class="mb-4">
-        <a th:href="@{/admin/companies}" class="btn btn-outline-secondary btn-sm">← Back to Companies</a>
+        <a th:href="@{/admin/companies}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp;
+            Back to Companies</a>
     </div>
 
     <div th:if="${users.size() > 0}">
@@ -106,7 +45,8 @@
                         <span th:text="${user.roles}"></span>
                     </td>
                     <td>
-                        <form th:action="@{'/admin/company/' + ${companyId} + '/users/update-roles'}" method="post" class="d-grid gap-2">
+                        <form th:action="@{'/admin/company/' + ${companyId} + '/users/update-roles'}" method="post"
+                              class="d-grid gap-2">
                             <input type="hidden" name="userId" th:value="${user.id}"/>
                             <select name="roles" multiple class="form-select">
                                 <option th:each="role : ${T(dev.mbo.t60f.domain.user.Role).values()}"
@@ -129,10 +69,7 @@
         No users found for this company.
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const input = document.getElementById("userFilter");

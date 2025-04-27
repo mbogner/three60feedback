@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
-    <title>Admin | Three 60 Feedback</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/css/global.css}"/>
-</head>
+<head th:replace="~{fragments/head :: head('admin/index', ${commitVersion}, 'Three 60 Feedback Admin')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -15,26 +10,25 @@
             <h1 class="mb-4">Admin Dashboard</h1>
 
             <div class="mb-4">
-                <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
+                <a th:href="@{/}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back
+                    to Home</a>
             </div>
 
             <div class="list-group">
-                <a href="/admin/companies" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <span>🏢 Companies</span>
+                <a href="/admin/companies"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-building"></i>&nbsp;Companies</span>
                     <i class="bi bi-chevron-right"></i>
                 </a>
-                <a href="/admin/rounds" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <span>📊 Rounds</span>
+                <a href="/admin/rounds"
+                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-easel2"></i>&nbsp;Rounds</span>
                     <i class="bi bi-chevron-right"></i>
                 </a>
             </div>
         </div>
     </div>
 </div>
-
 <div th:replace="~{fragments/footer :: footer(${commitVersion})}"></div>
-<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-<!-- Bootstrap Icons (optional, for chevrons/icons) -->
-<link rel="stylesheet" th:href="@{/css/bootstrap-icons.css}"/>
 </body>
 </html>

@@ -70,6 +70,10 @@ spring:
   web:
     resources:
       add-mappings: true
+      cache:
+        period: 1d
+      chain:
+        cache: true
   threads:
     virtual:
       enabled: true
