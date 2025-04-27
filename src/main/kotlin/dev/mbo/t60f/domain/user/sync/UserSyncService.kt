@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.Duration
 import java.time.Instant
 import java.util.UUID
+import javax.crypto.BadPaddingException
 
 @Service
 class UserSyncService(
@@ -34,7 +35,11 @@ class UserSyncService(
         val company = retrieveCompany(companyId)
         assertMinSyncTime(company.syncTime)
         val adapter = chooseEmailAdapter(company)
-        val decryptedApiKey = encryptor.decrypt(company.syncApiKey)
+        val decryptedApiKey = try {
+            encryptor.decrypt(company.syncApiKey)
+        } catch (exc: BadPaddingException) {
+            throw IllegalStateException("failed to decrypt api key", exc)
+        }
         val retrievedMails = adapter.retrieve(company.syncBaseUrl, decryptedApiKey).map { it.value.lowercase() }.toSet()
         updateUsers(company, retrievedMails)
         updateCompany(company)
