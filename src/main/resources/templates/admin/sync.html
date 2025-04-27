@@ -54,10 +54,6 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script>
-    function confirmSync() {
-        return confirm('Are you sure? This will contact external systems and update the user list.');
-    }
-</script>
+<script th:src="@{/js/admin/sync.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

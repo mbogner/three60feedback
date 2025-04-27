@@ -70,27 +70,6 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const input = document.getElementById("userFilter");
-        const clearButton = document.getElementById("clearFilter");
-        const rows = document.querySelectorAll("tbody tr");
-
-        function filterRows() {
-            const query = input.value.trim().toLowerCase();
-            rows.forEach(row => {
-                const email = row.querySelector("td").textContent.trim().toLowerCase();
-                row.style.display = (query.length < 3 || email.includes(query)) ? "" : "none";
-            });
-        }
-
-        input.addEventListener("input", filterRows);
-        clearButton.addEventListener("click", () => {
-            input.value = "";
-            filterRows();
-            input.focus();
-        });
-    });
-</script>
+<script th:src="@{/js/admin/company_users.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

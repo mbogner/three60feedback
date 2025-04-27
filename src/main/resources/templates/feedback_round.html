@@ -97,55 +97,6 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script>
-    function selectAllCheckboxes(select) {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="invites"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = select;
-        });
-        updateSubmitButton();
-    }
-
-    function updateSubmitButton() {
-        const checkedCount = document.querySelectorAll('input[type="checkbox"][name="invites"]:checked').length;
-        const submitButton = document.querySelector('button[type="submit"]');
-        submitButton.disabled = checkedCount < 5;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"][name="invites"]');
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', updateSubmitButton);
-        });
-        updateSubmitButton(); // Initial check
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const searchInput = document.getElementById('giverSearch');
-        const clearButton = document.getElementById('clearGiverSearch');
-        const rows = document.querySelectorAll('.giver-row');
-
-        function filterGivers() {
-            const query = searchInput.value.toLowerCase();
-            let visible = 0;
-            rows.forEach(row => {
-                const label = row.querySelector('label')?.innerText.toLowerCase() || '';
-                const match = label.includes(query);
-                row.style.display = match ? '' : 'none';
-                if (match) visible++;
-            });
-        }
-
-        searchInput?.addEventListener('input', filterGivers);
-
-        clearButton?.addEventListener('click', () => {
-            searchInput.value = '';
-            filterGivers();
-            searchInput.focus();
-        });
-
-        filterGivers(); // initial filter
-    });
-</script>
+<script th:src="@{/js/feedback_round.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

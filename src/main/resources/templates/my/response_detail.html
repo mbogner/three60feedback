@@ -70,24 +70,6 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script>
-    function updateSubmitButton() {
-        const responseMessage = document.getElementById('responseMessage').value.trim();
-        const submitButton = document.querySelector('button[type="submit"]');
-
-        submitButton.disabled = responseMessage.length < 5;
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const responseMessageField = document.getElementById('responseMessage');
-        const submitButton = document.querySelector('button[type="submit"]');
-
-        // Disable button initially
-        submitButton.disabled = true;
-
-        // Add listeners
-        responseMessageField.addEventListener('input', updateSubmitButton);
-    });
-</script>
+<script th:src="@{/js/my/response_detail.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

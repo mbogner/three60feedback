@@ -107,10 +107,6 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script>
-    function confirmDelete() {
-        return confirm('Are you sure? This will delete the company.');
-    }
-</script>
+<script th:src="@{/js/admin/companies.js(v=${commitVersion})}" defer></script>
 </body>
 </html>

@@ -45,23 +45,6 @@
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"></div>
-<script>
-    function updateSubmitButton() {
-        const positive = document.getElementById('positive').value.trim();
-        const negative = document.getElementById('negative').value.trim();
-        const submitButton = document.querySelector('button[type="submit"]');
-        submitButton.disabled = !(positive && negative);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const positiveField = document.getElementById('positive');
-        const negativeField = document.getElementById('negative');
-        const submitButton = document.querySelector('button[type="submit"]');
-        submitButton.disabled = true;
-
-        positiveField.addEventListener('input', updateSubmitButton);
-        negativeField.addEventListener('input', updateSubmitButton);
-    });
-</script>
+<script th:src="@{/js/feedback.js(v=${commitVersion})}" defer></script>
 </body>
 </html>
