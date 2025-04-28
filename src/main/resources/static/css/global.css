@@ -75,7 +75,7 @@ h1 {
 /* Tables */
 .table th,
 .table td {
-  vertical-align: middle;
+  vertical-align: top;
 }
 .table thead {
   background-color: #f1f1f1;

@@ -20,9 +20,11 @@ body {
 
 .navbar {
   user-select: none;
+
   li.active {
     background: #a9c0ef;
   }
+
   .navbar-username {
     user-select: text;
   }
@@ -74,7 +76,7 @@ h1 {
 .table {
   th,
   td {
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   thead {

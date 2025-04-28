@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.reactive.result.view.RedirectView
+import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.UUID
 
 @Controller
@@ -55,6 +58,17 @@ class AdminRoundController(
         val summary = summaryService.createSummary(roundId)
         model.addAttribute("summary", summary)
         return "admin/feedback_summary"
+    }
+
+    @Transactional
+    @PostMapping("/{roundId}/delete")
+    fun deleteRound(
+        @PathVariable("roundId") roundId: UUID,
+        model: RedirectAttributes
+    ): String {
+        feedbackRoundRepository.deleteById(roundId)
+        model.addFlashAttribute("message", "Round deleted successfully.")
+        return "redirect:/admin/rounds"
     }
 
 }

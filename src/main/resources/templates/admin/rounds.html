@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(title='Three 60 Feedback Rounds', css=null, js=null)}"></head>
+<head th:replace="~{fragments/head :: head(title='Three 60 Feedback Rounds', css=null, js='admin/rounds')}"></head>
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
@@ -23,10 +23,9 @@
                         <tr>
                             <th>Company</th>
                             <th>Receiver</th>
-                            <th>Givers</th>
-                            <th>Created At</th>
-                            <th>Valid Until</th>
-                            <th>Ended</th>
+                            <th>Requested</th>
+                            <th>Timing</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -60,9 +59,25 @@
                                     </li>
                                 </ul>
                             </td>
-                            <td th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
-                            <td th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></td>
-                            <td th:text="${round.summaryMailed}"></td>
+                            <td>
+                                <b>Created At:</b><br/>
+                                <span th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"
+                                      th:remove="tag"></span><br/>
+                                <b>Valid Until:</b><br/>
+                                <span th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"
+                                      th:remove="tag"></span><br/>
+                                <b>Ended:</b>&nbsp;<span th:text="${round.summaryMailed}" th:remove="tag"></span>
+                            </td>
+                            <td>
+                                <form th:action="@{/admin/rounds/{id}/delete(id=${round.id})}" th:method="post"
+                                      class="delete-round-form">
+                                    <button type="button" class="btn btn-sm btn-outline-danger open-delete-modal"
+                                            th:attr="data-name=${#strings.arraySplit(round.receiver.email, '@')[0]}"
+                                            title="delete round">
+                                        <i class="bi bi-file-earmark-x"></i>
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -71,6 +86,25 @@
 
             <div th:if="${rounds.size() < 1}" class="text-muted">
                 No open rounds at the moment.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Round Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Really delete round of <strong id="modalName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
             </div>
         </div>
     </div>

@@ -24,6 +24,6 @@
     </noscript>
 
     <script th:src="@{/js/bootstrap.bundle.min.js(v=${commitVersion})}" defer></script>
-    <script th:if="${null != js}" th:src="@{/js/{js}.js(js=${js},v=${commitVersion})}" defer></script>
+    <script th:if="${null != js}" th:src="@{/js/{js}.js(js=${js},v=${commitVersion})}" type="module"></script>
 </head>
 </html>
