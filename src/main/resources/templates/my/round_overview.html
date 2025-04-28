@@ -44,7 +44,7 @@
                             class="clickable-row">
                             <td th:text="${response.positiveFeedback}"></td>
                             <td th:text="${response.negativeFeedback}"></td>
-                            <td th:text="${#dates.format(@dateUtils.toLocal(response.notifiedAt), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td th:text="${@dateUtils.formatUtc(response.notifiedAt)}"></td>
                         </tr>
                         </tbody>
                     </table>

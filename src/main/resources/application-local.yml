@@ -9,6 +9,13 @@ server:
   shutdown: immediate
 
 spring:
+  main:
+    lazy-initialization: true
+  devtools:
+    restart:
+      enabled: true
+  thymeleaf:
+    cache: false
   datasource:
     url: jdbc:postgresql://localhost:5432/db
     username: admin

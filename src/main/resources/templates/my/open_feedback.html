@@ -32,8 +32,8 @@
                         <tbody>
                         <tr th:each="response : ${responses}">
                             <td th:text="${response.feedbackRound.receiver.email}"></td>
-                            <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
-                            <td th:text="${#dates.format(@dateUtils.toLocal(response.feedbackRound.validity), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td th:text="${@dateUtils.formatUtc(response.feedbackRound.createdAt)}"></td>
+                            <td th:text="${@dateUtils.formatUtc(response.feedbackRound.validity)}"></td>
                             <td>
                                 <a th:href="@{/response/{responseId}(responseId=${response.id})}"
                                    class="btn btn-sm btn-outline-primary">Give Feedback</a>

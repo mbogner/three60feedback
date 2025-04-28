@@ -34,7 +34,7 @@
                 </div>
                 <div class="mb-2">
                     <strong>Created At:</strong>
-                    <span th:text="${#dates.format(@dateUtils.toLocal(summary.roundCreatedAt), 'dd.MM.yyyy HH:mm')}"></span>
+                    <span th:text="${@dateUtils.formatUtc(summary.roundCreatedAt)}"></span>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@
             <h2 class="h5 text-muted fw-semibold mb-3">Summary</h2>
             <div class="text-muted small mb-2">
                 Last updated:
-                <span th:text="${#dates.format(@dateUtils.toLocal(summary.round.summaryTs), 'dd.MM.yyyy HH:mm')}"></span>
+                <span th:text="${@dateUtils.formatUtc(summary.round.summaryTs)}"></span>
             </div>
 
             <div class="p-3 border rounded bg-light" th:utext="${summary.round.summary}"></div>

@@ -2,6 +2,7 @@ package dev.mbo.t60f.views.admin
 
 import dev.mbo.t60f.domain.response.FeedbackResponseRepository
 import dev.mbo.t60f.domain.round.FeedbackRoundRepository
+import dev.mbo.t60f.domain.round.FeedbackRoundService
 import dev.mbo.t60f.domain.round.FeedbackRoundSummaryService
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.reactive.result.view.RedirectView
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.UUID
 
@@ -21,6 +21,7 @@ import java.util.UUID
 class AdminRoundController(
     private val feedbackRoundRepository: FeedbackRoundRepository,
     private val feedbackResponseRepository: FeedbackResponseRepository,
+    private val feedbackRoundService: FeedbackRoundService,
     private val summaryService: FeedbackRoundSummaryService,
 ) {
 
@@ -68,6 +69,28 @@ class AdminRoundController(
     ): String {
         feedbackRoundRepository.deleteById(roundId)
         model.addFlashAttribute("message", "Round deleted successfully.")
+        return "redirect:/admin/rounds"
+    }
+
+    @Transactional
+    @PostMapping("/{roundId}/validity/extend")
+    fun validityExtend(
+        @PathVariable("roundId") roundId: UUID,
+        model: RedirectAttributes
+    ): String {
+        feedbackRoundService.extendValidity(roundId)
+        model.addFlashAttribute("message", "Round extended successfully.")
+        return "redirect:/admin/rounds"
+    }
+
+    @Transactional
+    @PostMapping("/{roundId}/validity/shorten")
+    fun validityShorten(
+        @PathVariable("roundId") roundId: UUID,
+        model: RedirectAttributes
+    ): String {
+        feedbackRoundService.shortenValidity(roundId)
+        model.addFlashAttribute("message", "Round shortened successfully.")
         return "redirect:/admin/rounds"
     }
 

@@ -59,7 +59,7 @@
                             <span class="sender"
                                   th:text="${message.senderMail == loggedInUserMail} ? ${loggedInUserMail} : 'sender'"></span>
                             <span class="ts"
-                                  th:text="${#dates.format(@dateUtils.toLocal(message.createdAt), 'dd.MM.yyyy HH:mm')}"></span>
+                                  th:text="${@dateUtils.formatUtc(message.createdAt)}"></span>
                         </div>
                         <div class="text" th:text="${message.message}"></div>
                     </div>

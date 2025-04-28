@@ -61,22 +61,38 @@
                             </td>
                             <td>
                                 <b>Created At:</b><br/>
-                                <span th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"
-                                      th:remove="tag"></span><br/>
+                                <span th:text="${@dateUtils.formatUtc(round.createdAt)}" th:remove="tag"></span><br/>
                                 <b>Valid Until:</b><br/>
-                                <span th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"
-                                      th:remove="tag"></span><br/>
+                                <span th:text="${@dateUtils.formatUtc(round.validity)}" th:remove="tag"></span><br/>
                                 <b>Ended:</b>&nbsp;<span th:text="${round.summaryMailed}" th:remove="tag"></span>
                             </td>
                             <td>
-                                <form th:action="@{/admin/rounds/{id}/delete(id=${round.id})}" th:method="post"
-                                      class="delete-round-form">
-                                    <button type="button" class="btn btn-sm btn-outline-danger open-delete-modal"
-                                            th:attr="data-name=${#strings.arraySplit(round.receiver.email, '@')[0]}"
-                                            title="delete round">
-                                        <i class="bi bi-file-earmark-x"></i>
-                                    </button>
-                                </form>
+                                <div class="d-flex gap-2">
+                                    <form th:action="@{/admin/rounds/{id}/delete(id=${round.id})}" th:method="post"
+                                          class="delete-round-form">
+                                        <button type="button" class="btn btn-sm btn-outline-danger open-delete-modal"
+                                                th:attr="data-name=${#strings.arraySplit(round.receiver.email, '@')[0]}"
+                                                title="delete round">
+                                            <i class="bi bi-file-earmark-x"></i>
+                                        </button>
+                                    </form>
+                                    <div th:remove="tag" th:if="${!round.summaryMailed}">
+                                        <form th:action="@{/admin/rounds/{id}/validity/shorten(id=${round.id})}"
+                                              th:method="post">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                    title="shorten validity">
+                                                <i class="bi bi-dash-circle"></i>
+                                            </button>
+                                        </form>
+                                        <form th:action="@{/admin/rounds/{id}/validity/extend(id=${round.id})}"
+                                              th:method="post">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                    title="extend validity">
+                                                <i class="bi bi-plus-circle"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         </tbody>

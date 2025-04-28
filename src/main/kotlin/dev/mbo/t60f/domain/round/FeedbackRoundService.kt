@@ -5,10 +5,13 @@ import dev.mbo.t60f.domain.request.FeedbackRequestRepository
 import dev.mbo.t60f.domain.response.FeedbackResponse
 import dev.mbo.t60f.domain.response.FeedbackResponseRepository
 import dev.mbo.t60f.domain.user.UserRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.Instant
+import java.time.ZoneOffset
 import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalUnit
 import java.util.UUID
 
 @Transactional(readOnly = true)
@@ -45,7 +48,12 @@ class FeedbackRoundService(
             FeedbackRound(
                 receiver = receivingUser,
                 proxyReceiver = receivingProxy,
-                validity = Instant.now().plus(days, ChronoUnit.DAYS),
+                validity = Instant.now()
+                    .atZone(ZoneOffset.UTC)
+                    .toLocalDate()
+                    .plusDays(days + 1)
+                    .atStartOfDay(ZoneOffset.UTC)
+                    .toInstant(),
                 focus = focus,
             ),
         )
@@ -54,6 +62,37 @@ class FeedbackRoundService(
         }
 
         feedbackRequestRepository.delete(feedbackRequest)
+    }
+
+    @Transactional
+    fun extendValidity(roundId: UUID, amount: Long = 1L, timeUnit: TemporalUnit = ChronoUnit.DAYS) {
+        val round = loadRound(roundId)
+        onlyAllowForNotEndedRound(round)
+        round.validity = round.validity.plus(amount, timeUnit)
+        roundRepository.save(round)
+    }
+
+    @Transactional
+    fun shortenValidity(roundId: UUID, amount: Long = 1L, timeUnit: TemporalUnit = ChronoUnit.DAYS) {
+        val round = loadRound(roundId)
+        onlyAllowForNotEndedRound(round)
+        val newValidity = round.validity.minus(amount, timeUnit)
+        if (newValidity.isAfter(Instant.now())) {
+            round.validity = newValidity
+            roundRepository.save(round)
+        } else {
+            throw IllegalStateException("validity can't be in the past")
+        }
+    }
+
+    private fun loadRound(roundId: UUID): FeedbackRound {
+        return roundRepository.findByIdOrNull(roundId) ?: throw IllegalStateException("round $roundId not found")
+    }
+
+    private fun onlyAllowForNotEndedRound(round: FeedbackRound) {
+        if (round.summaryMailed) {
+            throw IllegalStateException("not allowed to shorten or extend a finished round")
+        }
     }
 
 }
