@@ -105,4 +105,15 @@ class AdminRoundController(
         return "redirect:/admin/rounds"
     }
 
+    @Transactional
+    @PostMapping("/{roundId}/end")
+    fun endRound(
+        @PathVariable("roundId") roundId: UUID,
+        model: RedirectAttributes
+    ): String {
+        feedbackRoundService.end(roundId)
+        model.addFlashAttribute("message", "Round set to end now.")
+        return "redirect:/admin/rounds"
+    }
+
 }

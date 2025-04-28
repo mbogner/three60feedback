@@ -48,7 +48,7 @@ class FeedbackRoundService(
             FeedbackRound(
                 receiver = receivingUser,
                 proxyReceiver = receivingProxy,
-                validity = nowPlusDaysAtStartOfNextDay(days),
+                validity = tsPlusDaysStartOfDay(days + 1),
                 focus = focus,
             ),
         )
@@ -63,15 +63,15 @@ class FeedbackRoundService(
     fun extendValidity(roundId: UUID, amount: Long = 1L, timeUnit: TemporalUnit = ChronoUnit.DAYS) {
         val round = loadRound(roundId)
         onlyAllowForNotEndedRound(round)
-        round.validity = round.validity.plus(amount, timeUnit)
+        round.validity = tsPlusDaysStartOfDay(days = 1, ts = round.validity)
         roundRepository.save(round)
     }
 
     @Transactional
-    fun shortenValidity(roundId: UUID, amount: Long = 1L, timeUnit: TemporalUnit = ChronoUnit.DAYS) {
+    fun shortenValidity(roundId: UUID) {
         val round = loadRound(roundId)
         onlyAllowForNotEndedRound(round)
-        val newValidity = round.validity.minus(amount, timeUnit)
+        val newValidity = tsPlusDaysStartOfDay(days = -1, ts = round.validity)
         if (newValidity.isAfter(Instant.now())) {
             round.validity = newValidity
             roundRepository.save(round)
@@ -87,7 +87,15 @@ class FeedbackRoundService(
             throw IllegalStateException("Can not reopen open round")
         }
         round.summaryMailed = false
-        round.validity = nowPlusDaysAtStartOfNextDay(7)
+        round.validity = tsPlusDaysStartOfDay(8)
+        roundRepository.save(round)
+    }
+
+    @Transactional
+    fun end(roundId: UUID) {
+        val round = loadRound(roundId)
+        onlyAllowForNotEndedRound(round)
+        round.validity = Instant.now()
         roundRepository.save(round)
     }
 
@@ -97,15 +105,18 @@ class FeedbackRoundService(
 
     private fun onlyAllowForNotEndedRound(round: FeedbackRound) {
         if (round.summaryMailed) {
-            throw IllegalStateException("not allowed to shorten or extend a finished round")
+            throw IllegalStateException("not allowed for a finished round")
         }
     }
 
-    private fun nowPlusDaysAtStartOfNextDay(days: Long): Instant {
-        return Instant.now()
+    private fun tsPlusDaysStartOfDay(
+        days: Long,
+        ts: Instant = Instant.now(),
+    ): Instant {
+        return ts
             .atZone(ZoneOffset.UTC)
             .toLocalDate()
-            .plusDays(days + 1)
+            .plusDays(days)
             .atStartOfDay(ZoneOffset.UTC)
             .toInstant()
     }

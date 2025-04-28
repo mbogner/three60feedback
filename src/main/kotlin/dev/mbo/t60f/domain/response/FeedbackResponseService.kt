@@ -2,6 +2,7 @@ package dev.mbo.t60f.domain.response
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.Instant
 import java.util.*
 
 @Transactional(readOnly = true)
@@ -29,6 +30,9 @@ class FeedbackResponseService(
         }
         if(response.feedbackRound.summaryMailed) {
             throw IllegalStateException("Feedback round already closed")
+        }
+        if(Instant.now().isAfter(response.feedbackRound.validity)) {
+            throw IllegalStateException("Feedback round already ended")
         }
         response.positiveFeedback = positive
         response.negativeFeedback = negative

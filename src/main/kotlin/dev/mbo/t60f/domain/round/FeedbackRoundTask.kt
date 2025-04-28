@@ -18,17 +18,18 @@ class FeedbackRoundTask(
     private val log = logger()
 
     @Transactional
-    @Scheduled(fixedDelay = 5, timeUnit = TimeUnit.MINUTES)
+    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.MINUTES)
     fun mail() {
-        log.info("mail rounds")
+        log.debug("mail ended rounds")
         roundRepository.findByValidityIsBeforeAndSummaryMailedIsFalse(Instant.now()).forEach { round: FeedbackRound ->
-            log.info("mail round: {}", round)
+            log.debug("mail ended round: {}", round)
             val summary = summaryService.createSummary(round)
 
             val proxy = round.proxyReceiver
             val feedbackReceiver = round.receiver.email
             val mailReceiver = round.feedbackReceiver().email
             val byStr = if (null == proxy) "" else " requested by $mailReceiver"
+            val summaryStr = round.summary ?: "No summary available."
 
             mailer.send(
                 to = mailReceiver,
@@ -39,7 +40,7 @@ Hi $mailReceiver!
 feedback round for $feedbackReceiver$byStr has ended.
 See below the summarised feedback:
 
-${round.summary}
+$summaryStr
 
 #Requested: ${summary.requested}
 #Responded: ${summary.responded}

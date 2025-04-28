@@ -33,9 +33,12 @@
                             <td>
                                 <div class="fw-semibold"
                                      th:text="${#strings.arraySplit(round.receiver.email, '@')[0]}"></div>
-                                <div th:if="${round.proxyReceiver != null}" class="text-muted small">
-                                    (Proxy: <span
-                                        th:text="${#strings.arraySplit(round.proxyReceiver.email, '@')[0]}"></span>)
+
+                                <div>
+                                    <span class="small">Proxy:</span>
+                                    <span th:if="${round.proxyReceiver == null}" class="text-muted small">None</span>
+                                    <span th:if="${round.proxyReceiver != null}" class="text-muted small"
+                                          th:text="${#strings.arraySplit(round.proxyReceiver.email, '@')[0]}"></span>
                                 </div>
 
                                 <div class="small">Created At:</div>
@@ -116,6 +119,13 @@
                                             <button type="submit" class="btn btn-sm btn-outline-secondary"
                                                     title="extend validity">
                                                 <i class="bi bi-plus-circle"></i>
+                                            </button>
+                                        </form>
+                                        <form th:action="@{/admin/rounds/{id}/end(id=${round.id})}"
+                                              th:method="post">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                    title="end round">
+                                                <i class="bi bi-sign-stop"></i>
                                             </button>
                                         </form>
                                     </div>

@@ -35,7 +35,9 @@ interface FeedbackResponseRepository : JpaRepository<FeedbackResponse, UUID> {
         """
         SELECT r
         FROM FeedbackResponse r
+            LEFT JOIN FETCH r.feedbackRound f
         WHERE r.email = :email 
+            AND NOT f.summaryMailed
             AND (r.positiveFeedback is NULL OR r.negativeFeedback is NULL)
         ORDER BY r.feedbackRound.validity DESC
         """
