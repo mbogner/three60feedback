@@ -18,7 +18,7 @@
             <!-- Receiver info -->
             <div class="mb-4">
                 <strong>Receiver:</strong>
-                <span th:text="${round.receiver.email}"></span>
+                <span th:text="${summary.round.receiver.email}"></span>
             </div>
 
             <!-- Meta section -->
@@ -42,10 +42,10 @@
             <h2 class="h5 text-muted fw-semibold mb-3">Summary</h2>
             <div class="text-muted small mb-2">
                 Last updated:
-                <span th:text="${#dates.format(@dateUtils.toLocal(round.summaryTs), 'dd.MM.yyyy HH:mm')}"></span>
+                <span th:text="${#dates.format(@dateUtils.toLocal(summary.round.summaryTs), 'dd.MM.yyyy HH:mm')}"></span>
             </div>
 
-            <div class="p-3 border rounded bg-light" th:utext="${round.summary}"></div>
+            <div class="p-3 border rounded bg-light" th:utext="${summary.round.summary}"></div>
         </div>
     </div>
 </div>

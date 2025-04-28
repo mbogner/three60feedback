@@ -56,6 +56,7 @@ If there hasn't been any feedback in responses or you have too little informatio
     )
 
     data class Summary(
+        val round: FeedbackRound,
         val receiver: String,
         val requested: Int,
         val responded: Int = 0,
@@ -67,6 +68,8 @@ If there hasn't been any feedback in responses or you have too little informatio
     @Transactional(Transactional.TxType.MANDATORY)
     fun createSummary(round: FeedbackRound): Summary {
         val responses = round.givers
+
+        // only take in account responses that have filled feedback
         val received = responses.filter { it.positiveFeedback != null && it.negativeFeedback != null }
             .map {
                 Response(
@@ -82,19 +85,24 @@ If there hasn't been any feedback in responses or you have too little informatio
                     }
                 )
             }
+
+        // no summary without received feedback
         if (received.isEmpty()) {
             return Summary(
+                round = round,
                 receiver = round.receiver.email,
                 requested = responses.size,
                 roundCreatedAt = round.createdAt!!
             )
         }
+
         // use cached value for 5 minutes
         if (null != round.summary
             && null != round.summaryTs
             && round.summaryTs!!.isAfter(Instant.now().minusSeconds(5 * 60))
         ) {
             return Summary(
+                round = round,
                 receiver = round.receiver.email,
                 requested = responses.size,
                 responded = received.size,
@@ -102,24 +110,38 @@ If there hasn't been any feedback in responses or you have too little informatio
             )
         }
 
-        // update summary
-        val tmpRound = Round(
-            receiver = round.receiver.email,
-            responses = received,
-        )
-        val json = mapper.writeValueAsString(tmpRound)
-        val enrichedPrompt = PROMPT + json
-        log.debug("summary prompt:\n{}", enrichedPrompt)
+        // if cache not used let's check if we need to update
+        val updated = updateSummaryIfRoundStillOpen(round, received)
 
-        round.summary = chatClient.prompt(enrichedPrompt).call().content()
-        round.summaryTs = Instant.now()
-        log.debug("response: {}", round.summary)
+        // and send the result afterward
         return Summary(
+            round = updated,
             receiver = round.receiver.email,
             requested = responses.size,
             responded = received.size,
             roundCreatedAt = round.createdAt!!
         )
+    }
+
+    private fun updateSummaryIfRoundStillOpen(round: FeedbackRound, received: List<Response>): FeedbackRound {
+        return if (round.summaryMailed) {
+            round
+        } else {
+            // update summary
+            val tmpRound = Round(
+                receiver = round.receiver.email,
+                responses = received,
+            )
+            val json = mapper.writeValueAsString(tmpRound)
+            val enrichedPrompt = PROMPT + json
+            log.debug("summary prompt:\n{}", enrichedPrompt)
+
+            round.summary = chatClient.prompt(enrichedPrompt).call().content()
+            round.summaryTs = Instant.now()
+
+            log.debug("summary response:\n{}", round.summary)
+            feedbackRoundRepository.save(round)
+        }
     }
 
     fun loadRound(roundId: UUID): FeedbackRound {

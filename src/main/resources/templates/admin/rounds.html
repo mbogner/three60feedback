@@ -21,17 +21,16 @@
                     <table class="table table-striped align-middle">
                         <thead class="table-light">
                         <tr>
-                            <th>Id</th>
                             <th>Company</th>
                             <th>Receiver</th>
                             <th>Givers</th>
                             <th>Created At</th>
                             <th>Valid Until</th>
+                            <th>Ended</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="round : ${rounds}">
-                            <td th:text="${round.id}"></td>
                             <td th:text="${round.receiver.company.name}"></td>
                             <td>
                                 <span class="fw-semibold"
@@ -63,6 +62,7 @@
                             </td>
                             <td th:text="${#dates.format(@dateUtils.toLocal(round.createdAt), 'dd.MM.yyyy HH:mm')}"></td>
                             <td th:text="${#dates.format(@dateUtils.toLocal(round.validity), 'dd.MM.yyyy HH:mm')}"></td>
+                            <td th:text="${round.summaryMailed}"></td>
                         </tr>
                         </tbody>
                     </table>
