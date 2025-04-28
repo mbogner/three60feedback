@@ -9,8 +9,6 @@
         <div class="card-body">
             <h1 class="mb-4">Three 60 Rounds</h1>
 
-            <div class="alert alert-primary" th:if="${message}" th:text="${message}"></div>
-
             <div class="mb-4">
                 <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp;
                     Back to Admin</a>
@@ -37,7 +35,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="round : ${rounds}" th:with="answered=${round.answered()}">
+                        <tr th:each="round : ${rounds}" th:with="answered=${round.answered()}"
+                            th:id="${'round-' + round.id}">
                             <td th:text="${round.receiver.company.name}"></td>
                             <td>
                                 <div class="fw-semibold"
@@ -161,8 +160,8 @@
         </div>
     </div>
 </div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Confirm Delete Modal -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -180,6 +179,5 @@
         </div>
     </div>
 </div>
-<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

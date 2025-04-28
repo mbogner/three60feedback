@@ -69,7 +69,7 @@ class AdminRoundController(
     ): String {
         feedbackRoundRepository.deleteById(roundId)
         model.addFlashAttribute("message", "Round deleted successfully.")
-        return "redirect:/admin/rounds"
+        return "redirect:/admin/rounds#round-$roundId"
     }
 
     @Transactional
@@ -80,7 +80,7 @@ class AdminRoundController(
     ): String {
         feedbackRoundService.extendValidity(roundId)
         model.addFlashAttribute("message", "Round extended for 1 day successfully.")
-        return "redirect:/admin/rounds"
+        return "redirect:/admin/rounds#round-$roundId"
     }
 
     @Transactional
@@ -91,7 +91,7 @@ class AdminRoundController(
     ): String {
         feedbackRoundService.shortenValidity(roundId)
         model.addFlashAttribute("message", "Round shortened for 1 day successfully.")
-        return "redirect:/admin/rounds"
+        return "redirect:/admin/rounds#round-$roundId"
     }
 
     @Transactional
@@ -102,7 +102,7 @@ class AdminRoundController(
     ): String {
         feedbackRoundService.reopen(roundId)
         model.addFlashAttribute("message", "Round reopened successfully.")
-        return "redirect:/admin/rounds"
+        return "redirect:/admin/rounds#round-$roundId"
     }
 
     @Transactional
@@ -113,7 +113,7 @@ class AdminRoundController(
     ): String {
         feedbackRoundService.end(roundId)
         model.addFlashAttribute("message", "Round set to end now.")
-        return "redirect:/admin/rounds"
+        return "redirect:/admin/rounds#round-$roundId"
     }
 
 }

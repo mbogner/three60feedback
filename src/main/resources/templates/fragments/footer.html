@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <body>
-<footer class="text-center mt-5 text-muted small" th:fragment="footer">
-    <p>Version: <span th:text="${commitVersion}">unknown</span></p>
-</footer>
+<div th:fragment="footer">
+    <footer class="text-center mt-5 text-muted small">
+        <p>Version: <span th:text="${commitVersion}">unknown</span></p>
+    </footer>
+    <div th:replace="~{fragments/toast :: toast(${message})}"></div>
+</div>
 </body>
 </html>
