@@ -17,6 +17,15 @@
             </div>
 
             <div th:if="${rounds.size() > 0}">
+
+                <!-- Search -->
+                <div class="mb-3">
+                    <div class="input-group search-input-group">
+                        <input type="text" id="roundSearch" class="form-control" placeholder="🔍 Search by receiver...">
+                        <button type="button" id="clearRoundSearch" class="btn" aria-label="Clear search">×</button>
+                    </div>
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-striped align-middle">
                         <thead class="table-light">

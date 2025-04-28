@@ -14,7 +14,7 @@
 
             <!-- Search input -->
             <div class="mb-4" th:if="${#authorization.expression('hasRole(''COACH'')')}">
-                <div class="input-group user-search-input-group">
+                <div class="input-group search-input-group">
                     <input type="text" id="emailSearch" class="form-control" placeholder="🔍 Search by email...">
                     <button type="button" id="clearSearch" class="btn" aria-label="Clear search">×</button>
                 </div>
