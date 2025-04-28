@@ -23,14 +23,17 @@ class FeedbackResponseService(
 
     @Transactional
     fun store(id: UUID, positive: String, negative: String): UUID {
-        val giver = repository.findById(id).orElseThrow()
-        if (null != giver.positiveFeedback || null != giver.negativeFeedback) {
+        val response = repository.findById(id).orElseThrow()
+        if (null != response.positiveFeedback || null != response.negativeFeedback) {
             throw IllegalStateException("Feedback already given")
         }
-        giver.positiveFeedback = positive
-        giver.negativeFeedback = negative
+        if(response.feedbackRound.summaryMailed) {
+            throw IllegalStateException("Feedback round already closed")
+        }
+        response.positiveFeedback = positive
+        response.negativeFeedback = negative
 
-        return giver.feedbackRound.receiver.company!!.id!!
+        return response.feedbackRound.receiver.company!!.id!!
     }
 
 }
