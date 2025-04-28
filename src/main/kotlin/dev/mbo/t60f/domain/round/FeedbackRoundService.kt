@@ -48,12 +48,7 @@ class FeedbackRoundService(
             FeedbackRound(
                 receiver = receivingUser,
                 proxyReceiver = receivingProxy,
-                validity = Instant.now()
-                    .atZone(ZoneOffset.UTC)
-                    .toLocalDate()
-                    .plusDays(days + 1)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toInstant(),
+                validity = nowPlusDaysAtStartOfNextDay(days),
                 focus = focus,
             ),
         )
@@ -85,6 +80,17 @@ class FeedbackRoundService(
         }
     }
 
+    @Transactional
+    fun reopen(roundId: UUID) {
+        val round = loadRound(roundId)
+        if (!round.summaryMailed) {
+            throw IllegalStateException("Can not reopen open round")
+        }
+        round.summaryMailed = false
+        round.validity = nowPlusDaysAtStartOfNextDay(7)
+        roundRepository.save(round)
+    }
+
     private fun loadRound(roundId: UUID): FeedbackRound {
         return roundRepository.findByIdOrNull(roundId) ?: throw IllegalStateException("round $roundId not found")
     }
@@ -93,6 +99,15 @@ class FeedbackRoundService(
         if (round.summaryMailed) {
             throw IllegalStateException("not allowed to shorten or extend a finished round")
         }
+    }
+
+    private fun nowPlusDaysAtStartOfNextDay(days: Long): Instant {
+        return Instant.now()
+            .atZone(ZoneOffset.UTC)
+            .toLocalDate()
+            .plusDays(days + 1)
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant()
     }
 
 }

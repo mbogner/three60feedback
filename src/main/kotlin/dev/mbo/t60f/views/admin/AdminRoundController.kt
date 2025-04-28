@@ -29,7 +29,7 @@ class AdminRoundController(
     fun rounds(model: ModelMap): String {
         val rounds = feedbackRoundRepository.findAllWithResponses()
         rounds.forEach {
-            it.givers.sortedBy { it.email }
+            it.givers.sortedBy { response -> response.email }
         }
         model.addAttribute("rounds", rounds)
         return "admin/rounds"
@@ -79,7 +79,7 @@ class AdminRoundController(
         model: RedirectAttributes
     ): String {
         feedbackRoundService.extendValidity(roundId)
-        model.addFlashAttribute("message", "Round extended successfully.")
+        model.addFlashAttribute("message", "Round extended for 1 day successfully.")
         return "redirect:/admin/rounds"
     }
 
@@ -90,7 +90,18 @@ class AdminRoundController(
         model: RedirectAttributes
     ): String {
         feedbackRoundService.shortenValidity(roundId)
-        model.addFlashAttribute("message", "Round shortened successfully.")
+        model.addFlashAttribute("message", "Round shortened for 1 day successfully.")
+        return "redirect:/admin/rounds"
+    }
+
+    @Transactional
+    @PostMapping("/{roundId}/reopen")
+    fun reopenRound(
+        @PathVariable("roundId") roundId: UUID,
+        model: RedirectAttributes
+    ): String {
+        feedbackRoundService.reopen(roundId)
+        model.addFlashAttribute("message", "Round reopened successfully.")
         return "redirect:/admin/rounds"
     }
 
