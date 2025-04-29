@@ -37,6 +37,7 @@ class MyRoundController(
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
         val rounds: List<FeedbackRound> = feedbackRoundRepository.findAllByReceiverEmail(authentication.name)
         model.addAttribute("rounds", rounds)
+        model.addAttribute("source", "rounds")
         return "my/rounds"
     }
 
@@ -48,7 +49,8 @@ class MyRoundController(
         if (authentication == null) throw IllegalArgumentException("authentication must not be null")
         val rounds: List<FeedbackRound> = feedbackRoundRepository.findAllByProxyEmail(authentication.name)
         model.addAttribute("rounds", rounds)
-        return "my/proxy_rounds"
+        model.addAttribute("source", "proxy")
+        return "my/rounds"
     }
 
     @GetMapping("/{source}/{roundId}/overview")

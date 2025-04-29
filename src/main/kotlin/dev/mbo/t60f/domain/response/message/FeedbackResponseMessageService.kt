@@ -49,23 +49,31 @@ class FeedbackResponseMessageService(
 
     @Transactional
     fun sendMail(responseMessage: FeedbackResponseMessage) {
-        val to = FeedbackResponseMessage.calculateTo(responseMessage.senderMail, responseMessage)
+        val toEmail: String = FeedbackResponseMessage.calculateTo(responseMessage.senderMail, responseMessage)
+        val response = responseMessage.feedbackResponse
+        val round = response.feedbackRound
+        val feedbackReceiverEmail = round.receiver.email
+        val roundsOrProxy = if(feedbackReceiverEmail == toEmail) {
+            "rounds"
+        } else {
+            "proxy"
+        }
         val content = """
-Hi $to,
+Hi $toEmail,
 
-${responseMessage.senderMail} has added a message to the feedback for ${responseMessage.feedbackResponse.feedbackRound.receiver.email}:
+${responseMessage.senderMail} has added a message to the feedback for $feedbackReceiverEmail:
 
 ${responseMessage.message}
 
 You can click the link 
-$baseUrl/my/response/${responseMessage.feedbackResponse.id}/questions?source=mail
+$baseUrl/my/$roundsOrProxy/${round.id}/responses/${response.id}
 to answer.
 
 Yours,
 t60f
 """.trimIndent()
 
-        mailer.send(to = to, subject = "Feedback Message", content = content)
+        mailer.send(to = toEmail, subject = "Feedback Message", content = content)
         responseMessage.messageSentAt = Instant.now()
         responseMessage.messageSendFails = 0
         messageRepository.save(responseMessage)

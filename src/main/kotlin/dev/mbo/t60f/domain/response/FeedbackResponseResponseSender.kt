@@ -38,9 +38,16 @@ class FeedbackResponseResponseSender(
     fun sendResponse(response: FeedbackResponse) {
         log.info("sending feedback response {}", response)
 
-        val proxy = response.feedbackRound.proxyReceiver
-        val feedbackReceiver = response.feedbackRound.receiver.email
+        val round= response.feedbackRound
+        val proxy = round.proxyReceiver
+        val feedbackReceiver = round.receiver.email
         val mailReceiver = proxy?.email ?: feedbackReceiver
+        val feedbackReceiverEmail = round.receiver.email
+        val roundsOrProxy = if(feedbackReceiverEmail == mailReceiver) {
+            "rounds"
+        } else {
+            "proxy"
+        }
 
         mailer.send(
             to = mailReceiver,
@@ -59,7 +66,7 @@ ${response.negativeFeedback}
 --------------
 
 You can ask questions or comment here:
-$baseUrl/my/response/${response.id}/questions?source=mail
+$baseUrl/my/$roundsOrProxy/${round.id}/responses/${response.id}
 
 Click this link to report the feedback: $baseUrl/response/${response.id}/report
 After reporting you have to contact an admin.

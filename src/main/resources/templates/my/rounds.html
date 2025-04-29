@@ -27,7 +27,9 @@
                         <tr th:each="round : ${rounds}" th:id="${'round-' + round.id}"
                             th:with="answered=${round.answered()},responseCount=${round.givers.size()}">
                             <td>
-                                <div class="fw-semibold mb-1">Round ID: <span th:text="${round.id}"></span></div>
+                                <div class="fw-semibold mb-1">
+                                    Receiver: <span th:text="${round.receiver.email}"></span>
+                                </div>
 
                                 <div class="text-muted small mb-1">
                                     <span th:text="${@dateUtils.formatUtc(round.createdAt)}"></span>
@@ -42,16 +44,16 @@
 
                                 <div class="d-flex align-items-center gap-2 flex-wrap">
                                     <a th:if="${answered > 0}"
-                                       th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id})}"
+                                       th:href="@{/my/{source}/{roundId}/overview(source=${source},roundId=${round.id})}"
                                        class="btn btn-sm btn-outline-primary">
                                         <i class="bi bi-chat-dots"></i>&nbsp;View&nbsp;Answers
                                     </a>
                                     <a th:if="${answered > 1}"
-                                       th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id},source='my')}"
+                                       th:href="@{/my/{source}/{roundId}/summary(source=${source},roundId=${round.id},source='my')}"
                                        class="btn btn-sm btn-outline-secondary">
                                         <i class="bi bi-card-text"></i>&nbsp;View&nbsp;Summary
                                     </a>
-                                    <form th:action="@{/my/rounds/{id}/remind(id=${round.id},source='my')}"
+                                    <form th:action="@{/my/{source}/{id}/remind(source=${source},id=${round.id},source='my')}"
                                           th:method="post" th:if="${answered < responseCount}">
                                         <button type="submit" class="btn btn-sm btn-outline-secondary"
                                                 title="send reminder">
