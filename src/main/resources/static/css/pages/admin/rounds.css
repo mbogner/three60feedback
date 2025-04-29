@@ -4,6 +4,9 @@
 .response-list .bi-x-square-fill {
   color: lightblue;
 }
+.response-list .unreport-form {
+  collapse: red;
+}
 
 #clearRoundSearch {
   font-size: 1.2rem;

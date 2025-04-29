@@ -90,9 +90,14 @@
                                                   class="ms-1"></span>
                                         </span>
                                         <!-- reported -->
-                                        <span th:if="${giver.reported == true}" class="ms-1 text-danger">
-                                            <i class="bi bi-exclamation-triangle-fill"></i>
-                                        </span>
+                                        <form th:action="@{/admin/rounds/{roundId}/responses/{responseId}/unreport(roundId=${round.id},responseId=${giver.id})}"
+                                              th:method="post"
+                                              th:if="${giver.reported == true}"
+                                              class="unreport-form d-inline ms-1">
+                                            <button type="submit" class="btn btn-link p-0 m-0 align-baseline" title="Unreport">
+                                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                            </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </td>

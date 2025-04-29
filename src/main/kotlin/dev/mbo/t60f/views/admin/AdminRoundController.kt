@@ -1,6 +1,7 @@
 package dev.mbo.t60f.views.admin
 
 import dev.mbo.t60f.domain.response.FeedbackResponseRepository
+import dev.mbo.t60f.domain.response.FeedbackResponseService
 import dev.mbo.t60f.domain.round.FeedbackRoundRepository
 import dev.mbo.t60f.domain.round.FeedbackRoundService
 import dev.mbo.t60f.domain.round.FeedbackRoundSummaryService
@@ -23,6 +24,7 @@ class AdminRoundController(
     private val feedbackResponseRepository: FeedbackResponseRepository,
     private val feedbackRoundService: FeedbackRoundService,
     private val summaryService: FeedbackRoundSummaryService,
+    private val feedbackResponseService: FeedbackResponseService,
 ) {
 
     @GetMapping
@@ -72,7 +74,6 @@ class AdminRoundController(
         return "redirect:/admin/rounds#round-$roundId"
     }
 
-    @Transactional
     @PostMapping("/{roundId}/validity/extend")
     fun validityExtend(
         @PathVariable("roundId") roundId: UUID,
@@ -83,7 +84,6 @@ class AdminRoundController(
         return "redirect:/admin/rounds#round-$roundId"
     }
 
-    @Transactional
     @PostMapping("/{roundId}/validity/shorten")
     fun validityShorten(
         @PathVariable("roundId") roundId: UUID,
@@ -94,7 +94,6 @@ class AdminRoundController(
         return "redirect:/admin/rounds#round-$roundId"
     }
 
-    @Transactional
     @PostMapping("/{roundId}/reopen")
     fun reopenRound(
         @PathVariable("roundId") roundId: UUID,
@@ -105,7 +104,6 @@ class AdminRoundController(
         return "redirect:/admin/rounds#round-$roundId"
     }
 
-    @Transactional
     @PostMapping("/{roundId}/end")
     fun endRound(
         @PathVariable("roundId") roundId: UUID,
@@ -113,6 +111,17 @@ class AdminRoundController(
     ): String {
         feedbackRoundService.end(roundId)
         model.addFlashAttribute("message", "Round set to end now.")
+        return "redirect:/admin/rounds#round-$roundId"
+    }
+
+    @PostMapping("/{roundId}/responses/{responseId}/unreport")
+    fun unreport(
+        @PathVariable("roundId") roundId: UUID,
+        @PathVariable("responseId") responseId: UUID,
+        model: RedirectAttributes
+    ): String {
+        feedbackResponseService.updateReported(responseId, false)
+        model.addFlashAttribute("message", "Unreported response.")
         return "redirect:/admin/rounds#round-$roundId"
     }
 
