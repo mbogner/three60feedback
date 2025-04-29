@@ -30,7 +30,13 @@ class CustomLoginSuccessHandler(
         if (username != "admin") {
             val companyId = retrieveCompanyIdOfUsername(username)
             log.debug("companyId of {} is {}", username, companyId)
-            CookieManager.update(companyId, response, "companyId", CookieManager.uuidSerializer)
+            CookieManager.update(
+                value = companyId,
+                request = request,
+                response = response,
+                cookieName = "companyId",
+                serializer = CookieManager.uuidSerializer
+            )
         } else {
             clearCookie(request, response)
         }

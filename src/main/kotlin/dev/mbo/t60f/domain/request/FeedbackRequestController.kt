@@ -42,6 +42,7 @@ class FeedbackRequestController(
     fun create(
         @Valid dto: FeedbackRequestNewDto,
         model: ModelMap,
+        request: HttpServletRequest,
         response: HttpServletResponse
     ): String {
         log.debug("request: {}", dto)
@@ -49,7 +50,13 @@ class FeedbackRequestController(
         service.create(dto)
         model.addAttribute("message", "Sent token to ${dto.email}")
         model.addAttribute("companyId", dto.companyId)
-        CookieManager.update(dto.companyId, response, COOKIE_COMPANY_ID, CookieManager.uuidSerializer)
+        CookieManager.update(
+            value = dto.companyId,
+            request = request,
+            response = response,
+            cookieName = COOKIE_COMPANY_ID,
+            serializer = CookieManager.uuidSerializer
+        )
         return "sent"
     }
 
