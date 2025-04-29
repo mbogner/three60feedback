@@ -32,8 +32,8 @@ dependencies {
     implementation("dev.mbo:spring-kotlin-web")
     implementation("dev.mbo:spring-kotlin-jpa")
     implementation("dev.mbo:kotlin-logging")
-    implementation("dev.mbo:kotlin-encryption:1.3.2") // TODO remove version after next library.bom release
-    implementation("org.passay:passay:1.6.6") // TODO remove version after next bom release
+    implementation("dev.mbo:kotlin-encryption")
+    implementation("org.passay:passay")
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -50,7 +50,6 @@ dependencies {
     implementation("org.flywaydb:flyway-core")
     implementation("org.apache.httpcomponents.client5:httpclient5")
     implementation("io.netty:netty-resolver-dns-native-macos:$nettyResolverDnsNativeMacos:osx-aarch_64")
-    implementation("org.apache.commons:commons-compress:1.27.1") // TODO remove version after next bom release
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("org.flywaydb:flyway-database-postgresql")
