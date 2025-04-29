@@ -9,13 +9,10 @@
         <div class="card-body">
             <h1 class="mb-4">Three 60 Round Summary</h1>
 
+            <!-- Back navigation -->
             <div class="mb-4">
-                <a th:href="@{/}" th:if="${source == null}" class="btn btn-outline-secondary btn-sm"><i
-                        class="bi bi-arrow-left"></i>&nbsp; Back to Home</a>
-                <a th:href="@{/my/rounds}" th:if="${source == 'my'}" class="btn btn-outline-secondary btn-sm"><i
-                        class="bi bi-arrow-left"></i>&nbsp; Back to Rounds</a>
-                <a th:href="@{/my/proxy}" th:if="${source == 'proxy'}"
-                   class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back to Proxy Rounds</a>
+                <a th:href="@{/my/{source}(source=${source})}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left"></i>&nbsp;Back</a>
             </div>
 
             <!-- Receiver info -->

@@ -11,8 +11,7 @@ class ChatClientConfig(
 
     @Bean
     fun chatClient(): ChatClient {
-        return builder
-            .build()
+        return builder.build()
     }
 
 }

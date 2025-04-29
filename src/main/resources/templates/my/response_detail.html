@@ -8,15 +8,9 @@
         <div class="card-body">
             <h1 class="mb-4">Three 60 Feedback Details</h1>
 
-            <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
-
             <div class="mb-4">
-                <a th:href="@{/}" th:if="${source == null}" class="btn btn-outline-secondary btn-sm"><i
-                        class="bi bi-arrow-left"></i>&nbsp; Back to Home</a>
-                <a th:href="@{/my/rounds}" th:if="${source == 'my'}" class="btn btn-outline-secondary btn-sm"><i
-                        class="bi bi-arrow-left"></i>&nbsp; Back to Rounds</a>
-                <a th:href="@{/my/proxy}" th:if="${source == 'proxy'}"
-                   class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back to Proxy Rounds</a>
+                <a th:href="@{/my/{source}/{roundId}/overview(roundId=${response.getFeedbackRound().id},source=${source})}" class="btn btn-outline-secondary btn-sm"><i
+                        class="bi bi-arrow-left"></i>&nbsp;Back</a>
             </div>
 
             <div class="mb-3">
@@ -37,7 +31,7 @@
 
             <!-- Chat input form -->
             <div class="chat-input-container border-bottom pb-3 mb-4">
-                <form th:action="@{/my/response/{responseId}/questions(responseId=${response.id},source=${source})}"
+                <form th:action="@{/my/{source}/{roundId}/responses/{responseId}/messages(roundId=${response.getFeedbackRound().id},responseId=${response.id},source=${source})}"
                       th:method="post">
                     <div class="position-relative">
                         <textarea id="responseMessage" name="responseMessage" class="form-control chat-textarea pe-5"
@@ -53,15 +47,15 @@
 
             <!-- Messages list -->
             <div id="messageList" class="message-list d-flex flex-column gap-2">
-                <div th:each="message : ${response.messages}">
-                    <div th:class="${message.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
+                <div th:each="msg : ${response.messages}">
+                    <div th:class="${msg.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
                         <div class="meta">
                             <span class="sender"
-                                  th:text="${message.senderMail == loggedInUserMail} ? ${loggedInUserMail} : 'sender'"></span>
+                                  th:text="${msg.senderMail == loggedInUserMail} ? ${loggedInUserMail} : 'sender'"></span>
                             <span class="ts"
-                                  th:text="${@dateUtils.formatUtc(message.createdAt)}"></span>
+                                  th:text="${@dateUtils.formatUtc(msg.createdAt)}"></span>
                         </div>
-                        <div class="text" th:text="${message.message}"></div>
+                        <div class="text" th:text="${msg.message}"></div>
                     </div>
                 </div>
             </div>

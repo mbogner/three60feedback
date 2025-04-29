@@ -9,9 +9,6 @@
         <div class="card-body">
             <h1 class="mb-4">Start a Feedback Round</h1>
 
-            <!-- Flash message -->
-            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
-
             <!-- Search input -->
             <div class="mb-4" th:if="${#authorization.expression('hasRole(''COACH'')')}">
                 <div class="input-group search-input-group">

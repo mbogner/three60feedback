@@ -27,7 +27,7 @@ class AdminRoundController(
 
     @GetMapping
     fun rounds(model: ModelMap): String {
-        val rounds = feedbackRoundRepository.findAllWithResponses()
+        val rounds = feedbackRoundRepository.findAllWithResponsesAndReceiverAndCompany()
         rounds.forEach {
             it.givers.sortedBy { response -> response.email }
         }

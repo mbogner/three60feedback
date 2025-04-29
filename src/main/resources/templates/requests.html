@@ -13,8 +13,6 @@
                 Fill in your company and email details to begin. We'll send you a secure link to continue.
             </p>
 
-            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
-
             <form th:action="@{/requests}" th:method="post" class="needs-validation">
                 <div class="mb-4">
                     <label for="companyId" class="form-label fw-semibold">Company ID</label>

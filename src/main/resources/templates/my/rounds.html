@@ -9,8 +9,6 @@
         <div class="card-body">
             <h1 class="mb-4">My Three 60 Rounds</h1>
 
-            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
-
             <div class="mb-4">
                 <a th:href="@{/}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back
                     to Home</a>
@@ -26,7 +24,8 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="round : ${rounds}">
+                        <tr th:each="round : ${rounds}" th:id="${'round-' + round.id}"
+                            th:with="answered=${round.answered()},responseCount=${round.givers.size()}">
                             <td>
                                 <div class="fw-semibold mb-1">Round ID: <span th:text="${round.id}"></span></div>
 
@@ -37,20 +36,28 @@
                                 </div>
 
                                 <div class="small text-muted mb-2">
-                                    Requests: <span th:text="${round.givers.size()}"></span> |
-                                    Responses: <span th:text="${round.answered()}"></span>
+                                    Requests: <span th:text="${responseCount}"></span> |
+                                    Responses: <span th:text="${answered}"></span>
                                 </div>
 
-                                <div th:if="${round.answered() > 0}">
-                                    <a th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id},source='my')}"
-                                       class="btn btn-sm btn-outline-primary me-2">
-                                        View Answers
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <a th:if="${answered > 0}"
+                                       th:href="@{/my/rounds/{roundId}/overview(roundId=${round.id})}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-chat-dots"></i>&nbsp;View&nbsp;Answers
                                     </a>
-                                    <a th:if="${round.answered() > 1}"
+                                    <a th:if="${answered > 1}"
                                        th:href="@{/my/rounds/{roundId}/summary(roundId=${round.id},source='my')}"
                                        class="btn btn-sm btn-outline-secondary">
-                                        View Summary
+                                        <i class="bi bi-card-text"></i>&nbsp;View&nbsp;Summary
                                     </a>
+                                    <form th:action="@{/my/rounds/{id}/remind(id=${round.id},source='my')}"
+                                          th:method="post" th:if="${answered < responseCount}">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                                title="send reminder">
+                                            <i class="bi bi-envelope"></i>&nbsp;Send&nbsp;Reminder
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
 

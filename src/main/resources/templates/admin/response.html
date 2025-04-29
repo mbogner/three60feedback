@@ -8,8 +8,6 @@
         <div class="card-body">
             <h1 class="mb-4">Three 60 Feedback Details</h1>
 
-            <div th:if="${message}" class="alert alert-primary" th:text="${message}"></div>
-
             <div class="mb-4">
                 <a th:href="@{/admin/rounds}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp;
                     Back to Rounds</a>
@@ -35,14 +33,14 @@
             <h2 class="mb-3">Messages</h2>
 
             <div id="messageList" class="message-list d-flex flex-column gap-2">
-                <div th:each="message : ${response.messages}">
-                    <div th:class="${message.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
+                <div th:each="msg : ${response.messages}">
+                    <div th:class="${msg.senderMail == loggedInUserMail} ? 'bubble me' : 'bubble other'">
                         <div class="meta">
-                            <span class="sender" th:text="${message.senderMail}"></span>
+                            <span class="sender" th:text="${msg.senderMail}"></span>
                             <span class="ts"
-                                  th:text="${@dateUtils.formatUtc(message.createdAt)}"></span>
+                                  th:text="${@dateUtils.formatUtc(msg.createdAt)}"></span>
                         </div>
-                        <div class="text" th:text="${message.message}"></div>
+                        <div class="text" th:text="${msg.message}"></div>
                     </div>
                 </div>
             </div>

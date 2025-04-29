@@ -9,17 +9,10 @@
         <div class="card-body">
             <h1 class="mb-4">My Three 60 Round Overview</h1>
 
-            <div th:if="${message}" class="alert alert-primary mb-4" th:text="${message}"></div>
-
             <!-- Back navigation -->
             <div class="mb-4">
-                <a th:href="@{/my/rounds}"
-                   th:if="${source == null or source == 'my'}"
-                   class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back to Rounds</a>
-
-                <a th:href="@{/my/proxy}"
-                   th:if="${source == 'proxy'}"
-                   class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back to Proxy Rounds</a>
+                <a th:href="@{/my/{source}(source=${source})}"
+                   class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i>&nbsp; Back</a>
             </div>
 
             <!-- Table -->
@@ -40,7 +33,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="response : ${responses}"
-                            th:attr="onclick=|window.location='@{/my/response/{responseId}/questions(responseId=${response.id},source=${source})}'|"
+                            th:attr="onclick=|window.location='@{/my/{source}/{roundId}/responses/{responseId}(roundId=${response.getFeedbackRound().id},responseId=${response.id},source=${source})}'|"
                             class="clickable-row">
                             <td th:text="${response.positiveFeedback}"></td>
                             <td th:text="${response.negativeFeedback}"></td>

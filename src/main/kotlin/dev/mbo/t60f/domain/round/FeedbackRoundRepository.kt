@@ -19,7 +19,7 @@ interface FeedbackRoundRepository : JpaRepository<FeedbackRound, UUID> {
             order by r.createdAt desc
         """
     )
-    fun findAllWithResponses(): List<FeedbackRound>
+    fun findAllWithResponsesAndReceiverAndCompany(): List<FeedbackRound>
 
     @Query(
         """
@@ -30,6 +30,15 @@ interface FeedbackRoundRepository : JpaRepository<FeedbackRound, UUID> {
         """
     )
     fun findByIdWithResponsesAndMessages(@Param("feedbackRoundId") feedbackRoundId: UUID): FeedbackRound?
+
+    @Query(
+        """
+        select r from FeedbackRound r
+            left join fetch r.givers g
+        where r.id=:feedbackRoundId and (g.positiveFeedback is null or g.negativeFeedback is null)
+        """
+    )
+    fun findUnansweredByIdWithResponses(@Param("feedbackRoundId") feedbackRoundId: UUID): FeedbackRound?
 
     @Query(
         """
